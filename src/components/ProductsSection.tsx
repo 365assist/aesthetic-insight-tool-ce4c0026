@@ -56,7 +56,10 @@ const ProductsSection = () => {
                   ))}
                 </div>
                 
-                <Button className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-elegant">
+                <Button 
+                  className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-elegant"
+                  onClick={() => window.open(`https://aestheticprotools.store/products/${product.title.toLowerCase().replace(/\s+/g, '-')}`, '_blank')}
+                >
                   Learn More
                 </Button>
               </div>
@@ -65,7 +68,12 @@ const ProductsSection = () => {
         </div>
         
         <div className="text-center mt-12">
-          <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-primary text-primary hover:bg-primary hover:text-white">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="px-8 py-6 text-lg border-primary text-primary hover:bg-primary hover:text-white"
+            onClick={() => window.open('https://aestheticprotools.store', '_blank')}
+          >
             View All Products
           </Button>
         </div>
