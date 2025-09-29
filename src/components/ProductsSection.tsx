@@ -6,16 +6,36 @@ import equipment2 from "@/assets/equipment-2.jpg";
 const ProductsSection = () => {
   const products = [
     {
-      title: "Laser Therapy Systems",
-      description: "Advanced laser technology for precision treatments and optimal patient outcomes.",
+      title: "VADER Laser System",
+      description: "Professional-grade laser technology for advanced aesthetic treatments and optimal results.",
       image: equipment1,
-      features: ["FDA Approved", "Multiple Wavelengths", "Safety Protocols"]
+      features: ["FDA Approved", "Multiple Wavelengths", "Professional Grade"],
+      price: "$85,000.00",
+      slug: "vader"
     },
     {
-      title: "Skin Analysis Devices",
-      description: "Comprehensive skin analysis tools for personalized treatment planning.",
+      title: "Cool Breeze System",
+      description: "Advanced cooling technology for enhanced patient comfort during treatments.",
       image: equipment2,
-      features: ["AI-Powered", "Real-time Analysis", "Treatment Recommendations"]
+      features: ["Temperature Control", "Patient Comfort", "Professional Use"],
+      price: "$9,000.00",
+      slug: "cool-breeze"
+    },
+    {
+      title: "Tri-Pulse Laser",
+      description: "State-of-the-art tattoo removal system with precision targeting technology.",
+      image: equipment1,
+      features: ["Tattoo Reduction", "Multi-Pulse", "High Precision"],
+      price: "$80,000.00",
+      slug: "tri-pulse-laser-tattoo-reduction"
+    },
+    {
+      title: "Citadel Electric Table",
+      description: "Premium treatment table designed for professional aesthetics practices.",
+      image: equipment2,
+      features: ["Electric Adjustment", "Professional Grade", "Ergonomic Design"],
+      price: "$5,500.00",
+      slug: "citadel-electric-table"
     }
   ];
 
@@ -42,7 +62,10 @@ const ProductsSection = () => {
                 />
               </div>
               <div className="p-8">
-                <h3 className="text-2xl font-bold mb-4 text-primary">{product.title}</h3>
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-2xl font-bold text-primary">{product.title}</h3>
+                  <span className="text-xl font-bold text-accent">{product.price}</span>
+                </div>
                 <p className="text-muted-foreground mb-6 leading-relaxed">{product.description}</p>
                 
                 <div className="flex flex-wrap gap-2 mb-6">
@@ -58,7 +81,7 @@ const ProductsSection = () => {
                 
                 <Button 
                   className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-elegant"
-                  onClick={() => window.open(`https://aestheticprotools.store/products/${product.title.toLowerCase().replace(/\s+/g, '-')}`, '_blank')}
+                  onClick={() => window.open(`https://aestheticprotools.store/products/${product.slug}`, '_blank')}
                 >
                   Learn More
                 </Button>
