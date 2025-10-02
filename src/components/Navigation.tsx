@@ -1,9 +1,27 @@
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { Menu, X, LogIn } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check current session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsLoggedIn(!!session);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsLoggedIn(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -44,6 +62,16 @@ const Navigation = () => {
             <Button variant="default" size="sm" onClick={() => scrollToSection('contact')}>
               Contact Us
             </Button>
+            {isLoggedIn ? (
+              <Button variant="outline" size="sm" onClick={() => navigate('/admin')}>
+                Portal
+              </Button>
+            ) : (
+              <Button variant="ghost" size="sm" onClick={() => navigate('/auth')}>
+                <LogIn className="mr-2 h-4 w-4" />
+                Employee Login
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -74,6 +102,16 @@ const Navigation = () => {
             <Button variant="default" size="sm" className="w-full" onClick={() => scrollToSection('contact')}>
               Contact Us
             </Button>
+            {isLoggedIn ? (
+              <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/admin')}>
+                Portal
+              </Button>
+            ) : (
+              <Button variant="ghost" size="sm" className="w-full" onClick={() => navigate('/auth')}>
+                <LogIn className="mr-2 h-4 w-4" />
+                Employee Login
+              </Button>
+            )}
           </div>
         )}
       </div>
