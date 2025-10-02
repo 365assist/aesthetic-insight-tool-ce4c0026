@@ -70,7 +70,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1">Visit Our Showroom</h4>
-                    <p className="text-primary-foreground/80">123 Medical Plaza Drive<br />Suite 456, Beverly Hills, CA 90210</p>
+                    <p className="text-primary-foreground/80">8969 East Talking Stick Way<br />Suite C-5, Scottsdale, AZ 85250</p>
                   </div>
                 </div>
                 
@@ -80,7 +80,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1">Call Us</h4>
-                    <p className="text-primary-foreground/80">+1 (555) 123-4567<br />Mon-Fri 9AM-6PM PST</p>
+                    <p className="text-primary-foreground/80">480-291-5880<br />Mon-Thu: 9AM-5PM, Fri: 9AM-3PM MST</p>
                   </div>
                 </div>
                 
@@ -90,7 +90,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1">Email Support</h4>
-                    <p className="text-primary-foreground/80">info@aestheticprotools.com<br />support@aestheticprotools.com</p>
+                    <p className="text-primary-foreground/80">customerservice@aestheticprotools.com</p>
                   </div>
                 </div>
               </div>

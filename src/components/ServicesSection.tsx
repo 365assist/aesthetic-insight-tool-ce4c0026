@@ -5,32 +5,32 @@ const ServicesSection = () => {
     {
       icon: "🏥",
       title: "Equipment Investment",
-      description: "Strategic guidance on selecting the right equipment for your practice's needs and budget."
-    },
-    {
-      icon: "🔧",
-      title: "Installation & Setup",
-      description: "Professional installation and comprehensive setup services to get you operational quickly."
-    },
-    {
-      icon: "📚",
-      title: "Training & Certification",
-      description: "Comprehensive training programs to ensure you maximize your equipment's potential."
-    },
-    {
-      icon: "🛠️",
-      title: "Maintenance & Support",
-      description: "Ongoing maintenance and technical support to keep your equipment running at peak performance."
-    },
-    {
-      icon: "📈",
-      title: "Business Consulting",
-      description: "Strategic consulting to help grow your aesthetic practice and maximize ROI."
+      description: "Our selection of advanced equipment ensures you stay ahead in the industry, offering clients the latest in aesthetic treatments."
     },
     {
       icon: "🔄",
-      title: "Equipment Upgrades",
-      description: "Stay current with the latest technology through our equipment upgrade programs."
+      title: "Equipment Rental",
+      description: "Expand your offerings with our rental options, giving you access to top-tier technology without the commitment of a purchase."
+    },
+    {
+      icon: "⚡",
+      title: "Laser Hair Reduction",
+      description: "VADER laser technology delivers precise treatment for all skin types and hair colors, with collagen synthesis benefits."
+    },
+    {
+      icon: "✨",
+      title: "Body Sculpting",
+      description: "Artisan Sculptor devices designed for modern professionals, offering comprehensive body sculpting treatment options."
+    },
+    {
+      icon: "🎨",
+      title: "Tattoo Removal",
+      description: "Tri-Pulse technology combines power and precision to safely eliminate unwanted tattoos without scarring."
+    },
+    {
+      icon: "🏆",
+      title: "Expert Support",
+      description: "Comprehensive resources, training, and personalized support to maximize your success and satisfaction."
     }
   ];
 

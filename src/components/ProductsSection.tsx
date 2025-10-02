@@ -1,41 +1,30 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import equipment1 from "@/assets/equipment-1.jpg";
-import equipment2 from "@/assets/equipment-2.jpg";
+import vaderLaser from "@/assets/vader-laser.jpg";
+import artisanSculptor from "@/assets/artisan-sculptor.jpg";
 
 const ProductsSection = () => {
   const products = [
     {
-      title: "VADER Laser System",
-      description: "Professional-grade laser technology for advanced aesthetic treatments and optimal results.",
-      image: equipment1,
-      features: ["FDA Approved", "Multiple Wavelengths", "Professional Grade"],
-      price: "$85,000.00",
+      title: "VADER Laser Hair Reduction",
+      description: "Advanced laser technology for precise and effective treatment on all skin types and hair colors. Excels in hair reduction, collagen induction, and addressing vascular and pigment concerns.",
+      image: vaderLaser,
+      features: ["All Skin Types", "Collagen Synthesis", "Multi-Purpose"],
       slug: "vader"
     },
     {
-      title: "Cool Breeze System",
-      description: "Advanced cooling technology for enhanced patient comfort during treatments.",
-      image: equipment2,
-      features: ["Temperature Control", "Patient Comfort", "Professional Use"],
-      price: "$9,000.00",
-      slug: "cool-breeze"
+      title: "Artisan Sculptor Devices",
+      description: "Modern professional devices offering comprehensive treatment options specializing in advanced body sculpting solutions.",
+      image: artisanSculptor,
+      features: ["Body Sculpting", "Professional Grade", "Versatile Treatments"],
+      slug: "artisan-sculptor"
     },
     {
-      title: "Tri-Pulse Laser",
-      description: "State-of-the-art tattoo removal system with precision targeting technology.",
-      image: equipment1,
-      features: ["Tattoo Reduction", "Multi-Pulse", "High Precision"],
-      price: "$80,000.00",
-      slug: "tri-pulse-laser-tattoo-reduction"
-    },
-    {
-      title: "Citadel Electric Table",
-      description: "Premium treatment table designed for professional aesthetics practices.",
-      image: equipment2,
-      features: ["Electric Adjustment", "Professional Grade", "Ergonomic Design"],
-      price: "$5,500.00",
-      slug: "citadel-electric-table"
+      title: "Tri-Pulse Tattoo Removal",
+      description: "Combines power and precision to safely eliminate unwanted tattoos. Treats every ink color with exceptional accuracy without scarring.",
+      image: vaderLaser,
+      features: ["All Ink Colors", "No Scarring", "High Precision"],
+      slug: "tri-pulse-tattoo-removal"
     }
   ];
 
@@ -66,10 +55,7 @@ const ProductsSection = () => {
                 />
               </div>
               <div className="p-8">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-2xl font-bold text-primary font-heading">{product.title}</h3>
-                  <span className="text-xl font-bold text-accent">{product.price}</span>
-                </div>
+                <h3 className="text-2xl font-bold text-primary font-heading mb-4">{product.title}</h3>
                 <p className="text-muted-foreground mb-6 leading-relaxed">{product.description}</p>
                 
                 <div className="flex flex-wrap gap-2 mb-6">
@@ -85,7 +71,7 @@ const ProductsSection = () => {
                 
                 <Button 
                   className="w-full shadow-elegant hover:shadow-luxury transition-all"
-                  onClick={() => window.open(`https://aestheticprotools.store/products/${product.slug}`, '_blank')}
+                  onClick={() => window.open(`https://aestheticprotools.com/shop/`, '_blank')}
                 >
                   Learn More
                 </Button>
@@ -99,7 +85,7 @@ const ProductsSection = () => {
             variant="outline" 
             size="lg" 
             className="px-8 py-6 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all hover:scale-105"
-            onClick={() => window.open('https://aestheticprotools.store', '_blank')}
+            onClick={() => window.open('https://aestheticprotools.com/shop/', '_blank')}
           >
             View All Products
           </Button>
