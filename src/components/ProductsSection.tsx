@@ -40,10 +40,10 @@ const ProductsSection = () => {
   ];
 
   return (
-    <section id="products" className="py-20 bg-gradient-to-br from-secondary/20 to-background">
+    <section id="products" className="py-20 bg-gradient-to-br from-muted/50 to-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary font-heading">
             Our Premium Equipment
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -53,17 +53,21 @@ const ProductsSection = () => {
         
         <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
           {products.map((product, index) => (
-            <Card key={index} className="overflow-hidden bg-white shadow-luxury hover:shadow-xl transition-all duration-500 border-0 group">
+            <Card 
+              key={index} 
+              className="overflow-hidden bg-card shadow-luxury hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-primary/20 group animate-fade-in"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
               <div className="aspect-video overflow-hidden">
                 <img 
                   src={product.image} 
-                  alt={product.title}
+                  alt={`${product.title} - Professional aesthetic medical equipment`}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
               <div className="p-8">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-2xl font-bold text-primary">{product.title}</h3>
+                  <h3 className="text-2xl font-bold text-primary font-heading">{product.title}</h3>
                   <span className="text-xl font-bold text-accent">{product.price}</span>
                 </div>
                 <p className="text-muted-foreground mb-6 leading-relaxed">{product.description}</p>
@@ -72,7 +76,7 @@ const ProductsSection = () => {
                   {product.features.map((feature, featureIndex) => (
                     <span 
                       key={featureIndex}
-                      className="px-3 py-1 bg-gradient-to-r from-primary/10 to-accent/10 text-primary text-sm rounded-full border border-primary/20"
+                      className="px-3 py-1 bg-secondary/50 text-primary text-sm rounded-full border border-primary/20 font-medium"
                     >
                       {feature}
                     </span>
@@ -80,7 +84,7 @@ const ProductsSection = () => {
                 </div>
                 
                 <Button 
-                  className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-elegant"
+                  className="w-full shadow-elegant hover:shadow-luxury transition-all"
                   onClick={() => window.open(`https://aestheticprotools.store/products/${product.slug}`, '_blank')}
                 >
                   Learn More
@@ -94,7 +98,7 @@ const ProductsSection = () => {
           <Button 
             variant="outline" 
             size="lg" 
-            className="px-8 py-6 text-lg border-primary text-primary hover:bg-primary hover:text-white"
+            className="px-8 py-6 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all hover:scale-105"
             onClick={() => window.open('https://aestheticprotools.store', '_blank')}
           >
             View All Products

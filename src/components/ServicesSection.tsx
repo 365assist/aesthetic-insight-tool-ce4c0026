@@ -35,10 +35,10 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-background">
+    <section id="services" className="py-20 bg-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary font-heading">
             Our Services
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
