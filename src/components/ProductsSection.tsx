@@ -1,32 +1,76 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Skeleton } from "@/components/ui/skeleton";
 import vaderLaser from "@/assets/vader-laser.jpg";
 import artisanSculptor from "@/assets/artisan-sculptor.jpg";
 
 const ProductsSection = () => {
-  const products = [
-    {
-      title: "VADER Laser Hair Reduction",
-      description: "Advanced laser technology for precise and effective treatment on all skin types and hair colors. Excels in hair reduction, collagen induction, and addressing vascular and pigment concerns.",
-      image: vaderLaser,
-      features: ["All Skin Types", "Collagen Synthesis", "Multi-Purpose"],
-      slug: "vader"
+  // Fetch products from database
+  const { data: products, isLoading } = useQuery({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('title');
+      
+      if (error) throw error;
+      
+      // Map database products to component format
+      return data.map(product => {
+        let features: string[] = [];
+        try {
+          features = Array.isArray(product.features) 
+            ? product.features 
+            : JSON.parse(String(product.features || '[]'));
+        } catch {
+          features = [];
+        }
+        
+        return {
+          title: product.title,
+          description: product.description || '',
+          image: product.image_url || vaderLaser,
+          features,
+          slug: product.handle,
+          price: product.price || '0',
+          inventory: product.inventory_quantity || 0
+        };
+      });
     },
-    {
-      title: "Artisan Sculptor Devices",
-      description: "Modern professional devices offering comprehensive treatment options specializing in advanced body sculpting solutions.",
-      image: artisanSculptor,
-      features: ["Body Sculpting", "Professional Grade", "Versatile Treatments"],
-      slug: "artisan-sculptor"
-    },
-    {
-      title: "Tri-Pulse Tattoo Removal",
-      description: "Combines power and precision to safely eliminate unwanted tattoos. Treats every ink color with exceptional accuracy without scarring.",
-      image: vaderLaser,
-      features: ["All Ink Colors", "No Scarring", "High Precision"],
-      slug: "tri-pulse-tattoo-removal"
-    }
-  ];
+    // Fallback to static data if no products in database
+    placeholderData: [
+      {
+        title: "VADER Laser Hair Reduction",
+        description: "Advanced laser technology for precise and effective treatment on all skin types and hair colors. Excels in hair reduction, collagen induction, and addressing vascular and pigment concerns.",
+        image: vaderLaser,
+        features: ["All Skin Types", "Collagen Synthesis", "Multi-Purpose"],
+        slug: "vader",
+        price: "0",
+        inventory: 0
+      },
+      {
+        title: "Artisan Sculptor Devices",
+        description: "Modern professional devices offering comprehensive treatment options specializing in advanced body sculpting solutions.",
+        image: artisanSculptor,
+        features: ["Body Sculpting", "Professional Grade", "Versatile Treatments"],
+        slug: "artisan-sculptor",
+        price: "0",
+        inventory: 0
+      },
+      {
+        title: "Tri-Pulse Tattoo Removal",
+        description: "Combines power and precision to safely eliminate unwanted tattoos. Treats every ink color with exceptional accuracy without scarring.",
+        image: vaderLaser,
+        features: ["All Ink Colors", "No Scarring", "High Precision"],
+        slug: "tri-pulse-tattoo-removal",
+        price: "0",
+        inventory: 0
+      }
+    ]
+  });
 
   return (
     <section id="products" className="py-20 bg-gradient-to-br from-muted/50 to-background">
@@ -41,7 +85,25 @@ const ProductsSection = () => {
         </div>
         
         <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {products.map((product, index) => (
+          {isLoading ? (
+            // Loading skeletons
+            Array.from({ length: 3 }).map((_, index) => (
+              <Card key={index} className="overflow-hidden">
+                <Skeleton className="aspect-video w-full" />
+                <div className="p-8 space-y-4">
+                  <Skeleton className="h-8 w-3/4" />
+                  <Skeleton className="h-20 w-full" />
+                  <div className="flex gap-2">
+                    <Skeleton className="h-6 w-20" />
+                    <Skeleton className="h-6 w-24" />
+                    <Skeleton className="h-6 w-16" />
+                  </div>
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              </Card>
+            ))
+          ) : (
+            products?.map((product, index) => (
             <Card 
               key={index} 
               className="overflow-hidden bg-card shadow-luxury hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-primary/20 group animate-fade-in"
@@ -77,7 +139,8 @@ const ProductsSection = () => {
                 </Button>
               </div>
             </Card>
-          ))}
+            ))
+          )}
         </div>
         
         <div className="text-center mt-12">

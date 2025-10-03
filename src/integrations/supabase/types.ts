@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      products: {
+        Row: {
+          compare_at_price: string | null
+          created_at: string | null
+          description: string | null
+          features: Json | null
+          handle: string
+          id: string
+          image_url: string | null
+          inventory_quantity: number | null
+          price: string | null
+          product_type: string | null
+          title: string
+          updated_at: string | null
+          vendor: string | null
+        }
+        Insert: {
+          compare_at_price?: string | null
+          created_at?: string | null
+          description?: string | null
+          features?: Json | null
+          handle: string
+          id: string
+          image_url?: string | null
+          inventory_quantity?: number | null
+          price?: string | null
+          product_type?: string | null
+          title: string
+          updated_at?: string | null
+          vendor?: string | null
+        }
+        Update: {
+          compare_at_price?: string | null
+          created_at?: string | null
+          description?: string | null
+          features?: Json | null
+          handle?: string
+          id?: string
+          image_url?: string | null
+          inventory_quantity?: number | null
+          price?: string | null
+          product_type?: string | null
+          title?: string
+          updated_at?: string | null
+          vendor?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string

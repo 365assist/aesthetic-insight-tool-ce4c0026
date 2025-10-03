@@ -4,8 +4,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, Users, Shield, User, Copy } from "lucide-react";
+import { LogOut, Users, Shield, User, Copy, RefreshCw } from "lucide-react";
 import Navigation from "@/components/Navigation";
+import { useShopifySync } from "@/hooks/useShopifySync";
+import { useQueryClient } from "@tanstack/react-query";
 
 type UserRole = "admin" | "employee";
 
@@ -21,6 +23,16 @@ const Admin = () => {
   const [roles, setRoles] = useState<UserRole[]>([]);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { mutate: syncShopify, isPending } = useShopifySync();
+  const queryClient = useQueryClient();
+
+  const handleSync = () => {
+    syncShopify(undefined, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['products'] });
+      }
+    });
+  };
 
   useEffect(() => {
     checkAuth();
@@ -198,6 +210,15 @@ const Admin = () => {
               </Button>
               <Button variant="ghost" className="w-full justify-start" onClick={() => navigate("/udi-program")}>
                 UDI Program
+              </Button>
+              <Button 
+                variant="ghost" 
+                className="w-full justify-start" 
+                onClick={handleSync}
+                disabled={isPending}
+              >
+                <RefreshCw className={`mr-2 h-4 w-4 ${isPending ? 'animate-spin' : ''}`} />
+                {isPending ? 'Syncing...' : 'Sync Shopify'}
               </Button>
             </CardContent>
           </Card>
