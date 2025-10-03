@@ -196,6 +196,9 @@ const Admin = () => {
               <Button variant="ghost" className="w-full justify-start" onClick={() => navigate("/marketing-hub")}>
                 Marketing Hub
               </Button>
+              <Button variant="ghost" className="w-full justify-start" onClick={() => navigate("/udi-program")}>
+                UDI Program
+              </Button>
             </CardContent>
           </Card>
         </div>
