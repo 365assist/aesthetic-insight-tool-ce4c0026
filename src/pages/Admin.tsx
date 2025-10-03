@@ -193,6 +193,9 @@ const Admin = () => {
               <Button variant="ghost" className="w-full justify-start" onClick={() => navigate("/members")}>
                 Members Portal
               </Button>
+              <Button variant="ghost" className="w-full justify-start" onClick={() => navigate("/marketing-hub")}>
+                Marketing Hub
+              </Button>
             </CardContent>
           </Card>
         </div>
