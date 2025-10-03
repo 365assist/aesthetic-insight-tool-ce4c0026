@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, Users, Shield, User } from "lucide-react";
+import { LogOut, Users, Shield, User, Copy } from "lucide-react";
 import Navigation from "@/components/Navigation";
 
 type UserRole = "admin" | "employee";
@@ -12,6 +12,7 @@ type UserRole = "admin" | "employee";
 interface Profile {
   full_name: string;
   email: string;
+  user_id: string;
 }
 
 const Admin = () => {
@@ -37,7 +38,7 @@ const Admin = () => {
       // Fetch profile
       const { data: profileData, error: profileError } = await supabase
         .from("profiles")
-        .select("full_name, email")
+        .select("full_name, email, user_id")
         .eq("user_id", session.user.id)
         .single();
 
@@ -72,6 +73,16 @@ const Admin = () => {
       description: "You have been successfully logged out.",
     });
     navigate("/");
+  };
+
+  const copyUserId = () => {
+    if (profile?.user_id) {
+      navigator.clipboard.writeText(profile.user_id);
+      toast({
+        title: "Copied!",
+        description: "User ID copied to clipboard.",
+      });
+    }
   };
 
   if (loading) {
@@ -109,6 +120,18 @@ const Admin = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
+              <p className="text-sm text-muted-foreground mb-1">User ID</p>
+              <div className="flex items-center gap-2 mb-3">
+                <p className="font-mono text-xs truncate flex-1">{profile?.user_id}</p>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={copyUserId}
+                  className="h-8 w-8 p-0"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
               <p className="text-sm text-muted-foreground mb-1">Name</p>
               <p className="font-medium mb-3">{profile?.full_name}</p>
               <p className="text-sm text-muted-foreground mb-1">Email</p>
