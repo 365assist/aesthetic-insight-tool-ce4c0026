@@ -3,6 +3,7 @@ import { Menu, X, LogIn } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import aptLogo from "@/assets/apt-logo.png";
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,9 +37,7 @@ const Navigation = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">AP</span>
-            </div>
+            <img src={aptLogo} alt="APT Logo" className="w-10 h-10 object-contain" />
             <div>
               <h1 className="font-bold text-lg text-primary font-heading">Aesthetic</h1>
               <p className="text-xs text-muted-foreground -mt-1">ProTools</p>
