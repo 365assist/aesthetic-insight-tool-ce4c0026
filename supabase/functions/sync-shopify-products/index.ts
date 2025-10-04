@@ -23,15 +23,7 @@ interface ShopifyProduct {
           amount: string;
           currencyCode: string;
         } | null;
-        inventoryItem: {
-          inventoryLevels: {
-            edges: Array<{
-              node: {
-                available: number;
-              }
-            }>
-          }
-        };
+        quantityAvailable: number;
       }
     }>
   };
@@ -86,15 +78,7 @@ serve(async (req) => {
                       amount
                       currencyCode
                     }
-                    inventoryItem {
-                      inventoryLevels(first: 1) {
-                        edges {
-                          node {
-                            available
-                          }
-                        }
-                      }
-                    }
+                    quantityAvailable
                   }
                 }
               }
@@ -137,8 +121,6 @@ serve(async (req) => {
       // Map tags to features for display
       const features = node.tags.slice(0, 3).map(tag => tag);
 
-      const inventoryLevel = variant?.inventoryItem?.inventoryLevels?.edges[0]?.node;
-      
       return {
         id: node.id.split('/').pop(), // Extract ID from Shopify GID
         title: node.title,
@@ -147,7 +129,7 @@ serve(async (req) => {
         image_url: image?.url || null,
         price: variant?.price?.amount || '0',
         compare_at_price: variant?.compareAtPrice?.amount || null,
-        inventory_quantity: inventoryLevel?.available || 0,
+        inventory_quantity: variant?.quantityAvailable || 0,
         features: JSON.stringify(features),
         product_type: node.productType,
         vendor: node.vendor,
