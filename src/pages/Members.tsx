@@ -2,9 +2,12 @@ import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Crown, Star, Zap } from "lucide-react";
+import { CheckCircle, Crown, Star, Zap, MessageSquare } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Members = () => {
+  const navigate = useNavigate();
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/50">
       <Navigation />
@@ -150,9 +153,18 @@ const Members = () => {
               <h3 className="font-semibold mb-2">Training Center</h3>
               <p className="text-sm text-muted-foreground">Access comprehensive equipment training modules</p>
             </Card>
-            <Card className="p-6 hover:shadow-lg transition-shadow">
-              <h3 className="font-semibold mb-2">Support Portal</h3>
-              <p className="text-sm text-muted-foreground">Get technical support and troubleshooting help</p>
+            <Card 
+              className="p-6 hover:shadow-lg transition-all cursor-pointer border-2 hover:border-primary"
+              onClick={() => navigate('/support-portal')}
+            >
+              <div className="flex items-center justify-center mb-3">
+                <MessageSquare className="w-8 h-8 text-primary" />
+              </div>
+              <h3 className="font-semibold mb-2">AI Support Portal</h3>
+              <p className="text-sm text-muted-foreground">Get instant technical support with our AI troubleshooter</p>
+              <Button variant="link" className="mt-2 p-0 h-auto font-semibold">
+                Launch Chat →
+              </Button>
             </Card>
             <Card className="p-6 hover:shadow-lg transition-shadow">
               <h3 className="font-semibold mb-2">Product Updates</h3>
