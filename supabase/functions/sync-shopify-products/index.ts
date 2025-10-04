@@ -15,9 +15,23 @@ interface ShopifyProduct {
   variants: {
     edges: Array<{
       node: {
-        price: string;
-        compareAtPrice: string | null;
-        inventoryQuantity: number;
+        price: {
+          amount: string;
+          currencyCode: string;
+        };
+        compareAtPrice: {
+          amount: string;
+          currencyCode: string;
+        } | null;
+        inventoryItem: {
+          inventoryLevels: {
+            edges: Array<{
+              node: {
+                available: number;
+              }
+            }>
+          }
+        };
       }
     }>
   };
@@ -64,9 +78,23 @@ serve(async (req) => {
               variants(first: 1) {
                 edges {
                   node {
-                    price
-                    compareAtPrice
-                    inventoryQuantity
+                    price {
+                      amount
+                      currencyCode
+                    }
+                    compareAtPrice {
+                      amount
+                      currencyCode
+                    }
+                    inventoryItem {
+                      inventoryLevels(first: 1) {
+                        edges {
+                          node {
+                            available
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -109,15 +137,17 @@ serve(async (req) => {
       // Map tags to features for display
       const features = node.tags.slice(0, 3).map(tag => tag);
 
+      const inventoryLevel = variant?.inventoryItem?.inventoryLevels?.edges[0]?.node;
+      
       return {
         id: node.id.split('/').pop(), // Extract ID from Shopify GID
         title: node.title,
         description: node.description,
         handle: node.handle,
         image_url: image?.url || null,
-        price: variant?.price || '0',
-        compare_at_price: variant?.compareAtPrice || null,
-        inventory_quantity: variant?.inventoryQuantity || 0,
+        price: variant?.price?.amount || '0',
+        compare_at_price: variant?.compareAtPrice?.amount || null,
+        inventory_quantity: inventoryLevel?.available || 0,
         features: JSON.stringify(features),
         product_type: node.productType,
         vendor: node.vendor,
