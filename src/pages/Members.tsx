@@ -215,6 +215,75 @@ const Members = () => {
         </div>
       </section>
 
+      {/* Technical Training Library */}
+      <section className="py-20 px-6 bg-background">
+        <div className="container mx-auto text-center">
+          <Badge variant="secondary" className="mb-6 bg-primary/10 text-primary">
+            Exclusive Content
+          </Badge>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary">
+            Technical Training Library
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-12">
+            Access on-demand video modules covering VADER Laser operation, maintenance, and clinical best practices.
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            
+            {/* Video Module 1: VADER Laser Quickstart */}
+            <Card className="p-4 hover:shadow-lg transition-shadow flex flex-col h-full">
+              <h3 className="font-semibold mb-3 text-lg">Module 1: VADER Laser Quickstart</h3>
+              <div className="aspect-video w-full flex-grow">
+                <iframe
+                  className="w-full h-full rounded-lg"
+                  src="https://www.youtube.com/embed/VIDEO_ID_1?rel=0"
+                  title="VADER Laser Quickstart Guide"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+              <p className="text-sm text-muted-foreground mt-4">Start here: Basic setup, interface tour, and safety protocols.</p>
+            </Card>
+
+            {/* Video Module 2: Advanced Clinical Settings */}
+            <Card className="p-4 hover:shadow-lg transition-shadow flex flex-col h-full">
+              <h3 className="font-semibold mb-3 text-lg">Module 2: Advanced Clinical Settings</h3>
+              <div className="aspect-video w-full flex-grow">
+                <iframe
+                  className="w-full h-full rounded-lg"
+                  src="https://www.youtube.com/embed/VIDEO_ID_2?rel=0"
+                  title="Advanced Clinical Settings"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+              <p className="text-sm text-muted-foreground mt-4">Deep dive into customized treatments and multi-wavelength use.</p>
+            </Card>
+            
+            {/* Video Module 3: Troubleshooting & UDI Reporting */}
+            <Card className="p-4 hover:shadow-lg transition-shadow flex flex-col h-full">
+              <h3 className="font-semibold mb-3 text-lg">Module 3: Troubleshooting & UDI Reporting</h3>
+              <div className="aspect-video w-full flex-grow">
+                <iframe
+                  className="w-full h-full rounded-lg"
+                  src="https://www.youtube.com/embed/VIDEO_ID_3?rel=0"
+                  title="Troubleshooting and Regulatory Reporting"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+              <p className="text-sm text-muted-foreground mt-4">Annual maintenance, error codes, and required regulatory logging.</p>
+            </Card>
+
+          </div>
+          <div className="mt-12">
+            <Button variant="outline" size="lg">
+              View All 15+ Modules
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 px-6">
         <div className="container mx-auto text-center">
