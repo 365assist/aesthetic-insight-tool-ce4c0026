@@ -62,14 +62,14 @@ const EmployeesSection = () => {
 
   const getDepartmentColor = (department: string) => {
     const colors = {
-      "Executive": "bg-primary/20 text-primary",
-      "Engineering": "bg-accent/20 text-accent",
-      "Education": "bg-blue-500/20 text-blue-600",
-      "Sales": "bg-green-500/20 text-green-600",
-      "Support": "bg-orange-500/20 text-orange-600",
-      "Technical": "bg-purple-500/20 text-purple-600"
+      "Executive": "bg-primary/20 text-primary dark:bg-primary/30 dark:text-primary",
+      "Engineering": "bg-accent/20 text-accent dark:bg-accent/30 dark:text-accent",
+      "Education": "bg-blue-500/20 text-blue-600 dark:bg-blue-500/30 dark:text-blue-400",
+      "Sales": "bg-green-500/20 text-green-600 dark:bg-green-500/30 dark:text-green-400",
+      "Support": "bg-orange-500/20 text-orange-600 dark:bg-orange-500/30 dark:text-orange-400",
+      "Technical": "bg-purple-500/20 text-purple-600 dark:bg-purple-500/30 dark:text-purple-400"
     };
-    return colors[department as keyof typeof colors] || "bg-gray-500/20 text-gray-600";
+    return colors[department as keyof typeof colors] || "bg-gray-500/20 text-gray-600 dark:bg-gray-500/30 dark:text-gray-400";
   };
 
   return (
