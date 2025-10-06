@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import aptLogo from "@/assets/apt-logo.png";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -61,6 +62,7 @@ const Navigation = () => {
             <Button variant="default" size="sm" onClick={() => scrollToSection('contact')}>
               Contact Us
             </Button>
+            <ThemeToggle />
             {isLoggedIn ? (
               <Button variant="outline" size="sm" onClick={() => navigate('/admin')}>
                 Portal
@@ -101,6 +103,9 @@ const Navigation = () => {
             <Button variant="default" size="sm" className="w-full" onClick={() => scrollToSection('contact')}>
               Contact Us
             </Button>
+            <div className="flex justify-center py-2">
+              <ThemeToggle />
+            </div>
             {isLoggedIn ? (
               <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/admin')}>
                 Portal
