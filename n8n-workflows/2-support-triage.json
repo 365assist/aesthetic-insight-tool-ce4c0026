@@ -1,0 +1,167 @@
+{
+  "name": "Support Ticket Triage & Response",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "support-ticket",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook-support",
+      "name": "Webhook - Support Request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://ai.gateway.lovable.dev/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "lovableAiApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "google/gemini-2.5-flash"
+            },
+            {
+              "name": "messages",
+              "value": "={{[\n  {\n    \"role\": \"system\",\n    \"content\": \"You are a technical support specialist for Aesthetic ProTools laser equipment, specifically the VADER Laser system.\\n\\nEquipment Details:\\n- VADER Laser: Multi-wavelength aesthetic laser (755nm, 808nm, 1064nm)\\n- Common treatments: Hair removal, skin rejuvenation, vascular lesions\\n- Key features: Contact cooling, adjustable spot sizes, multi-pulse modes\\n\\nYour role:\\n1. Classify support tickets into: Technical Error, Usage Question, Maintenance, Parts/Warranty, Training\\n2. For technical issues: Extract error codes, symptoms, and operating conditions\\n3. Generate clear, step-by-step troubleshooting guidance\\n4. Include safety reminders when relevant\\n5. Recommend escalation for hardware failures or urgent safety concerns\\n\\nReturn JSON with: category, confidence (0-100), response, escalate (boolean)\"\n  },\n  {\n    \"role\": \"user\",\n    \"content\": `Support Request:\\nFrom: ${$json.email}\\nSubject: ${$json.subject}\\nMessage: ${$json.message}`\n  }\n]}}"
+            }
+          ]
+        }
+      },
+      "id": "ai-classify",
+      "name": "AI - Classify & Respond",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json.choices[0].message.content.confidence}}",
+              "operation": "larger",
+              "value2": 80
+            }
+          ]
+        }
+      },
+      "id": "if-confidence",
+      "name": "IF - Confidence Check",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "support@aestheticprotools.com",
+        "toEmail": "={{$node['Webhook - Support Request'].json.email}}",
+        "subject": "Re: {{$node['Webhook - Support Request'].json.subject}}",
+        "emailType": "html",
+        "message": "={{$node['AI - Classify & Respond'].json.choices[0].message.content.response}}"
+      },
+      "id": "send-auto-response",
+      "name": "Send Auto-Response",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [850, 200]
+    },
+    {
+      "parameters": {
+        "fromEmail": "support@aestheticprotools.com",
+        "toEmail": "specialist@aestheticprotools.com",
+        "subject": "Manual Review Required: {{$node['Webhook - Support Request'].json.subject}}",
+        "emailType": "html",
+        "message": "Low confidence response - requires specialist review.<br><br>Original Request: {{$node['Webhook - Support Request'].json.message}}<br><br>AI Draft: {{$node['AI - Classify & Respond'].json.choices[0].message.content.response}}"
+      },
+      "id": "escalate-specialist",
+      "name": "Escalate to Specialist",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [850, 400]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "tableId": "support_tickets",
+        "columns": {
+          "mappings": [
+            {
+              "column": "email",
+              "value": "={{$node['Webhook - Support Request'].json.email}}"
+            },
+            {
+              "column": "subject",
+              "value": "={{$node['Webhook - Support Request'].json.subject}}"
+            },
+            {
+              "column": "message",
+              "value": "={{$node['Webhook - Support Request'].json.message}}"
+            },
+            {
+              "column": "category",
+              "value": "={{$node['AI - Classify & Respond'].json.choices[0].message.content.category}}"
+            },
+            {
+              "column": "ai_response",
+              "value": "={{$node['AI - Classify & Respond'].json.choices[0].message.content.response}}"
+            },
+            {
+              "column": "confidence",
+              "value": "={{$node['AI - Classify & Respond'].json.choices[0].message.content.confidence}}"
+            }
+          ]
+        }
+      },
+      "id": "supabase-log",
+      "name": "Supabase - Log Ticket",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{{\n  \"success\": true,\n  \"ticket_id\": $node['Supabase - Log Ticket'].json.id\n}}}"
+      },
+      "id": "respond-webhook",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - Support Request": {
+      "main": [[{"node": "AI - Classify & Respond", "type": "main", "index": 0}]]
+    },
+    "AI - Classify & Respond": {
+      "main": [[{"node": "IF - Confidence Check", "type": "main", "index": 0}]]
+    },
+    "IF - Confidence Check": {
+      "main": [
+        [{"node": "Send Auto-Response", "type": "main", "index": 0}],
+        [{"node": "Escalate to Specialist", "type": "main", "index": 0}]
+      ]
+    },
+    "Send Auto-Response": {
+      "main": [[{"node": "Supabase - Log Ticket", "type": "main", "index": 0}]]
+    },
+    "Escalate to Specialist": {
+      "main": [[{"node": "Supabase - Log Ticket", "type": "main", "index": 0}]]
+    },
+    "Supabase - Log Ticket": {
+      "main": [[{"node": "Respond to Webhook", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-06T00:00:00.000Z",
+  "versionId": "1"
+}

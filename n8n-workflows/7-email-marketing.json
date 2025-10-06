@@ -1,0 +1,169 @@
+{
+  "name": "Email Marketing Personalization",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "campaign-trigger",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook-campaign",
+      "name": "Webhook - Campaign Initiated",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "tableId": "customers",
+        "returnAll": true
+      },
+      "id": "supabase-get-customers",
+      "name": "Supabase - Get Customers",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://ai.gateway.lovable.dev/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "lovableAiApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "openai/gpt-5"
+            },
+            {
+              "name": "messages",
+              "value": "={{[\n  {\n    \"role\": \"system\",\n    \"content\": \"You are an email marketing specialist for B2B medical equipment sales.\\n\\nAudience Segments:\\n1. Prospective Buyers (never purchased)\\n2. Recent Purchasers (0-6 months)\\n3. Established Customers (6+ months)\\n4. High-Value Practices (multiple units)\\n5. Training Members\\n6. Lapsed Customers (no activity 12+ months)\\n\\nFor each segment, analyze customer data and assign the most appropriate segment. Return JSON with: segment, reasoning\"\n  },\n  {\n    \"role\": \"user\",\n    \"content\": `Segment this customer:\\nPurchase History: ${JSON.stringify($json.purchase_history)}\\nLast Activity: ${$json.last_activity}\\nTraining Member: ${$json.is_training_member}`\n  }\n]}}"
+            }
+          ]
+        }
+      },
+      "id": "ai-segment",
+      "name": "AI - Segment Audience",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://ai.gateway.lovable.dev/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "lovableAiApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "openai/gpt-5"
+            },
+            {
+              "name": "messages",
+              "value": "={{[\n  {\n    \"role\": \"system\",\n    \"content\": \"You are an email marketing specialist for B2B medical equipment sales.\\n\\nCreate personalized email content for the segment.\\n\\nEmail best practices:\\n- Mobile-optimized formatting\\n- Single primary CTA\\n- Professional but conversational tone\\n- Maximum 300 words body copy\\n\\nGenerate 3 subject line variants for A/B testing.\\n\\nReturn JSON with: subject_lines (array of 3), opening_hook, body_copy, cta_text, personalization_notes\"\n  },\n  {\n    \"role\": \"user\",\n    \"content\": `Campaign: ${$node['Webhook - Campaign Initiated'].json.campaign_name}\\nSegment: ${$node['AI - Segment Audience'].json.choices[0].message.content.segment}\\nCustomer: ${$node['Supabase - Get Customers'].json.name}\\nPractice Type: ${$node['Supabase - Get Customers'].json.practice_type}`\n  }\n]}}"
+            }
+          ]
+        }
+      },
+      "id": "ai-generate-content",
+      "name": "AI - Generate Email Content",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "tableId": "email_campaigns",
+        "columns": {
+          "mappings": [
+            {
+              "column": "campaign_name",
+              "value": "={{$node['Webhook - Campaign Initiated'].json.campaign_name}}"
+            },
+            {
+              "column": "customer_email",
+              "value": "={{$node['Supabase - Get Customers'].json.email}}"
+            },
+            {
+              "column": "segment",
+              "value": "={{$node['AI - Segment Audience'].json.choices[0].message.content.segment}}"
+            },
+            {
+              "column": "subject_lines",
+              "value": "={{$json.choices[0].message.content.subject_lines}}"
+            },
+            {
+              "column": "email_content",
+              "value": "={{$json.choices[0].message.content.body_copy}}"
+            },
+            {
+              "column": "status",
+              "value": "scheduled"
+            }
+          ]
+        }
+      },
+      "id": "supabase-store-campaign",
+      "name": "Supabase - Store Campaign",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "marketing@aestheticprotools.com",
+        "toEmail": "={{$node['Supabase - Get Customers'].json.email}}",
+        "subject": "={{$node['AI - Generate Email Content'].json.choices[0].message.content.subject_lines[0]}}",
+        "emailType": "html",
+        "message": "={{`\n<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\">\n${$json.choices[0].message.content.opening_hook}\n<br><br>\n${$json.choices[0].message.content.body_copy}\n<br><br>\n<a href=\"https://aestheticprotools.com\" style=\"background: #0066cc; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;\">\n${$json.choices[0].message.content.cta_text}\n</a>\n<br><br>\n<p style=\"font-size: 12px; color: #666;\">You're receiving this because you're a valued member of the Aesthetic ProTools community.</p>\n</div>\n`}}"
+      },
+      "id": "send-personalized-email",
+      "name": "Send Personalized Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{{\n  \"success\": true,\n  \"emails_sent\": $node['Supabase - Get Customers'].json.length\n}}}"
+      },
+      "id": "respond-webhook",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1450, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - Campaign Initiated": {
+      "main": [[{"node": "Supabase - Get Customers", "type": "main", "index": 0}]]
+    },
+    "Supabase - Get Customers": {
+      "main": [[{"node": "AI - Segment Audience", "type": "main", "index": 0}]]
+    },
+    "AI - Segment Audience": {
+      "main": [[{"node": "AI - Generate Email Content", "type": "main", "index": 0}]]
+    },
+    "AI - Generate Email Content": {
+      "main": [[{"node": "Supabase - Store Campaign", "type": "main", "index": 0}]]
+    },
+    "Supabase - Store Campaign": {
+      "main": [[{"node": "Send Personalized Email", "type": "main", "index": 0}]]
+    },
+    "Send Personalized Email": {
+      "main": [[{"node": "Respond to Webhook", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-06T00:00:00.000Z",
+  "versionId": "1"
+}

@@ -1,0 +1,171 @@
+{
+  "name": "Shopify Product Sync with AI Enhancement",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule - Daily 2 AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "resource": "product",
+        "operation": "getAll",
+        "returnAll": true
+      },
+      "id": "shopify-get-products",
+      "name": "Shopify - Get Products",
+      "type": "n8n-nodes-base.shopify",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "credentials": {
+        "shopifyApi": {
+          "id": "1",
+          "name": "Shopify API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "tableId": "products",
+        "returnAll": true
+      },
+      "id": "supabase-get-existing",
+      "name": "Supabase - Get Existing Products",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "multiplex"
+      },
+      "id": "merge-data",
+      "name": "Merge - Compare Products",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://ai.gateway.lovable.dev/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "lovableAiApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "openai/gpt-5"
+            },
+            {
+              "name": "messages",
+              "value": "={{[\n  {\n    \"role\": \"system\",\n    \"content\": \"You are a medical aesthetics copywriter and SEO specialist for Aesthetic ProTools.\\n\\nFor each product, generate:\\n\\n1. SEO Meta Title (50-60 characters) - Include primary keyword, brand at end\\n2. Meta Description (140-160 characters) - Include keyword, USP, CTA\\n3. Product Description (200-300 words) - Professional tone, clinical applications, wavelength specs, FDA clearance, semantic HTML with H2/H3\\n4. Clinical Usage Summary - Treatment indications, settings, results timeline, contraindications\\n\\nReturn as JSON with fields: meta_title, meta_description, description, clinical_summary\"\n  },\n  {\n    \"role\": \"user\",\n    \"content\": `Generate content for:\\nProduct: ${$json.title}\\nPrice: ${$json.variants[0].price}\\nFeatures: ${JSON.stringify($json.body_html)}`\n  }\n]}}"
+            }
+          ]
+        }
+      },
+      "id": "ai-generate-content",
+      "name": "AI - Generate SEO Content",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "tableId": "products",
+        "columns": {
+          "mappings": [
+            {
+              "column": "shopify_id",
+              "value": "={{$node['Shopify - Get Products'].json.id}}"
+            },
+            {
+              "column": "title",
+              "value": "={{$node['Shopify - Get Products'].json.title}}"
+            },
+            {
+              "column": "price",
+              "value": "={{$node['Shopify - Get Products'].json.variants[0].price}}"
+            },
+            {
+              "column": "meta_title",
+              "value": "={{$json.choices[0].message.content.meta_title}}"
+            },
+            {
+              "column": "meta_description",
+              "value": "={{$json.choices[0].message.content.meta_description}}"
+            },
+            {
+              "column": "description",
+              "value": "={{$json.choices[0].message.content.description}}"
+            },
+            {
+              "column": "clinical_summary",
+              "value": "={{$json.choices[0].message.content.clinical_summary}}"
+            }
+          ]
+        }
+      },
+      "id": "supabase-upsert",
+      "name": "Supabase - Update Products",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "system@aestheticprotools.com",
+        "toEmail": "marketing@aestheticprotools.com",
+        "subject": "Daily Product Sync Complete",
+        "emailType": "html",
+        "message": "Product sync completed successfully. {{$json.length}} products updated with AI-generated content."
+      },
+      "id": "notify-team",
+      "name": "Email - Notify Marketing",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1450, 300]
+    }
+  ],
+  "connections": {
+    "Schedule - Daily 2 AM": {
+      "main": [[{"node": "Shopify - Get Products", "type": "main", "index": 0}]]
+    },
+    "Shopify - Get Products": {
+      "main": [[{"node": "Supabase - Get Existing Products", "type": "main", "index": 0}]]
+    },
+    "Supabase - Get Existing Products": {
+      "main": [[{"node": "Merge - Compare Products", "type": "main", "index": 0}]]
+    },
+    "Merge - Compare Products": {
+      "main": [[{"node": "AI - Generate SEO Content", "type": "main", "index": 0}]]
+    },
+    "AI - Generate SEO Content": {
+      "main": [[{"node": "Supabase - Update Products", "type": "main", "index": 0}]]
+    },
+    "Supabase - Update Products": {
+      "main": [[{"node": "Email - Notify Marketing", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-06T00:00:00.000Z",
+  "versionId": "1"
+}

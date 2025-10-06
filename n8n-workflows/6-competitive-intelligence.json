@@ -1,0 +1,191 @@
+{
+  "name": "Competitive Intelligence Monitoring",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "schedule-daily",
+      "name": "Schedule - Daily 8 AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://www.candela.com/products",
+        "options": {}
+      },
+      "id": "scrape-candela",
+      "name": "HTTP - Scrape Candela",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [450, 200]
+    },
+    {
+      "parameters": {
+        "url": "https://www.cynosure.com/products",
+        "options": {}
+      },
+      "id": "scrape-cynosure",
+      "name": "HTTP - Scrape Cynosure",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://www.cutera.com/products",
+        "options": {}
+      },
+      "id": "scrape-cutera",
+      "name": "HTTP - Scrape Cutera",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [450, 400]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "multiplex"
+      },
+      "id": "merge-competitor-data",
+      "name": "Merge - Competitor Data",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://ai.gateway.lovable.dev/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "lovableAiApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "google/gemini-2.5-pro"
+            },
+            {
+              "name": "messages",
+              "value": "={{[\n  {\n    \"role\": \"system\",\n    \"content\": \"You are a competitive intelligence analyst for the medical aesthetics laser equipment market.\\n\\nCompetitors to monitor:\\n- Candela Corporation\\n- Cynosure (Hologic)\\n- Cutera\\n- Lumenis\\n- Syneron Candela\\n\\nAnalyze:\\n1. New product announcements\\n2. Pricing/promotion changes\\n3. Technology innovations\\n4. Clinical study publications\\n5. Market expansion activities\\n6. Customer sentiment shifts\\n\\nGenerate executive brief including:\\n- Summary of key developments\\n- Strategic implications for Aesthetic ProTools\\n- Recommended responses or actions\\n- Opportunities for differentiation\\n\\nReturn JSON with: key_developments (array), strategic_implications, recommended_actions, competitive_advantages\"\n  },\n  {\n    \"role\": \"user\",\n    \"content\": `Analyze competitor data from today's monitoring: ${JSON.stringify($json)}`\n  }\n]}}"
+            }
+          ]
+        }
+      },
+      "id": "ai-analyze",
+      "name": "AI - Analyze Trends",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json.choices[0].message.content.key_developments.length}}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "if-significant-updates",
+      "name": "IF - Significant Updates",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "intelligence@aestheticprotools.com",
+        "toEmail": "leadership@aestheticprotools.com",
+        "subject": "Competitive Intelligence Brief - {{new Date().toLocaleDateString()}}",
+        "emailType": "html",
+        "message": "={{`\n<h2>Daily Competitive Intelligence Brief</h2>\n<h3>Key Developments:</h3>\n<ul>\n${$json.choices[0].message.content.key_developments.map(d => `<li>${d}</li>`).join('')}\n</ul>\n<h3>Strategic Implications:</h3>\n<p>${$json.choices[0].message.content.strategic_implications}</p>\n<h3>Recommended Actions:</h3>\n<p>${$json.choices[0].message.content.recommended_actions}</p>\n<h3>Our Competitive Advantages:</h3>\n<p>${$json.choices[0].message.content.competitive_advantages}</p>\n`}}"
+      },
+      "id": "email-leadership",
+      "name": "Email - Leadership Team",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1250, 200]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "tableId": "competitive_intelligence",
+        "columns": {
+          "mappings": [
+            {
+              "column": "date",
+              "value": "={{new Date().toISOString()}}"
+            },
+            {
+              "column": "analysis",
+              "value": "={{$node['AI - Analyze Trends'].json.choices[0].message.content}}"
+            },
+            {
+              "column": "has_significant_updates",
+              "value": "={{$json.choices[0].message.content.key_developments.length > 0}}"
+            }
+          ]
+        }
+      },
+      "id": "supabase-store",
+      "name": "Supabase - Store Intelligence",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1250, 400]
+    }
+  ],
+  "connections": {
+    "Schedule - Daily 8 AM": {
+      "main": [
+        [
+          {"node": "HTTP - Scrape Candela", "type": "main", "index": 0},
+          {"node": "HTTP - Scrape Cynosure", "type": "main", "index": 0},
+          {"node": "HTTP - Scrape Cutera", "type": "main", "index": 0}
+        ]
+      ]
+    },
+    "HTTP - Scrape Candela": {
+      "main": [[{"node": "Merge - Competitor Data", "type": "main", "index": 0}]]
+    },
+    "HTTP - Scrape Cynosure": {
+      "main": [[{"node": "Merge - Competitor Data", "type": "main", "index": 1}]]
+    },
+    "HTTP - Scrape Cutera": {
+      "main": [[{"node": "Merge - Competitor Data", "type": "main", "index": 2}]]
+    },
+    "Merge - Competitor Data": {
+      "main": [[{"node": "AI - Analyze Trends", "type": "main", "index": 0}]]
+    },
+    "AI - Analyze Trends": {
+      "main": [[{"node": "IF - Significant Updates", "type": "main", "index": 0}]]
+    },
+    "IF - Significant Updates": {
+      "main": [
+        [{"node": "Email - Leadership Team", "type": "main", "index": 0}],
+        [{"node": "Supabase - Store Intelligence", "type": "main", "index": 0}]
+      ]
+    },
+    "Email - Leadership Team": {
+      "main": [[{"node": "Supabase - Store Intelligence", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-06T00:00:00.000Z",
+  "versionId": "1"
+}

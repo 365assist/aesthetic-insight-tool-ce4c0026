@@ -1,0 +1,128 @@
+{
+  "name": "Training Content Personalization",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "module-completed",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook-module-complete",
+      "name": "Webhook - Module Completed",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "member_progress",
+        "filterType": "manual",
+        "matchingColumns": "user_id",
+        "columns": {
+          "mappings": [
+            {
+              "column": "completed_modules",
+              "value": "={{$json.completed_modules}}"
+            },
+            {
+              "column": "last_activity",
+              "value": "={{new Date().toISOString()}}"
+            }
+          ]
+        }
+      },
+      "id": "supabase-update-progress",
+      "name": "Supabase - Update Progress",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "tableId": "member_progress",
+        "filterType": "manual",
+        "where": "user_id=eq.{{$json.user_id}}"
+      },
+      "id": "supabase-get-progress",
+      "name": "Supabase - Get Member Progress",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://ai.gateway.lovable.dev/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "lovableAiApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "google/gemini-2.5-flash-lite"
+            },
+            {
+              "name": "messages",
+              "value": "={{[\n  {\n    \"role\": \"system\",\n    \"content\": \"You are an educational advisor for medical laser equipment training.\\n\\nAvailable Modules:\\n1. VADER Laser Quickstart\\n2. Advanced Clinical Settings\\n3. Troubleshooting & UDI Reporting\\n4. Safety Protocols & Compliance\\n5. Patient Consultation Best Practices\\n6. Multi-Wavelength Treatment Planning\\n7. Maintenance & Calibration\\n8. Business & Marketing for Aesthetic Practices\\n\\nBased on member progress, recommend:\\n1. Next logical module (with reasoning)\\n2. Prerequisite review if knowledge gaps detected\\n3. Advanced modules for high performers\\n4. Practical exercises or case studies\\n5. Estimated time to competency\\n\\nReturn JSON with: next_module, reasoning, prerequisites, estimated_time, encouragement_message\"\n  },\n  {\n    \"role\": \"user\",\n    \"content\": `Analyze progress and recommend next steps:\\nCompleted Modules: ${JSON.stringify($json[0].completed_modules)}\\nCompletion Rate: ${$json[0].completion_rate}%\\nLast Activity: ${$json[0].last_activity}`\n  }\n]}}"
+            }
+          ]
+        }
+      },
+      "id": "ai-recommend",
+      "name": "AI - Generate Recommendations",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "training@aestheticprotools.com",
+        "toEmail": "={{$node['Webhook - Module Completed'].json.email}}",
+        "subject": "Great Progress! Your Next Steps",
+        "emailType": "html",
+        "message": "={{`\n<h2>Congratulations on completing another module!</h2>\n<p>${$json.choices[0].message.content.encouragement_message}</p>\n<h3>Recommended Next Module:</h3>\n<p><strong>${$json.choices[0].message.content.next_module}</strong></p>\n<p>${$json.choices[0].message.content.reasoning}</p>\n<p>Estimated time to complete: ${$json.choices[0].message.content.estimated_time}</p>\n<a href=\"https://aestheticprotools.com/training\">Continue Learning</a>\n`}}"
+      },
+      "id": "send-personalized-email",
+      "name": "Send Personalized Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{{\n  \"success\": true,\n  \"next_module\": $json.choices[0].message.content.next_module\n}}}"
+      },
+      "id": "respond-webhook",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - Module Completed": {
+      "main": [[{"node": "Supabase - Update Progress", "type": "main", "index": 0}]]
+    },
+    "Supabase - Update Progress": {
+      "main": [[{"node": "Supabase - Get Member Progress", "type": "main", "index": 0}]]
+    },
+    "Supabase - Get Member Progress": {
+      "main": [[{"node": "AI - Generate Recommendations", "type": "main", "index": 0}]]
+    },
+    "AI - Generate Recommendations": {
+      "main": [[{"node": "Send Personalized Email", "type": "main", "index": 0}]]
+    },
+    "Send Personalized Email": {
+      "main": [[{"node": "Respond to Webhook", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-06T00:00:00.000Z",
+  "versionId": "1"
+}

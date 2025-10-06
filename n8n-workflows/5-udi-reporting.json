@@ -1,0 +1,203 @@
+{
+  "name": "UDI Reporting Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "equipment-event",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook-event",
+      "name": "Webhook - Equipment Event",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://ai.gateway.lovable.dev/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "lovableAiApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "openai/gpt-5-mini"
+            },
+            {
+              "name": "messages",
+              "value": "={{[\n  {\n    \"role\": \"system\",\n    \"content\": \"You are a medical device regulatory compliance specialist.\\n\\nEvaluate equipment events for FDA UDI reporting requirements under 21 CFR Part 803.\\n\\nReportable events include:\\n- Device malfunction that could cause/contribute to death or serious injury\\n- Serious injury attributed to device\\n- Device malfunction requiring remedial action\\n\\nFor reportable events, extract and structure:\\n1. Device Identification (UDI, model, serial number)\\n2. Event Date/Time\\n3. Event Description\\n4. Patient Impact Assessment\\n5. Manufacturer Actions Taken\\n6. Root Cause Analysis (if available)\\n\\nReturn JSON with: reportable (boolean), severity, udi_data, event_summary, recommended_actions\\n\\nBe conservative - recommend reporting when uncertain.\"\n  },\n  {\n    \"role\": \"user\",\n    \"content\": `Assess event:\\nDevice: ${$json.device_model}\\nSerial: ${$json.serial_number}\\nError Code: ${$json.error_code}\\nDescription: ${$json.description}\\nDate: ${$json.event_date}`\n  }\n]}}"
+            }
+          ]
+        }
+      },
+      "id": "ai-assess",
+      "name": "AI - Assess Reportability",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json.choices[0].message.content.reportable}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "if-reportable",
+      "name": "IF - Requires UDI Report",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://ai.gateway.lovable.dev/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "lovableAiApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "openai/gpt-5-mini"
+            },
+            {
+              "name": "messages",
+              "value": "={{[\n  {\n    \"role\": \"system\",\n    \"content\": \"Generate FDA Form 3500A compatible JSON structure for UDI reporting. Include all required fields with proper formatting.\"\n  },\n  {\n    \"role\": \"user\",\n    \"content\": `Create UDI report for: ${JSON.stringify($node['AI - Assess Reportability'].json.choices[0].message.content)}`\n  }\n]}}"
+            }
+          ]
+        }
+      },
+      "id": "ai-generate-report",
+      "name": "AI - Pre-fill Report Template",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 200]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "tableId": "udi_reports",
+        "columns": {
+          "mappings": [
+            {
+              "column": "device_model",
+              "value": "={{$node['Webhook - Equipment Event'].json.device_model}}"
+            },
+            {
+              "column": "serial_number",
+              "value": "={{$node['Webhook - Equipment Event'].json.serial_number}}"
+            },
+            {
+              "column": "event_date",
+              "value": "={{$node['Webhook - Equipment Event'].json.event_date}}"
+            },
+            {
+              "column": "report_data",
+              "value": "={{$json.choices[0].message.content}}"
+            },
+            {
+              "column": "status",
+              "value": "pending_review"
+            }
+          ]
+        }
+      },
+      "id": "supabase-store",
+      "name": "Supabase - Store Report",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1050, 200]
+    },
+    {
+      "parameters": {
+        "fromEmail": "compliance@aestheticprotools.com",
+        "toEmail": "regulatory@aestheticprotools.com",
+        "subject": "UDI Report Generated - Action Required",
+        "emailType": "html",
+        "message": "={{`\n<h2>UDI Reportable Event Detected</h2>\n<p><strong>Device:</strong> ${$node['Webhook - Equipment Event'].json.device_model}</p>\n<p><strong>Serial:</strong> ${$node['Webhook - Equipment Event'].json.serial_number}</p>\n<p><strong>Severity:</strong> ${$node['AI - Assess Reportability'].json.choices[0].message.content.severity}</p>\n<p><strong>Summary:</strong> ${$node['AI - Assess Reportability'].json.choices[0].message.content.event_summary}</p>\n<p>Pre-filled report ready for review in the compliance portal.</p>\n<a href=\"https://aestheticprotools.com/admin/udi-reports\">Review Report</a>\n`}}"
+      },
+      "id": "notify-compliance",
+      "name": "Email - Notify Compliance Officer",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1250, 200]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "tableId": "event_log",
+        "columns": {
+          "mappings": [
+            {
+              "column": "device_model",
+              "value": "={{$node['Webhook - Equipment Event'].json.device_model}}"
+            },
+            {
+              "column": "event_type",
+              "value": "non_reportable"
+            },
+            {
+              "column": "description",
+              "value": "={{$node['Webhook - Equipment Event'].json.description}}"
+            }
+          ]
+        }
+      },
+      "id": "log-non-reportable",
+      "name": "Supabase - Log Event",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [850, 400]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{{\n  \"success\": true,\n  \"reportable\": $node['AI - Assess Reportability'].json.choices[0].message.content.reportable\n}}}"
+      },
+      "id": "respond-webhook",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1450, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - Equipment Event": {
+      "main": [[{"node": "AI - Assess Reportability", "type": "main", "index": 0}]]
+    },
+    "AI - Assess Reportability": {
+      "main": [[{"node": "IF - Requires UDI Report", "type": "main", "index": 0}]]
+    },
+    "IF - Requires UDI Report": {
+      "main": [
+        [{"node": "AI - Pre-fill Report Template", "type": "main", "index": 0}],
+        [{"node": "Supabase - Log Event", "type": "main", "index": 0}]
+      ]
+    },
+    "AI - Pre-fill Report Template": {
+      "main": [[{"node": "Supabase - Store Report", "type": "main", "index": 0}]]
+    },
+    "Supabase - Store Report": {
+      "main": [[{"node": "Email - Notify Compliance Officer", "type": "main", "index": 0}]]
+    },
+    "Email - Notify Compliance Officer": {
+      "main": [[{"node": "Respond to Webhook", "type": "main", "index": 0}]]
+    },
+    "Supabase - Log Event": {
+      "main": [[{"node": "Respond to Webhook", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-06T00:00:00.000Z",
+  "versionId": "1"
+}
