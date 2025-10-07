@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, Linkedin } from "lucide-react";
 import garyBegleyImage from "@/assets/gary-begley-ceo.png";
+import shaunMeyersImage from "@/assets/shaun-meyers-cto.png";
 
 const EmployeesSection = () => {
   const employees = [
@@ -15,11 +16,11 @@ const EmployeesSection = () => {
       specialties: ["Business Strategy", "Medical Aesthetics", "Innovation"]
     },
     {
-      name: "Michael Rodriguez",
+      name: "Shaun Meyers",
       role: "Chief Technology Officer",
       department: "Engineering",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-      email: "michael.rodriguez@aestheticprotools.com",
+      image: shaunMeyersImage,
+      email: "shaun.meyers@aestheticprotools.com",
       phone: "+1 (555) 123-4568",
       specialties: ["Equipment Design", "R&D", "Quality Assurance"]
     },
