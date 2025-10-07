@@ -8,6 +8,7 @@ import { LogOut, Users, Shield, User, Copy, RefreshCw } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import { useShopifySync } from "@/hooks/useShopifySync";
 import { useQueryClient } from "@tanstack/react-query";
+import { MemberManagement } from "@/components/admin/MemberManagement";
 
 type UserRole = "admin" | "employee";
 
@@ -164,34 +165,6 @@ const Admin = () => {
             </CardContent>
           </Card>
 
-          {isAdmin && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Shield className="h-5 w-5" />
-                  Admin Access
-                </CardTitle>
-                <CardDescription>Manage employee roles and permissions</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">
-                  You have admin privileges. Use the backend dashboard to manage users and roles.
-                </p>
-                <Button variant="outline" className="w-full" asChild>
-                  <a href="#" onClick={(e) => {
-                    e.preventDefault();
-                    toast({
-                      title: "Backend Access",
-                      description: "Open the backend dashboard from the Lovable interface to manage users.",
-                    });
-                  }}>
-                    <Users className="mr-2 h-4 w-4" />
-                    Manage Users
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
-          )}
 
           <Card>
             <CardHeader>
@@ -223,6 +196,10 @@ const Admin = () => {
             </CardContent>
           </Card>
         </div>
+
+        {isAdmin && (
+          <MemberManagement />
+        )}
 
         {!isAdmin && roles.length === 0 && (
           <Card className="border-yellow-500/50 bg-yellow-500/5">
