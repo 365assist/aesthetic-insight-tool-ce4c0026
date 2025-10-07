@@ -1,15 +1,16 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, Linkedin } from "lucide-react";
+import garyBegleyImage from "@/assets/gary-begley-ceo.png";
 
 const EmployeesSection = () => {
   const employees = [
     {
-      name: "Dr. Sarah Chen",
+      name: "Gary Begley",
       role: "Chief Executive Officer",
       department: "Executive",
-      image: "https://images.unsplash.com/photo-1594824388853-2c2d5d885a8d?w=400&h=400&fit=crop&crop=face",
-      email: "sarah.chen@aestheticprotools.com",
+      image: garyBegleyImage,
+      email: "gary.begley@aestheticprotools.com",
       phone: "+1 (555) 123-4567",
       specialties: ["Business Strategy", "Medical Aesthetics", "Innovation"]
     },
