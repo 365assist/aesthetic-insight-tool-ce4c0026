@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { z } from 'https://deno.land/x/zod@v3.22.4/mod.ts';
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -9,10 +10,23 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { messages, userEmail } = await req.json();
+    // Input validation schema
+    const requestSchema = z.object({
+      messages: z.array(z.object({
+        role: z.enum(['user', 'assistant']),
+        content: z.string().min(1).max(4000)
+      })).min(1).max(50),
+      userEmail: z.string().email().optional()
+    });
+
+    const requestBody = await req.json();
+    const { messages, userEmail } = requestSchema.parse(requestBody);
     
-    // Log support request with user information
-    console.log(`Support request from: ${userEmail || 'unknown user'}`);
+    // Redact email in logs for privacy
+    const redactedEmail = userEmail 
+      ? userEmail.replace(/(.{2}).*(@.*)/, '$1***$2')
+      : 'unknown';
+    console.log(`Support request from: ${redactedEmail}`);
     console.log(`Message count: ${messages.length}`);
     
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
@@ -148,6 +162,18 @@ Be professional, concise, and technically accurate. Use the manual specification
     });
   } catch (e) {
     console.error("support-chat error:", e);
+    
+    // Handle validation errors with appropriate status
+    if (e instanceof z.ZodError) {
+      return new Response(JSON.stringify({ 
+        error: "Invalid request data", 
+        details: e.errors 
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
