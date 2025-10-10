@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { z } from 'https://deno.land/x/zod@v3.22.4/mod.ts';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -10,23 +11,43 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
+    // Verify authentication
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+    const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } }
+    });
+
+    const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+    if (authError || !user) {
+      console.error('Auth verification failed:', authError);
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     // Input validation schema
     const requestSchema = z.object({
       messages: z.array(z.object({
         role: z.enum(['user', 'assistant']),
         content: z.string().min(1).max(4000)
-      })).min(1).max(50),
-      userEmail: z.string().email().optional()
+      })).min(1).max(50)
     });
 
     const requestBody = await req.json();
-    const { messages, userEmail } = requestSchema.parse(requestBody);
+    const { messages } = requestSchema.parse(requestBody);
     
-    // Redact email in logs for privacy
-    const redactedEmail = userEmail 
-      ? userEmail.replace(/(.{2}).*(@.*)/, '$1***$2')
-      : 'unknown';
-    console.log(`Support request from: ${redactedEmail}`);
+    // Log authenticated user for audit trail
+    console.log(`Support request from authenticated user: ${user.id}`);
+    console.log(`User email: ${user.email}`);
     console.log(`Message count: ${messages.length}`);
     
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
