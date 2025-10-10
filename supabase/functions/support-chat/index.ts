@@ -161,20 +161,23 @@ Be professional, concise, and technically accurate. Use the manual specification
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
     });
   } catch (e) {
+    // Log detailed error server-side for debugging
     console.error("support-chat error:", e);
     
     // Handle validation errors with appropriate status
     if (e instanceof z.ZodError) {
       return new Response(JSON.stringify({ 
-        error: "Invalid request data", 
-        details: e.errors 
+        error: "Invalid request format. Please check your input and try again."
       }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
     
-    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
+    // Return generic error message to client
+    return new Response(JSON.stringify({ 
+      error: "An error occurred processing your request. Please try again later." 
+    }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
