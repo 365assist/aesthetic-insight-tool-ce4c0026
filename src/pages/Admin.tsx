@@ -44,18 +44,37 @@ const Admin = () => {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
+        console.log('No session found, redirecting to auth');
         navigate("/auth");
         return;
       }
+
+      console.log('Session found for user:', session.user.id);
 
       // Fetch profile
       const { data: profileData, error: profileError } = await supabase
         .from("profiles")
         .select("full_name, email, user_id")
         .eq("user_id", session.user.id)
-        .single();
+        .maybeSingle();
 
-      if (profileError) throw profileError;
+      if (profileError) {
+        console.error('Profile fetch error:', profileError);
+        throw profileError;
+      }
+      
+      if (!profileData) {
+        console.error('No profile found for user');
+        toast({
+          title: "Profile Not Found",
+          description: "Your profile hasn't been created yet. Please contact an administrator.",
+          variant: "destructive",
+        });
+        navigate("/");
+        return;
+      }
+      
+      console.log('Profile loaded:', profileData);
       setProfile(profileData);
 
       // Fetch roles
@@ -64,13 +83,19 @@ const Admin = () => {
         .select("role")
         .eq("user_id", session.user.id);
 
-      if (rolesError) throw rolesError;
-      setRoles(rolesData.map(r => r.role as UserRole));
+      if (rolesError) {
+        console.error('Roles fetch error:', rolesError);
+        throw rolesError;
+      }
+      
+      console.log('Roles loaded:', rolesData);
+      setRoles(rolesData?.map(r => r.role as UserRole) || []);
 
     } catch (error: any) {
+      console.error('Auth check error:', error);
       toast({
         title: "Error",
-        description: error.message,
+        description: error.message || "Failed to load your profile",
         variant: "destructive",
       });
       navigate("/auth");
