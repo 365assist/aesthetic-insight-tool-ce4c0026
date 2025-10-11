@@ -4,27 +4,33 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Bot, User } from "lucide-react";
+import { Send, Bot, User, MessageSquarePlus, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Navigation from "@/components/Navigation";
 import { supabase } from "@/integrations/supabase/client";
-
-type Message = {
-  role: "user" | "assistant";
-  content: string;
-};
+import { useConversations, type Message } from "@/hooks/useConversations";
+import { Separator } from "@/components/ui/separator";
 
 const SupportPortal = () => {
   const navigate = useNavigate();
-  const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: "Hello! I'm your Aesthetic ProTools support assistant. How can I help you today?" }
-  ]);
   const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [userEmail, setUserEmail] = useState<string>("");
   const [authChecked, setAuthChecked] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  
+  const {
+    conversations,
+    currentConversationId,
+    messages,
+    setMessages,
+    isLoading,
+    setIsLoading,
+    createConversation,
+    selectConversation,
+    saveMessage,
+    deleteConversation,
+  } = useConversations();
 
   useEffect(() => {
     // Check authentication and get user info
@@ -58,7 +64,7 @@ const SupportPortal = () => {
     }
   }, [messages]);
 
-  const streamChat = async (userMessage: Message) => {
+  const streamChat = async (userMessage: Message, conversationId: string) => {
     const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/support-chat`;
 
     try {
@@ -127,7 +133,7 @@ const SupportPortal = () => {
 
           const jsonStr = line.slice(6).trim();
           if (jsonStr === "[DONE]") {
-            streamDone = true;
+          streamDone = true;
             break;
           }
 
@@ -152,6 +158,11 @@ const SupportPortal = () => {
           }
         }
       }
+
+      // Save assistant message after streaming is complete
+      if (assistantContent && conversationId) {
+        await saveMessage(conversationId, "assistant", assistantContent);
+      }
     } catch (error) {
       console.error("Chat error:", error);
       toast({
@@ -165,13 +176,28 @@ const SupportPortal = () => {
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
+    let conversationId = currentConversationId;
+    
+    // Create new conversation if none exists
+    if (!conversationId) {
+      conversationId = await createConversation(input);
+      if (!conversationId) return;
+    }
+
     const userMessage: Message = { role: "user", content: input };
     setMessages(prev => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
 
-    await streamChat(userMessage);
+    // Save user message
+    await saveMessage(conversationId, "user", userMessage.content);
+
+    await streamChat(userMessage, conversationId);
     setIsLoading(false);
+  };
+
+  const handleNewConversation = async () => {
+    await createConversation();
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -197,15 +223,81 @@ const SupportPortal = () => {
       <Navigation />
       
       <main className="container mx-auto px-6 py-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-primary mb-2">Support Portal</h1>
             <p className="text-muted-foreground">Get instant help with our AI troubleshooter</p>
           </div>
 
-          <Card className="h-[600px] flex flex-col">
+          <div className="grid grid-cols-12 gap-6">
+            {/* Sidebar */}
+            <div className="col-span-12 lg:col-span-3">
+              <Card className="p-4">
+                <Button 
+                  onClick={handleNewConversation} 
+                  className="w-full mb-4"
+                  variant="default"
+                >
+                  <MessageSquarePlus className="w-4 h-4 mr-2" />
+                  New Chat
+                </Button>
+
+                <Separator className="mb-4" />
+
+                <ScrollArea className="h-[500px]">
+                  <div className="space-y-2">
+                    {conversations.map((conv) => (
+                      <div
+                        key={conv.id}
+                        className={`group relative p-3 rounded-lg cursor-pointer transition-colors ${
+                          currentConversationId === conv.id
+                            ? "bg-primary text-primary-foreground"
+                            : "hover:bg-muted"
+                        }`}
+                        onClick={() => selectConversation(conv.id)}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <p className="text-sm font-medium truncate flex-1">
+                            {conv.title}
+                          </p>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteConversation(conv.id);
+                            }}
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
+                        <p className="text-xs opacity-70 mt-1">
+                          {new Date(conv.updated_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </Card>
+            </div>
+
+            {/* Chat Area */}
+            <div className="col-span-12 lg:col-span-9">
+              <Card className="h-[600px] flex flex-col">
             <ScrollArea ref={scrollRef} className="flex-1 p-4">
               <div className="space-y-4">
+                {!currentConversationId && messages.length === 0 ? (
+                  <div className="flex items-center justify-center h-full text-center">
+                    <div>
+                      <Bot className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+                      <h3 className="text-lg font-semibold mb-2">Start a new conversation</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Ask me anything about your aesthetic laser equipment
+                      </p>
+                    </div>
+                  </div>
+                ) : null}
                 {messages.map((message, index) => (
                   <div
                     key={index}
@@ -264,6 +356,8 @@ const SupportPortal = () => {
               </div>
             </div>
           </Card>
+            </div>
+          </div>
         </div>
       </main>
     </div>
