@@ -49,7 +49,7 @@ const UDIProgram = () => {
 
   // Generate inventory data from products
   const inventoryData = products?.map((product, index) => ({
-    id: product.id.slice(0, 8),
+    id: product.id?.slice(0, 8) || 'N/A',
     product: product.title,
     count: product.inventory_quantity || 0,
     pending: Math.floor(Math.random() * 3), // Mock pending UDI count
