@@ -12,9 +12,9 @@ const TechnicalTrainingLibrary = () => {
     },
     {
       moduleNumber: 2,
-      title: "Advanced Clinical Settings",
-      description: "Deep dive into customized treatments and multi-wavelength use.",
-      videoId: "VIDEO_ID_2"
+      title: "Filter Change Guide",
+      description: "Step-by-step instructions for changing the filter on your VADER Laser.",
+      videoId: "iR8mTtIhq6Q"
     },
     {
       moduleNumber: 3,
