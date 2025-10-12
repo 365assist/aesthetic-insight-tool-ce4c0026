@@ -6,9 +6,9 @@ const TechnicalTrainingLibrary = () => {
   const videoModules = [
     {
       moduleNumber: 1,
-      title: "VADER Laser Quickstart",
-      description: "Start here: Basic setup, interface tour, and safety protocols.",
-      videoId: "VIDEO_ID_1"
+      title: "Packing and Shipping Guide",
+      description: "Learn how to safely pack and ship your VADER Laser with this step-by-step guide.",
+      videoId: "HYt3nKlcHSU"
     },
     {
       moduleNumber: 2,
