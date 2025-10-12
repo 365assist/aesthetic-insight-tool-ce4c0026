@@ -175,6 +175,63 @@ export type Database = {
         }
         Relationships: []
       }
+      shipments: {
+        Row: {
+          actual_delivery_date: string | null
+          carrier: string | null
+          created_at: string
+          created_by: string | null
+          current_location: string | null
+          customer_email: string | null
+          customer_name: string | null
+          estimated_delivery_date: string | null
+          id: string
+          notes: string | null
+          order_date: string
+          part_description: string | null
+          part_name: string
+          status: string
+          tracking_number: string
+          updated_at: string
+        }
+        Insert: {
+          actual_delivery_date?: string | null
+          carrier?: string | null
+          created_at?: string
+          created_by?: string | null
+          current_location?: string | null
+          customer_email?: string | null
+          customer_name?: string | null
+          estimated_delivery_date?: string | null
+          id?: string
+          notes?: string | null
+          order_date?: string
+          part_description?: string | null
+          part_name: string
+          status?: string
+          tracking_number: string
+          updated_at?: string
+        }
+        Update: {
+          actual_delivery_date?: string | null
+          carrier?: string | null
+          created_at?: string
+          created_by?: string | null
+          current_location?: string | null
+          customer_email?: string | null
+          customer_name?: string | null
+          estimated_delivery_date?: string | null
+          id?: string
+          notes?: string | null
+          order_date?: string
+          part_description?: string | null
+          part_name?: string
+          status?: string
+          tracking_number?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

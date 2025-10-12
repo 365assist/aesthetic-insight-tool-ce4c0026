@@ -9,6 +9,7 @@ import Navigation from "@/components/Navigation";
 import { useShopifySync } from "@/hooks/useShopifySync";
 import { useQueryClient } from "@tanstack/react-query";
 import { MemberManagement } from "@/components/admin/MemberManagement";
+import { ShippingTracker } from "@/components/shipping/ShippingTracker";
 
 type UserRole = "admin" | "employee";
 
@@ -220,6 +221,10 @@ const Admin = () => {
               </Button>
             </CardContent>
           </Card>
+        </div>
+
+        <div className="mb-8">
+          <ShippingTracker />
         </div>
 
         {isAdmin && (
