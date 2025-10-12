@@ -121,7 +121,7 @@ const ProductsSection = () => {
                 <p className="text-muted-foreground mb-6 leading-relaxed">{product.description}</p>
                 
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {product.features.map((feature, featureIndex) => (
+                  {(Array.isArray(product.features) ? product.features : []).map((feature, featureIndex) => (
                     <span 
                       key={featureIndex}
                       className="px-3 py-1 bg-secondary/50 text-primary text-sm rounded-full border border-primary/20 font-medium"
