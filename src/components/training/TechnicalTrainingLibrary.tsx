@@ -18,9 +18,9 @@ const TechnicalTrainingLibrary = () => {
     },
     {
       moduleNumber: 3,
-      title: "Troubleshooting & UDI Reporting",
-      description: "Annual maintenance, error codes, and required regulatory logging.",
-      videoId: "VIDEO_ID_3"
+      title: "Water Drainage Guide",
+      description: "Learn how to properly drain water from your VADER Laser with this step-by-step guide.",
+      videoId: "kiJCCPOJ8aM"
     }
   ];
 
