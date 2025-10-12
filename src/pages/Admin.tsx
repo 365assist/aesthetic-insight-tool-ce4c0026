@@ -223,9 +223,11 @@ const Admin = () => {
           </Card>
         </div>
 
-        <div className="mb-8">
-          <ShippingTracker />
-        </div>
+        {(isAdmin || roles.includes("employee")) && (
+          <div className="mb-8">
+            <ShippingTracker />
+          </div>
+        )}
 
         {isAdmin && (
           <MemberManagement />
