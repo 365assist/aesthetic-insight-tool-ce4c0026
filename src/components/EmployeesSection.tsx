@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, Linkedin } from "lucide-react";
 import garyBegleyImage from "@/assets/gary-begley-ceo.png";
 import shaunMeyersImage from "@/assets/shaun-meyers-cto.png";
+import terriKillionImage from "@/assets/terri-killion.png";
 
 const EmployeesSection = () => {
   const employees = [
@@ -28,7 +29,7 @@ const EmployeesSection = () => {
       name: "Terri Killion",
       role: "Senior Sales and Marketing",
       department: "Sales",
-      image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=400&fit=crop&crop=face",
+      image: terriKillionImage,
       email: "terri.killion@aestheticprotools.com",
       phone: "+1 (555) 123-4569",
       specialties: ["Sales Strategy", "Marketing Campaigns", "Brand Development"]
