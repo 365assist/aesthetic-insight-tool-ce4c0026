@@ -88,7 +88,7 @@ export const ShippingTracker = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-3xl font-bold text-primary font-heading">Shipping Tracker</h2>
+        <h2 className="text-3xl font-bold text-primary dark:text-[#f97316] font-heading">Shipping Tracker</h2>
           <p className="text-muted-foreground mt-1">Track replacement parts shipments</p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
