@@ -78,19 +78,19 @@ const TestimonialsSection = () => {
         <div className="mt-16 pt-12 border-t border-border">
           <div className="flex flex-wrap justify-center items-center gap-12">
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary font-heading">500+</div>
+              <div className="text-3xl font-bold text-primary dark:text-white font-heading">500+</div>
               <div className="text-sm text-muted-foreground">Practices Equipped</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary font-heading">98%</div>
+              <div className="text-3xl font-bold text-primary dark:text-white font-heading">98%</div>
               <div className="text-sm text-muted-foreground">Customer Satisfaction</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary font-heading">15+</div>
+              <div className="text-3xl font-bold text-primary dark:text-white font-heading">15+</div>
               <div className="text-sm text-muted-foreground">Years Experience</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary font-heading">FDA</div>
+              <div className="text-3xl font-bold text-primary dark:text-white font-heading">FDA</div>
               <div className="text-sm text-muted-foreground">Approved Equipment</div>
             </div>
           </div>

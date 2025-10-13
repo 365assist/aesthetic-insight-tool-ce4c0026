@@ -145,14 +145,14 @@ const ProductsSection = () => {
                 />
               </div>
               <div className="p-8">
-                <h3 className="text-2xl font-bold text-primary font-heading mb-4">{product.title}</h3>
+                <h3 className="text-2xl font-bold text-primary dark:text-white font-heading mb-4">{product.title}</h3>
                 <p className="text-muted-foreground mb-6 leading-relaxed whitespace-pre-line">{product.description}</p>
                 
                 <div className="flex flex-wrap gap-2 mb-6">
                   {(Array.isArray(product.features) ? product.features : []).map((feature, featureIndex) => (
                     <span 
                       key={featureIndex}
-                      className="px-3 py-1 bg-secondary/50 text-primary text-sm rounded-full border border-primary/20 font-medium"
+                      className="px-3 py-1 bg-secondary/50 text-primary dark:text-white text-sm rounded-full border border-primary/20 font-medium"
                     >
                       {feature}
                     </span>

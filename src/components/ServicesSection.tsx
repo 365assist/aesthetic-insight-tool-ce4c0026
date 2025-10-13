@@ -38,7 +38,7 @@ const ServicesSection = () => {
     <section id="services" className="py-20 bg-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary font-heading">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary dark:text-white font-heading">
             Our Services
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -52,7 +52,7 @@ const ServicesSection = () => {
               <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
                 {service.icon}
               </div>
-              <h3 className="text-xl font-semibold mb-4 text-primary">{service.title}</h3>
+              <h3 className="text-xl font-semibold mb-4 text-primary dark:text-white">{service.title}</h3>
               <p className="text-muted-foreground leading-relaxed">{service.description}</p>
             </Card>
           ))}
