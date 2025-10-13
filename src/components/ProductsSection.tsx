@@ -104,7 +104,7 @@ const ProductsSection = () => {
     <section id="products" className="py-20 bg-gradient-to-br from-muted/50 to-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary font-heading">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary dark:text-white font-heading">
             Our Premium Equipment
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
