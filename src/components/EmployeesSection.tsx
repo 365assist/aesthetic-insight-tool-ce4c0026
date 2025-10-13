@@ -107,7 +107,7 @@ const EmployeesSection = () => {
                     />
                     <div className="absolute inset-0 w-24 h-24 rounded-full mx-auto bg-gradient-to-br from-primary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   </div>
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-primary dark:text-white dark:group-hover:text-white transition-colors">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-primary dark:text-white dark:group-hover:text-[#f97316] transition-colors">
                     {employee.name}
                   </h3>
                   <p className="text-muted-foreground font-medium mb-3">
@@ -138,19 +138,19 @@ const EmployeesSection = () => {
                     <div className="flex flex-col space-y-2 text-sm">
                       <a 
                         href={`mailto:${employee.email}`}
-                        className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group/email"
+                        className="flex items-center gap-2 text-muted-foreground hover:text-primary dark:hover:text-[#f97316] transition-colors group/email"
                       >
                         <Mail className="w-4 h-4 group-hover/email:scale-110 transition-transform" />
                         <span className="truncate">{employee.email}</span>
                       </a>
                       <a 
                         href={`tel:${employee.phone}`}
-                        className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group/phone"
+                        className="flex items-center gap-2 text-muted-foreground hover:text-primary dark:hover:text-[#f97316] transition-colors group/phone"
                       >
                         <Phone className="w-4 h-4 group-hover/phone:scale-110 transition-transform" />
                         <span>{employee.phone}</span>
                       </a>
-                      <div className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors cursor-pointer group/linkedin">
+                      <div className="flex items-center gap-2 text-muted-foreground hover:text-primary dark:hover:text-[#f97316] transition-colors cursor-pointer group/linkedin">
                         <Linkedin className="w-4 h-4 group-hover/linkedin:scale-110 transition-transform" />
                         <span>LinkedIn Profile</span>
                       </div>
