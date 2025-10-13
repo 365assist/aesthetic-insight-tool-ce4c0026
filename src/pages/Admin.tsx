@@ -178,7 +178,7 @@ const Admin = () => {
               <p className="text-sm text-muted-foreground mb-1">Role</p>
               <div className="flex gap-2">
                 {roles.map(role => (
-                  <span key={role} className="px-2 py-1 bg-primary/10 text-primary rounded text-sm">
+                  <span key={role} className="px-2 py-1 bg-primary/10 text-primary dark:text-[#f97316] rounded text-sm">
                     {role}
                   </span>
                 ))}
