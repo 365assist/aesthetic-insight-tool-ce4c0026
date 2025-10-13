@@ -83,19 +83,19 @@ const Members = () => {
               <CardContent>
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>Basic training materials</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>Email support</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>Quarterly newsletters</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>Equipment discounts (5%)</span>
                   </li>
                 </ul>
@@ -117,23 +117,23 @@ const Members = () => {
               <CardContent>
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>Advanced training materials</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>Priority phone support</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>Monthly webinars</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>Equipment discounts (15%)</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>Free annual inspection</span>
                   </li>
                 </ul>
@@ -152,27 +152,27 @@ const Members = () => {
               <CardContent>
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>All training materials</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>24/7 dedicated support</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>Weekly consultations</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>Equipment discounts (25%)</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>Free maintenance</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
                     <span>Exclusive product previews</span>
                   </li>
                 </ul>
