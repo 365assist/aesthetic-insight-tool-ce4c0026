@@ -44,7 +44,7 @@ const ProductsSection = () => {
     placeholderData: [
       {
         title: "VADER Laser Hair Reduction",
-        description: "Advanced laser technology for precise and effective treatment on all skin types and hair colors. Excels in hair reduction, collagen induction, and addressing vascular and pigment concerns.",
+        description: "Precise laser treatment for all skin types. Reduces hair, induces collagen, and treats vascular and pigment concerns.",
         image: vaderLaser,
         features: ["All Skin Types", "Collagen Synthesis", "Multi-Purpose"],
         slug: "vader",
@@ -53,7 +53,7 @@ const ProductsSection = () => {
       },
       {
         title: "Artisan Sculptor Devices",
-        description: "Modern professional devices offering comprehensive treatment options specializing in advanced body sculpting solutions.",
+        description: "Professional-grade body sculpting with comprehensive treatment options.",
         image: artisanSculptor,
         features: ["Body Sculpting", "Professional Grade", "Versatile Treatments"],
         slug: "artisan-sculptor",
@@ -62,7 +62,7 @@ const ProductsSection = () => {
       },
       {
         title: "Tri-Pulse Tattoo Removal",
-        description: "Combines power and precision to safely eliminate unwanted tattoos. Treats every ink color with exceptional accuracy without scarring.",
+        description: "Safe, precise tattoo elimination for all ink colors without scarring.",
         image: vaderLaser,
         features: ["All Ink Colors", "No Scarring", "High Precision"],
         slug: "tri-pulse-tattoo-removal",
