@@ -162,27 +162,6 @@ const EmployeesSection = () => {
           ))}
         </div>
 
-        <div className="text-center mt-16">
-          <h3 className="text-2xl font-bold mb-4 dark:text-white">Join Our Team</h3>
-          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            We're always looking for talented professionals to join our growing team. 
-            If you're passionate about aesthetic medicine and cutting-edge technology, we'd love to hear from you.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="mailto:careers@aestheticprotools.com"
-              className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover:shadow-lg transition-all hover:-translate-y-1"
-            >
-              View Open Positions
-            </a>
-            <a 
-              href="mailto:hr@aestheticprotools.com"
-              className="inline-flex items-center justify-center px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-all hover:-translate-y-1"
-            >
-              Submit Resume
-            </a>
-          </div>
-        </div>
       </div>
     </section>
   );
