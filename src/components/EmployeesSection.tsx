@@ -4,6 +4,7 @@ import { Mail, Phone, Linkedin } from "lucide-react";
 import garyBegleyImage from "@/assets/gary-begley-ceo.png";
 import shaunMeyersImage from "@/assets/shaun-meyers-cto.png";
 import terriKillionImage from "@/assets/terri-killion.png";
+import placeholderGradient from "@/assets/placeholder-gradient.jpg";
 
 const EmployeesSection = () => {
   const employees = [
@@ -38,7 +39,7 @@ const EmployeesSection = () => {
       name: "Jose Vasquez",
       role: "Lead Engineer / Research and Development",
       department: "Engineering",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+      image: placeholderGradient,
       email: "jose.vasquez@aestheticprotools.com",
       phone: "+1 (555) 123-4570",
       specialties: ["Engineering Design", "R&D", "Product Innovation"]
@@ -47,7 +48,7 @@ const EmployeesSection = () => {
       name: "Alison Roskelly",
       role: "Lead Administrator",
       department: "Administration",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
+      image: placeholderGradient,
       email: "alison.roskelly@aestheticprotools.com",
       phone: "+1 (555) 123-4571",
       specialties: ["Administration", "Operations", "Client Coordination"]
@@ -56,7 +57,7 @@ const EmployeesSection = () => {
       name: "Jack Jansen",
       role: "Technical Support",
       department: "Technical",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+      image: placeholderGradient,
       email: "jack.jansen@aestheticprotools.com",
       phone: "+1 (555) 123-4572",
       specialties: ["Technical Support", "Customer Service", "Issue Resolution"]
