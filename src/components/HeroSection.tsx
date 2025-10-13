@@ -12,7 +12,7 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary via-accent to-primary opacity-70"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-accent to-primary opacity-50"></div>
       
       {/* Hero Image */}
       <div className="absolute inset-0">
