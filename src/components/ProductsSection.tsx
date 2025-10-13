@@ -13,13 +13,12 @@ const ProductsSection = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('products')
-        .select('*')
-        .order('title');
+        .select('*');
       
       if (error) throw error;
       
       // Map database products to component format
-      return data.map(product => {
+      const mappedProducts = data.map(product => {
         let features: string[] = [];
         try {
           features = Array.isArray(product.features) 
@@ -38,6 +37,13 @@ const ProductsSection = () => {
           price: product.price || '0',
           inventory: product.inventory_quantity || 0
         };
+      });
+      
+      // Sort products with VADER first
+      return mappedProducts.sort((a, b) => {
+        if (a.title === 'VADER') return -1;
+        if (b.title === 'VADER') return 1;
+        return a.title.localeCompare(b.title);
       });
     },
     // Fallback to static data if no products in database
