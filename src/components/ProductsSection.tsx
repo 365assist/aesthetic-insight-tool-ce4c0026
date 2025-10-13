@@ -39,14 +39,32 @@ const ProductsSection = () => {
         };
       });
       
-      // Sort products with VADER first, Tri-Pulse second, Aquous gel last
+      // Custom sort order with specific positioning
       return mappedProducts.sort((a, b) => {
+        // VADER always first
         if (a.title === 'VADER') return -1;
         if (b.title === 'VADER') return 1;
+        
+        // Tri-Pulse second
         if (a.title.includes('Tri-Pulse')) return -1;
         if (b.title.includes('Tri-Pulse')) return 1;
-        if (a.title.includes('Aquous')) return 1;
-        if (b.title.includes('Aquous')) return -1;
+        
+        // Group gels, cleansers, and compounds together near the end
+        const isAGelProduct = (title: string) => 
+          title.includes('Gel') || title.includes('Cleanser') || title.includes('Compound');
+        
+        const aIsGel = isAGelProduct(a.title);
+        const bIsGel = isAGelProduct(b.title);
+        
+        // Non-gel products come before gel products
+        if (!aIsGel && bIsGel) return -1;
+        if (aIsGel && !bIsGel) return 1;
+        
+        // Within gel products, sort alphabetically
+        if (aIsGel && bIsGel) {
+          return a.title.localeCompare(b.title);
+        }
+        
         return a.title.localeCompare(b.title);
       });
     },
