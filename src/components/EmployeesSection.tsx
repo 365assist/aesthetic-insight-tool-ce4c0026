@@ -34,13 +34,13 @@ const EmployeesSection = () => {
       specialties: ["Sales Strategy", "Marketing Campaigns", "Brand Development"]
     },
     {
-      name: "James Thompson",
-      role: "Senior Sales Director",
-      department: "Sales",
+      name: "Jose Vasquez",
+      role: "Lead Engineer / Research and Development",
+      department: "Engineering",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
-      email: "james.thompson@aestheticprotools.com",
+      email: "jose.vasquez@aestheticprotools.com",
       phone: "+1 (555) 123-4570",
-      specialties: ["Client Relations", "Market Analysis", "Partnership Development"]
+      specialties: ["Engineering Design", "R&D", "Product Innovation"]
     },
     {
       name: "Lisa Park",
