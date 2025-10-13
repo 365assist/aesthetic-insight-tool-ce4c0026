@@ -25,19 +25,19 @@ const HeroSection = () => {
       
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 text-center text-primary-foreground animate-fade-in-up">
-        <div className="inline-block px-4 py-2 bg-background/10 backdrop-blur-sm rounded-full border border-background/20 text-sm font-medium mb-6 dark:bg-background/20 dark:border-background/30">
+        <div className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30 text-sm font-medium mb-6 text-white [text-shadow:_0_2px_8px_rgb(0_0_0_/_60%)]">
           Premium Medical-Grade Equipment
         </div>
         
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight font-heading [text-shadow:_0_2px_10px_rgb(0_0_0_/_40%)] dark:[text-shadow:_0_4px_20px_rgb(0_0_0_/_80%)]">
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight font-heading text-white [text-shadow:_0_4px_20px_rgb(0_0_0_/_80%)]">
           Cutting-Edge
           <br />
-          <span className="bg-gradient-to-r from-background to-background/80 bg-clip-text text-transparent dark:from-white dark:to-white/90">
+          <span className="text-white">
             Aesthetic Equipment
           </span>
         </h1>
         
-        <p className="text-xl md:text-2xl mb-8 text-primary-foreground/90 max-w-2xl mx-auto leading-relaxed [text-shadow:_0_2px_8px_rgb(0_0_0_/_30%)] dark:[text-shadow:_0_2px_12px_rgb(0_0_0_/_70%)] dark:text-white">
+        <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto leading-relaxed text-white/95 [text-shadow:_0_2px_12px_rgb(0_0_0_/_70%)]">
           Revolutionize Your Aesthetic Practice with Innovative Solutions
         </p>
         
