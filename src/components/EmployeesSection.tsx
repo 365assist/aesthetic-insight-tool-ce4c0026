@@ -45,7 +45,7 @@ const EmployeesSection = () => {
     {
       name: "Alison Roskelly",
       role: "Lead Administrator",
-      department: "Support",
+      department: "Administration",
       image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
       email: "alison.roskelly@aestheticprotools.com",
       phone: "+1 (555) 123-4571",
