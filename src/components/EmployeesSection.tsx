@@ -22,7 +22,7 @@ const EmployeesSection = () => {
       image: shaunMeyersImage,
       email: "shaun.meyers@aestheticprotools.com",
       phone: "+1 (555) 123-4568",
-      specialties: ["Equipment Design", "R&D", "Quality Assurance"]
+      specialties: ["Equipment Design", "R&D", "Quality Assurance", "AI Implementation"]
     },
     {
       name: "Terri Killion",
