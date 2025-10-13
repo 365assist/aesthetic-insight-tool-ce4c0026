@@ -43,13 +43,13 @@ const EmployeesSection = () => {
       specialties: ["Engineering Design", "R&D", "Product Innovation"]
     },
     {
-      name: "Lisa Park",
-      role: "Customer Success Manager",
+      name: "Alison Roskelly",
+      role: "Lead Administrator",
       department: "Support",
       image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
-      email: "lisa.park@aestheticprotools.com",
+      email: "alison.roskelly@aestheticprotools.com",
       phone: "+1 (555) 123-4571",
-      specialties: ["Customer Support", "Technical Assistance", "Account Management"]
+      specialties: ["Administration", "Operations", "Client Coordination"]
     },
     {
       name: "David Kim",
