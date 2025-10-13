@@ -103,7 +103,7 @@ const EmployeesSection = () => {
                     <img
                       src={employee.image}
                       alt={employee.name}
-                      className="w-24 h-24 rounded-full mx-auto object-cover object-[center_85%] scale-125 border-4 border-background shadow-lg group-hover:shadow-xl transition-shadow"
+                      className="w-24 h-24 rounded-full mx-auto object-cover object-[center_15%] scale-125 border-4 border-background shadow-lg group-hover:shadow-xl transition-shadow"
                     />
                     <div className="absolute inset-0 w-24 h-24 rounded-full mx-auto bg-gradient-to-br from-primary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   </div>
