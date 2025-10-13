@@ -161,7 +161,7 @@ const ProductsSection = () => {
                 
                 <Button 
                   className="w-full shadow-elegant hover:shadow-luxury transition-all"
-                  onClick={() => window.open(`https://aestheticprotools.com/shop/`, '_blank')}
+                  onClick={() => window.open(`https://aestheticprotools.store/products/${product.slug}`, '_blank')}
                 >
                   Learn More
                 </Button>
@@ -176,7 +176,7 @@ const ProductsSection = () => {
             variant="outline" 
             size="lg" 
             className="px-8 py-6 text-lg border-2 border-primary text-primary dark:text-white hover:bg-primary hover:text-primary-foreground transition-all hover:scale-105"
-            onClick={() => window.open('https://aestheticprotools.com/shop/', '_blank')}
+            onClick={() => window.open('https://aestheticprotools.store/collections/shop-all-products', '_blank')}
           >
             View All Products
           </Button>
