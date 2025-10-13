@@ -78,7 +78,7 @@ const EmployeesSection = () => {
     <section id="employees" className="py-20 px-6 bg-gradient-to-br from-background via-muted/20 to-background">
       <div className="container mx-auto">
         <div className="text-center mb-16">
-          <Badge variant="secondary" className="mb-6 bg-primary/10 text-primary">
+          <Badge variant="secondary" className="mb-6 bg-primary/10 text-primary dark:text-white">
             Our Team
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent dark:bg-none dark:text-white">
