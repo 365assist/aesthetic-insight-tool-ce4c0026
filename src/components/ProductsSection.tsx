@@ -44,7 +44,7 @@ const ProductsSection = () => {
     placeholderData: [
       {
         title: "VADER Laser Hair Reduction",
-        description: "Precise laser treatment for all skin types. Reduces hair, induces collagen, and treats vascular and pigment concerns.",
+        description: "• Treats all skin types & hair colors\n• Induces collagen synthesis\n• Addresses vascular & pigment concerns",
         image: vaderLaser,
         features: ["All Skin Types", "Collagen Synthesis", "Multi-Purpose"],
         slug: "vader",
@@ -53,7 +53,7 @@ const ProductsSection = () => {
       },
       {
         title: "Artisan Sculptor Devices",
-        description: "Professional-grade body sculpting with comprehensive treatment options.",
+        description: "• Advanced body sculpting\n• Professional-grade results\n• Versatile treatment options",
         image: artisanSculptor,
         features: ["Body Sculpting", "Professional Grade", "Versatile Treatments"],
         slug: "artisan-sculptor",
@@ -62,7 +62,7 @@ const ProductsSection = () => {
       },
       {
         title: "Tri-Pulse Tattoo Removal",
-        description: "Safe, precise tattoo elimination for all ink colors without scarring.",
+        description: "• Eliminates all ink colors\n• No scarring guarantee\n• Precise, safe treatment",
         image: vaderLaser,
         features: ["All Ink Colors", "No Scarring", "High Precision"],
         slug: "tri-pulse-tattoo-removal",
@@ -118,7 +118,7 @@ const ProductsSection = () => {
               </div>
               <div className="p-8">
                 <h3 className="text-2xl font-bold text-primary font-heading mb-4">{product.title}</h3>
-                <p className="text-muted-foreground mb-6 leading-relaxed">{product.description}</p>
+                <p className="text-muted-foreground mb-6 leading-relaxed whitespace-pre-line">{product.description}</p>
                 
                 <div className="flex flex-wrap gap-2 mb-6">
                   {(Array.isArray(product.features) ? product.features : []).map((feature, featureIndex) => (
