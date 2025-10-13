@@ -175,7 +175,7 @@ const ProductsSection = () => {
           <Button 
             variant="outline" 
             size="lg" 
-            className="px-8 py-6 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all hover:scale-105"
+            className="px-8 py-6 text-lg border-2 border-primary text-primary dark:text-white hover:bg-primary hover:text-primary-foreground transition-all hover:scale-105"
             onClick={() => window.open('https://aestheticprotools.com/shop/', '_blank')}
           >
             View All Products
