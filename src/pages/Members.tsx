@@ -196,11 +196,11 @@ const Members = () => {
               onClick={() => navigate('/support-portal')}
             >
               <div className="flex items-center justify-center mb-3">
-                <MessageSquare className="w-8 h-8 text-primary" />
+                <MessageSquare className="w-8 h-8 text-primary dark:text-[#f97316]" />
               </div>
               <h3 className="font-semibold mb-2">AI Support Portal</h3>
               <p className="text-sm text-muted-foreground">Get instant technical support with our AI troubleshooter</p>
-              <Button variant="link" className="mt-2 p-0 h-auto font-semibold">
+              <Button variant="link" className="mt-2 p-0 h-auto font-semibold dark:text-[#f97316]">
                 Launch Chat →
               </Button>
             </Card>
