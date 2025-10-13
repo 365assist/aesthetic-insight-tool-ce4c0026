@@ -39,12 +39,14 @@ const ProductsSection = () => {
         };
       });
       
-      // Sort products with VADER first, Tri-Pulse second
+      // Sort products with VADER first, Tri-Pulse second, Aquous gel last
       return mappedProducts.sort((a, b) => {
         if (a.title === 'VADER') return -1;
         if (b.title === 'VADER') return 1;
         if (a.title.includes('Tri-Pulse')) return -1;
         if (b.title.includes('Tri-Pulse')) return 1;
+        if (a.title.includes('Aquous')) return 1;
+        if (b.title.includes('Aquous')) return -1;
         return a.title.localeCompare(b.title);
       });
     },
