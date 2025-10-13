@@ -25,13 +25,13 @@ const EmployeesSection = () => {
       specialties: ["Equipment Design", "R&D", "Quality Assurance"]
     },
     {
-      name: "Dr. Emily Watson",
-      role: "Head of Training",
-      department: "Education",
+      name: "Terri Killion",
+      role: "Senior Sales and Marketing",
+      department: "Sales",
       image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=400&fit=crop&crop=face",
-      email: "emily.watson@aestheticprotools.com",
+      email: "terri.killion@aestheticprotools.com",
       phone: "+1 (555) 123-4569",
-      specialties: ["Clinical Training", "Certification", "Best Practices"]
+      specialties: ["Sales Strategy", "Marketing Campaigns", "Brand Development"]
     },
     {
       name: "James Thompson",
