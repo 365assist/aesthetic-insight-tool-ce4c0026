@@ -107,7 +107,7 @@ const EmployeesSection = () => {
                     />
                     <div className="absolute inset-0 w-24 h-24 rounded-full mx-auto bg-gradient-to-br from-primary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   </div>
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-primary dark:text-white dark:group-hover:text-white transition-colors">
                     {employee.name}
                   </h3>
                   <p className="text-muted-foreground font-medium mb-3">
@@ -120,7 +120,7 @@ const EmployeesSection = () => {
 
                 <div className="space-y-4">
                   <div>
-                    <h4 className="font-semibold text-sm mb-2 text-primary">Specialties</h4>
+                    <h4 className="font-semibold text-sm mb-2 text-primary dark:text-white">Specialties</h4>
                     <div className="flex flex-wrap gap-2">
                       {employee.specialties.map((specialty) => (
                         <Badge 
@@ -163,7 +163,7 @@ const EmployeesSection = () => {
         </div>
 
         <div className="text-center mt-16">
-          <h3 className="text-2xl font-bold mb-4">Join Our Team</h3>
+          <h3 className="text-2xl font-bold mb-4 dark:text-white">Join Our Team</h3>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
             We're always looking for talented professionals to join our growing team. 
             If you're passionate about aesthetic medicine and cutting-edge technology, we'd love to hear from you.

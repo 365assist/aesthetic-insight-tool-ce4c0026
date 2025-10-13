@@ -52,8 +52,8 @@ const Navigation = () => {
           <div className="flex items-center space-x-2">
             <img src={aptLogo} alt="APT Logo" className="w-10 h-10 object-contain" />
             <div>
-              <h1 className="font-bold text-lg text-primary font-heading">Aesthetic</h1>
-              <p className="text-xs text-muted-foreground -mt-1">ProTools</p>
+              <h1 className="font-bold text-lg text-primary dark:text-white font-heading">Aesthetic</h1>
+              <p className="text-xs text-muted-foreground dark:text-white/90 -mt-1">ProTools</p>
             </div>
           </div>
           
