@@ -110,13 +110,13 @@ const TechnicalTrainingLibrary = () => {
   return (
     <section className="py-20 px-6 bg-background">
       <div className="container mx-auto text-center">
-        <Badge variant="secondary" className="mb-6 bg-primary/10 text-primary">
+        <Badge variant="secondary" className="mb-6 bg-primary/10 text-primary dark:text-white">
           Exclusive Content
         </Badge>
-        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary">
+        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary dark:text-white">
           Technical Training Library
         </h2>
-        <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-12">
+        <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-12 dark:text-white">
           Access on-demand video modules covering VADER Laser operation, maintenance, and clinical best practices.
         </p>
 
