@@ -54,7 +54,7 @@ const HeroSection = () => {
             variant="hero-outline"
             size="lg"
             onClick={() => scrollToSection('contact')}
-            className="px-8 py-6 text-lg font-semibold"
+            className="px-8 py-6 text-lg font-semibold text-white border-white/40 hover:bg-white/20 [text-shadow:_0_2px_8px_rgb(0_0_0_/_60%)]"
           >
             Get In Touch
           </Button>
