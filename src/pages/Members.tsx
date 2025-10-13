@@ -53,13 +53,13 @@ const Members = () => {
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-6">
         <div className="container mx-auto text-center">
-          <Badge variant="secondary" className="mb-6 bg-primary/10 text-primary">
+          <Badge variant="secondary" className="mb-6 bg-primary/10 text-primary dark:text-white">
             Exclusive Access
           </Badge>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent dark:bg-none dark:text-white">
             Members Portal
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed dark:text-white">
             Access exclusive resources, training materials, and priority support designed for our valued partners.
           </p>
         </div>
@@ -68,7 +68,7 @@ const Members = () => {
       {/* Membership Tiers */}
       <section className="py-20 px-6">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-16">Membership Tiers</h2>
+          <h2 className="text-3xl font-bold text-center mb-16 dark:text-white">Membership Tiers</h2>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Silver Tier */}
@@ -185,7 +185,7 @@ const Members = () => {
       {/* Member Resources */}
       <section className="py-20 px-6 bg-muted/30">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-8">Member Resources</h2>
+          <h2 className="text-3xl font-bold mb-8 dark:text-white">Member Resources</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
             <Card className="p-6 hover:shadow-lg transition-shadow">
               <h3 className="font-semibold mb-2">Training Center</h3>
@@ -221,8 +221,8 @@ const Members = () => {
       {/* CTA Section */}
       <section className="py-20 px-6">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Join?</h2>
-          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold mb-6 dark:text-white">Ready to Join?</h2>
+          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto dark:text-white">
             Become a member today and unlock exclusive benefits, training resources, and priority support.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
