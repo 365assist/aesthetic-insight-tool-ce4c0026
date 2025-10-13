@@ -54,7 +54,7 @@ const EmployeesSection = () => {
     {
       name: "Jack Jansen",
       role: "Technical Support",
-      department: "Technical",
+      department: "Administration",
       image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
       email: "jack.jansen@aestheticprotools.com",
       phone: "+1 (555) 123-4572",
