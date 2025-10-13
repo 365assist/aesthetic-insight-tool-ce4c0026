@@ -225,8 +225,8 @@ const SupportPortal = () => {
       <main className="container mx-auto px-6 py-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-primary mb-2">Support Portal</h1>
-            <p className="text-muted-foreground">Get instant help with our AI troubleshooter</p>
+            <h1 className="text-4xl font-bold text-primary dark:text-white mb-2">Support Portal</h1>
+            <p className="text-muted-foreground dark:text-white">Get instant help with our AI troubleshooter</p>
           </div>
 
           <div className="grid grid-cols-12 gap-6">
@@ -238,7 +238,7 @@ const SupportPortal = () => {
                   className="w-full mb-4"
                   variant="default"
                 >
-                  <MessageSquarePlus className="w-4 h-4 mr-2" />
+                  <MessageSquarePlus className="w-4 h-4 mr-2 dark:text-white" />
                   New Chat
                 </Button>
 
@@ -269,7 +269,7 @@ const SupportPortal = () => {
                               deleteConversation(conv.id);
                             }}
                           >
-                            <Trash2 className="h-3 w-3" />
+                            <Trash2 className="h-3 w-3 dark:text-white" />
                           </Button>
                         </div>
                         <p className="text-xs opacity-70 mt-1">
@@ -290,9 +290,9 @@ const SupportPortal = () => {
                 {!currentConversationId && messages.length === 0 ? (
                   <div className="flex items-center justify-center h-full text-center">
                     <div>
-                      <Bot className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                      <h3 className="text-lg font-semibold mb-2">Start a new conversation</h3>
-                      <p className="text-sm text-muted-foreground">
+                      <Bot className="w-16 h-16 mx-auto mb-4 text-muted-foreground dark:text-white" />
+                      <h3 className="text-lg font-semibold mb-2 dark:text-white">Start a new conversation</h3>
+                      <p className="text-sm text-muted-foreground dark:text-white">
                         Ask me anything about your aesthetic laser equipment
                       </p>
                     </div>
@@ -351,7 +351,7 @@ const SupportPortal = () => {
                   disabled={isLoading}
                 />
                 <Button onClick={handleSend} disabled={isLoading || !input.trim()}>
-                  <Send className="w-4 h-4" />
+                  <Send className="w-4 h-4 dark:text-white" />
                 </Button>
               </div>
             </div>
