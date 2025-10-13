@@ -17,7 +17,7 @@ const EmployeesSection = () => {
     },
     {
       name: "Shaun Meyers",
-      role: "Chief Technology Officer",
+      role: "CTO / CAIO",
       department: "Engineering",
       image: shaunMeyersImage,
       email: "shaun.meyers@aestheticprotools.com",
