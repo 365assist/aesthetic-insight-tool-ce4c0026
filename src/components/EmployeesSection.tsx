@@ -52,13 +52,13 @@ const EmployeesSection = () => {
       specialties: ["Administration", "Operations", "Client Coordination"]
     },
     {
-      name: "David Kim",
-      role: "Lead Equipment Technician",
+      name: "Jack Jansen",
+      role: "Technical Support",
       department: "Technical",
       image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
-      email: "david.kim@aestheticprotools.com",
+      email: "jack.jansen@aestheticprotools.com",
       phone: "+1 (555) 123-4572",
-      specialties: ["Installation", "Maintenance", "Troubleshooting"]
+      specialties: ["Technical Support", "Customer Service", "Issue Resolution"]
     }
   ];
 
