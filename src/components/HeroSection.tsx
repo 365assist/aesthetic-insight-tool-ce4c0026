@@ -12,14 +12,14 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary via-accent to-primary opacity-50"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-accent to-primary opacity-80"></div>
       
       {/* Hero Image */}
       <div className="absolute inset-0">
         <img 
           src={heroImage} 
           alt="Professional aesthetic spa environment showcasing cutting-edge medical equipment" 
-          className="w-full h-full object-cover mix-blend-overlay"
+          className="w-full h-full object-cover opacity-90"
         />
       </div>
       
