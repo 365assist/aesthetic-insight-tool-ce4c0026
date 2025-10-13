@@ -90,10 +90,10 @@ All colors MUST be HSL.
     --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 65%;
+    --muted-foreground: 0 0% 100%;
 
     --accent: 345 30% 25%;
-    --accent-foreground: 0 0% 98%;
+    --accent-foreground: 0 0% 100%;
     
     /* Dark mode gradients with dark burgundy/rose */
     --gradient-primary: linear-gradient(135deg, hsl(345, 35%, 20%), hsl(345, 30%, 25%));
@@ -101,17 +101,17 @@ All colors MUST be HSL.
     --gradient-card: linear-gradient(145deg, hsl(345, 30%, 22%), hsl(345, 35%, 18%));
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 25%;
     --input: 0 0% 25%;
     --ring: 0 0% 70%;
     --sidebar-background: 0 0% 14%;
-    --sidebar-foreground: 0 0% 90%;
+    --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 354 75% 25%;
-    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 20%;
-    --sidebar-accent-foreground: 0 0% 90%;
+    --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 0 0% 25%;
     --sidebar-ring: 354 75% 35%;
   }
