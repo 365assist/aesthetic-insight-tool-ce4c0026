@@ -65,6 +65,9 @@ const Navigation = () => {
             <button onClick={() => scrollToSection('products')} className="text-foreground hover:text-primary transition-colors font-medium">
               Our Products
             </button>
+            <a href="/shop" className="text-foreground hover:text-primary transition-colors font-medium">
+              Shop
+            </a>
             <button onClick={() => scrollToSection('services')} className="text-foreground hover:text-primary transition-colors font-medium">
               Services
             </button>
@@ -106,6 +109,9 @@ const Navigation = () => {
             <button onClick={() => scrollToSection('products')} className="block w-full text-left text-foreground hover:text-primary transition-colors font-medium py-2">
               Our Products
             </button>
+            <a href="/shop" className="block text-foreground hover:text-primary transition-colors font-medium py-2">
+              Shop
+            </a>
             <button onClick={() => scrollToSection('services')} className="block w-full text-left text-foreground hover:text-primary transition-colors font-medium py-2">
               Services
             </button>
