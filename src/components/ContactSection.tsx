@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { supabase } from "@/integrations/supabase/client";
 
 const contactFormSchema = z.object({
   firstName: z.string()
@@ -47,9 +48,20 @@ const ContactSection = () => {
 
   const onSubmit = async (data: ContactFormData) => {
     try {
-      // Here you would typically send to your backend/email service
-      console.log("Contact form submitted:", data);
+      console.log("Submitting contact form to database:", data);
       
+      const { error } = await supabase
+        .from("contact_submissions")
+        .insert({
+          first_name: data.firstName,
+          last_name: data.lastName,
+          email: data.email,
+          practice_name: data.practiceName,
+          message: data.message,
+        });
+
+      if (error) throw error;
+
       toast.success("Message sent successfully! We'll get back to you soon.");
       form.reset();
     } catch (error) {
