@@ -13,6 +13,7 @@ import { useShopifySync } from "@/hooks/useShopifySync";
 import { toast } from "sonner";
 
 const Shop = () => {
+  const MAX_SEARCH_LENGTH = 100;
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("title");
   const { mutate: syncProducts, isPending: isSyncing } = useShopifySync();
@@ -76,8 +77,9 @@ const Shop = () => {
               <Input
                 placeholder="Search products..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => setSearchQuery(e.target.value.slice(0, MAX_SEARCH_LENGTH).trim())}
                 className="pl-10"
+                maxLength={MAX_SEARCH_LENGTH}
               />
             </div>
             
