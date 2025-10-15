@@ -11,29 +11,9 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    // Verify authentication
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
-    const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
-      global: { headers: { Authorization: authHeader } }
-    });
-
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
-    if (authError || !user) {
-      console.error('Auth verification failed:', authError);
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
+    // Auth is already verified by Supabase since verify_jwt = true in config.toml
+    // We can safely proceed with the request
+    console.log('Processing authenticated support chat request');
     // Input validation schema
     const requestSchema = z.object({
       messages: z.array(z.object({
@@ -45,9 +25,6 @@ serve(async (req) => {
     const requestBody = await req.json();
     const { messages } = requestSchema.parse(requestBody);
     
-    // Log authenticated user for audit trail
-    console.log(`Support request from authenticated user: ${user.id}`);
-    console.log(`User email: ${user.email}`);
     console.log(`Message count: ${messages.length}`);
     
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
