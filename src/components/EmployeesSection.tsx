@@ -15,7 +15,7 @@ const EmployeesSection = () => {
       role: "Chief Executive Officer",
       department: "Executive",
       image: garyBegleyImage,
-      email: "gary.begley@aestheticprotools.com",
+      email: "gary@aestheticprotools.com",
       phone: "+1 (480)-291-5880",
       specialties: ["Business Strategy", "Medical Aesthetics", "Innovation"]
     },
@@ -33,7 +33,7 @@ const EmployeesSection = () => {
       role: "Senior Sales and Marketing",
       department: "Sales",
       image: terriKillionImage,
-      email: "terri.killion@aestheticprotools.com",
+      email: "tkillion@aestheticprotools.com",
       phone: "+1 (480) 620-7998",
       specialties: ["Sales Strategy", "Marketing Campaigns", "Brand Development"]
     },
@@ -42,7 +42,7 @@ const EmployeesSection = () => {
       role: "Design Engineer",
       department: "Engineering",
       image: joseVasquezImage,
-      email: "jose.vasquez@aestheticprotools.com",
+      email: "jvasquez@aestheticprotools.com",
       phone: "+1 (480)-291-5880",
       specialties: ["Engineering Design", "R&D", "Product Innovation"]
     },
@@ -51,7 +51,7 @@ const EmployeesSection = () => {
       role: "Lead Administrator",
       department: "Administration",
       image: placeholderGradient,
-      email: "alison.roskelly@aestheticprotools.com",
+      email: "alisonr@aestheticprotools.com",
       phone: "+1 (480)-291-5880",
       specialties: ["Administration", "Operations", "Client Coordination"]
     },
@@ -60,7 +60,7 @@ const EmployeesSection = () => {
       role: "Technical Support",
       department: "Technical",
       image: jackJansenImage,
-      email: "jack.jansen@aestheticprotools.com",
+      email: "jack@aestheticprotools.com",
       phone: "+1 (480)-291-5880",
       specialties: ["Technical Support", "Customer Service", "Issue Resolution"]
     }
