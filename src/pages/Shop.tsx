@@ -44,6 +44,20 @@ const Shop = () => {
   ) || [];
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
+    // Helper to identify gel/compound products
+    const isGelProduct = (title: string) => 
+      title.toLowerCase().includes('gel') || 
+      title.toLowerCase().includes('cleanser') || 
+      title.toLowerCase().includes('compound');
+    
+    const aIsGel = isGelProduct(a.title);
+    const bIsGel = isGelProduct(b.title);
+    
+    // Always put gel/compound products last
+    if (!aIsGel && bIsGel) return -1;
+    if (aIsGel && !bIsGel) return 1;
+    
+    // For non-gel products or within gel products, apply selected sort
     switch (sortBy) {
       case 'price-low':
         return parseFloat(a.price || '0') - parseFloat(b.price || '0');

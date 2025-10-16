@@ -41,30 +41,31 @@ const ProductsSection = () => {
       
       // Custom sort order with specific positioning
       return mappedProducts.sort((a, b) => {
-        // VADER always first
-        if (a.title === 'VADER') return -1;
-        if (b.title === 'VADER') return 1;
+        // Helper to identify gel/compound products (case-insensitive)
+        const isGelProduct = (title: string) => 
+          title.toLowerCase().includes('gel') || 
+          title.toLowerCase().includes('cleanser') || 
+          title.toLowerCase().includes('compound');
         
-        // Tri-Pulse second
-        if (a.title.includes('Tri-Pulse')) return -1;
-        if (b.title.includes('Tri-Pulse')) return 1;
+        const aIsGel = isGelProduct(a.title);
+        const bIsGel = isGelProduct(b.title);
         
-        // Group gels, cleansers, and compounds together near the end
-        const isAGelProduct = (title: string) => 
-          title.includes('Gel') || title.includes('Cleanser') || title.includes('Compound');
-        
-        const aIsGel = isAGelProduct(a.title);
-        const bIsGel = isAGelProduct(b.title);
-        
-        // Non-gel products come before gel products
+        // Gels and compounds always go last
         if (!aIsGel && bIsGel) return -1;
         if (aIsGel && !bIsGel) return 1;
         
-        // Within gel products, sort alphabetically
-        if (aIsGel && bIsGel) {
+        // For non-gel products: VADER first, Tri-Pulse second
+        if (!aIsGel && !bIsGel) {
+          if (a.title === 'VADER') return -1;
+          if (b.title === 'VADER') return 1;
+          
+          if (a.title.includes('Tri-Pulse')) return -1;
+          if (b.title.includes('Tri-Pulse')) return 1;
+          
           return a.title.localeCompare(b.title);
         }
         
+        // Within gel products, sort alphabetically
         return a.title.localeCompare(b.title);
       });
     },
