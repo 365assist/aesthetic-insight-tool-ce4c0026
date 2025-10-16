@@ -41,21 +41,30 @@ const ProductsSection = () => {
       
       // Custom sort order with specific positioning
       return mappedProducts.sort((a, b) => {
-        // Helper to identify gel/compound products (case-insensitive)
+        // Helper to identify product types (case-insensitive)
         const isGelProduct = (title: string) => 
           title.toLowerCase().includes('gel') || 
           title.toLowerCase().includes('cleanser') || 
           title.toLowerCase().includes('compound');
         
+        const isDepositProduct = (title: string) =>
+          title.toLowerCase().includes('deposit');
+        
         const aIsGel = isGelProduct(a.title);
         const bIsGel = isGelProduct(b.title);
+        const aIsDeposit = isDepositProduct(a.title);
+        const bIsDeposit = isDepositProduct(b.title);
         
-        // Gels and compounds always go last
-        if (!aIsGel && bIsGel) return -1;
-        if (aIsGel && !bIsGel) return 1;
+        // Deposit products always go last
+        if (!aIsDeposit && bIsDeposit) return -1;
+        if (aIsDeposit && !bIsDeposit) return 1;
         
-        // For non-gel products: VADER first, Tri-Pulse second
-        if (!aIsGel && !bIsGel) {
+        // Gels and compounds go after regular products but before deposits
+        if (!aIsGel && bIsGel && !aIsDeposit && !bIsDeposit) return -1;
+        if (aIsGel && !bIsGel && !aIsDeposit && !bIsDeposit) return 1;
+        
+        // For regular products (not gel, not deposit): VADER first, Tri-Pulse second
+        if (!aIsGel && !bIsGel && !aIsDeposit && !bIsDeposit) {
           if (a.title === 'VADER') return -1;
           if (b.title === 'VADER') return 1;
           
@@ -65,7 +74,7 @@ const ProductsSection = () => {
           return a.title.localeCompare(b.title);
         }
         
-        // Within gel products, sort alphabetically
+        // Within same category, sort alphabetically
         return a.title.localeCompare(b.title);
       });
     },

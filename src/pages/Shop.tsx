@@ -44,20 +44,29 @@ const Shop = () => {
   ) || [];
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
-    // Helper to identify gel/compound products
+    // Helper to identify product types
     const isGelProduct = (title: string) => 
       title.toLowerCase().includes('gel') || 
       title.toLowerCase().includes('cleanser') || 
       title.toLowerCase().includes('compound');
     
+    const isDepositProduct = (title: string) =>
+      title.toLowerCase().includes('deposit');
+    
     const aIsGel = isGelProduct(a.title);
     const bIsGel = isGelProduct(b.title);
+    const aIsDeposit = isDepositProduct(a.title);
+    const bIsDeposit = isDepositProduct(b.title);
     
-    // Always put gel/compound products last
-    if (!aIsGel && bIsGel) return -1;
-    if (aIsGel && !bIsGel) return 1;
+    // Deposit products always go last
+    if (!aIsDeposit && bIsDeposit) return -1;
+    if (aIsDeposit && !bIsDeposit) return 1;
     
-    // For non-gel products or within gel products, apply selected sort
+    // Gel/compound products go before deposits but after regular products
+    if (!aIsGel && bIsGel && !aIsDeposit && !bIsDeposit) return -1;
+    if (aIsGel && !bIsGel && !aIsDeposit && !bIsDeposit) return 1;
+    
+    // For products in the same category, apply selected sort
     switch (sortBy) {
       case 'price-low':
         return parseFloat(a.price || '0') - parseFloat(b.price || '0');
