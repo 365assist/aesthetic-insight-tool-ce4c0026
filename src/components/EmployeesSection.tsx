@@ -79,13 +79,13 @@ const EmployeesSection = () => {
   };
 
   return (
-    <section id="employees" className="py-20 px-6 bg-gradient-to-br from-background via-muted/20 to-background">
+    <section id="employees" className="py-20 px-6 bg-gradient-to-br from-background via-muted/20 to-background" aria-labelledby="team-heading">
       <div className="container mx-auto">
         <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-6 bg-primary/10 text-primary dark:text-white">
             Our Team
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent dark:bg-none dark:text-white">
+          <h2 id="team-heading" className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent dark:bg-none dark:text-white">
             Meet Our Experts
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
@@ -106,8 +106,9 @@ const EmployeesSection = () => {
                   <div className="relative mb-4">
                     <img
                       src={employee.image}
-                      alt={employee.name}
+                      alt={`${employee.name}, ${employee.role} at Aesthetic ProTools`}
                       className={`w-24 h-24 rounded-full mx-auto object-cover ${employee.name === "Gary Begley" ? "object-[center_12.5%]" : employee.name === "Jose Vasquez" ? "object-[center_6.25%]" : "object-[center_25%]"} scale-125 border-4 border-background shadow-lg group-hover:shadow-xl transition-shadow`}
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 w-24 h-24 rounded-full mx-auto bg-gradient-to-br from-primary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   </div>

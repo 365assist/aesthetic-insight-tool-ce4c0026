@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 
 const AboutSection = () => {
   return (
-    <section id="about" className="py-20 bg-background">
+    <section id="about" className="py-20 bg-background" aria-labelledby="about-heading">
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary dark:text-white leading-tight font-heading">
+            <h2 id="about-heading" className="text-4xl md:text-5xl font-bold mb-6 text-primary dark:text-white leading-tight font-heading">
               Pro Aesthetician Devices Made By Aestheticians
             </h2>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">

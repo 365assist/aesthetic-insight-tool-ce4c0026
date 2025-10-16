@@ -111,10 +111,10 @@ const ProductsSection = () => {
   });
 
   return (
-    <section id="products" className="py-20 bg-gradient-to-br from-muted/50 to-background">
+    <section id="products" className="py-20 bg-gradient-to-br from-muted/50 to-background" aria-labelledby="products-heading">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary dark:text-white font-heading">
+          <h2 id="products-heading" className="text-4xl md:text-5xl font-bold mb-6 text-primary dark:text-white font-heading">
             Our Premium Equipment
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -150,8 +150,9 @@ const ProductsSection = () => {
               <div className="aspect-video overflow-hidden">
                 <img 
                   src={product.image} 
-                  alt={`${product.title} - Professional aesthetic medical equipment`}
+                  alt={`${product.title} - Professional aesthetic medical equipment for spa and clinical treatments`}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
                 />
               </div>
               <div className="p-8">

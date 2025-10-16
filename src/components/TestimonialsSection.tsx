@@ -30,10 +30,10 @@ const TestimonialsSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-muted/30 via-background to-muted/30">
+    <section className="py-20 bg-gradient-to-br from-muted/30 via-background to-muted/30" aria-labelledby="testimonials-heading">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary dark:text-white font-heading">
+          <h2 id="testimonials-heading" className="text-4xl md:text-5xl font-bold mb-6 text-primary dark:text-white font-heading">
             Trusted by Leading Professionals
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -61,8 +61,9 @@ const TestimonialsSection = () => {
               <div className="flex items-center gap-4 pt-4 border-t border-border">
                 <img
                   src={testimonial.image}
-                  alt={testimonial.name}
+                  alt={`${testimonial.name} - ${testimonial.title}`}
                   className="w-12 h-12 rounded-full object-cover"
+                  loading="lazy"
                 />
                 <div>
                   <h4 className="font-semibold text-foreground">{testimonial.name}</h4>

@@ -70,7 +70,7 @@ const ContactSection = () => {
     }
   };
   return (
-    <section id="contact" className="py-20 bg-gradient-to-br from-primary via-accent to-primary text-primary-foreground relative overflow-hidden">
+    <section id="contact" className="py-20 bg-gradient-to-br from-primary via-accent to-primary text-primary-foreground relative overflow-hidden" aria-labelledby="contact-heading">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-20 w-32 h-32 border border-primary-foreground/20 rounded-full"></div>
@@ -80,7 +80,7 @@ const ContactSection = () => {
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 id="contact-heading" className="text-4xl md:text-5xl font-bold mb-6">
             Ready to Transform Your Practice?
           </h2>
           <p className="text-xl text-primary-foreground/90 max-w-2xl mx-auto">
