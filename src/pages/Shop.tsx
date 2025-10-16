@@ -62,6 +62,10 @@ const Shop = () => {
     if (a.title === 'VADER') return -1;
     if (b.title === 'VADER') return 1;
     
+    // Tri-Pulse goes second
+    if (a.title.includes('Tri-Pulse')) return -1;
+    if (b.title.includes('Tri-Pulse')) return 1;
+    
     // Deposit products always go last
     if (!aIsDeposit && bIsDeposit) return -1;
     if (aIsDeposit && !bIsDeposit) return 1;
