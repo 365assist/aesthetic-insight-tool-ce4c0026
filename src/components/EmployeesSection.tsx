@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Mail, Phone, Linkedin } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import garyBegleyImage from "@/assets/gary-begley-ceo.png";
 import shaunMeyersImage from "@/assets/shaun-meyers-cto.png";
 import terriKillionImage from "@/assets/terri-killion.png";
@@ -155,10 +155,6 @@ const EmployeesSection = () => {
                         <Phone className="w-4 h-4 group-hover/phone:scale-110 transition-transform" />
                         <span>{employee.phone}</span>
                       </a>
-                      <div className="flex items-center gap-2 text-muted-foreground hover:text-primary dark:hover:text-[#f97316] transition-colors cursor-pointer group/linkedin">
-                        <Linkedin className="w-4 h-4 group-hover/linkedin:scale-110 transition-transform" />
-                        <span>LinkedIn Profile</span>
-                      </div>
                     </div>
                   </div>
                 </div>
