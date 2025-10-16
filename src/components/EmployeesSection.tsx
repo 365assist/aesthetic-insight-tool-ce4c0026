@@ -4,6 +4,7 @@ import { Mail, Phone, Linkedin } from "lucide-react";
 import garyBegleyImage from "@/assets/gary-begley-ceo.png";
 import shaunMeyersImage from "@/assets/shaun-meyers-cto.png";
 import terriKillionImage from "@/assets/terri-killion.png";
+import jackJansenImage from "@/assets/jack-jansen.jpg";
 import placeholderGradient from "@/assets/placeholder-gradient.jpg";
 
 const EmployeesSection = () => {
@@ -57,7 +58,7 @@ const EmployeesSection = () => {
       name: "Jack Jansen",
       role: "Technical Support",
       department: "Technical",
-      image: placeholderGradient,
+      image: jackJansenImage,
       email: "jack.jansen@aestheticprotools.com",
       phone: "+1 (555) 123-4572",
       specialties: ["Technical Support", "Customer Service", "Issue Resolution"]
