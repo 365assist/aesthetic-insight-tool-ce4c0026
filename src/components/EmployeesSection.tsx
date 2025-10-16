@@ -5,6 +5,7 @@ import garyBegleyImage from "@/assets/gary-begley-ceo.png";
 import shaunMeyersImage from "@/assets/shaun-meyers-cto.png";
 import terriKillionImage from "@/assets/terri-killion.png";
 import jackJansenImage from "@/assets/jack-jansen.jpg";
+import joseVasquezImage from "@/assets/jose-vasquez.jpg";
 import placeholderGradient from "@/assets/placeholder-gradient.jpg";
 
 const EmployeesSection = () => {
@@ -40,7 +41,7 @@ const EmployeesSection = () => {
       name: "Jose Vasquez",
       role: "Lead Engineer / Research and Development",
       department: "Engineering",
-      image: placeholderGradient,
+      image: joseVasquezImage,
       email: "jose.vasquez@aestheticprotools.com",
       phone: "+1 (555) 123-4570",
       specialties: ["Engineering Design", "R&D", "Product Innovation"]
