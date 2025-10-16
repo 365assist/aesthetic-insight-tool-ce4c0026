@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { secureLog } from "@/lib/logger";
 
 export type Message = {
   id?: string;
@@ -34,7 +35,7 @@ export const useConversations = () => {
       if (error) throw error;
       setConversations(data || []);
     } catch (error: any) {
-      console.error("Error loading conversations:", error);
+      secureLog.error("Error loading conversations:", error);
       toast({
         title: "Error",
         description: "Failed to load conversations",
@@ -64,7 +65,7 @@ export const useConversations = () => {
       
       setMessages(typedMessages);
     } catch (error: any) {
-      console.error("Error loading messages:", error);
+      secureLog.error("Error loading messages:", error);
       toast({
         title: "Error",
         description: "Failed to load messages",
@@ -97,7 +98,7 @@ export const useConversations = () => {
       
       return data.id;
     } catch (error: any) {
-      console.error("Error creating conversation:", error);
+      secureLog.error("Error creating conversation:", error);
       toast({
         title: "Error",
         description: "Failed to create conversation",
@@ -120,7 +121,7 @@ export const useConversations = () => {
 
       if (error) throw error;
     } catch (error: any) {
-      console.error("Error saving message:", error);
+      secureLog.error("Error saving message:", error);
     }
   };
 
@@ -152,7 +153,7 @@ export const useConversations = () => {
         description: "Conversation deleted",
       });
     } catch (error: any) {
-      console.error("Error deleting conversation:", error);
+      secureLog.error("Error deleting conversation:", error);
       toast({
         title: "Error",
         description: "Failed to delete conversation",

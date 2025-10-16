@@ -8,6 +8,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { supabase } from "@/integrations/supabase/client";
+import { secureLog } from "@/lib/logger";
 
 const contactFormSchema = z.object({
   firstName: z.string()
@@ -48,7 +49,7 @@ const ContactSection = () => {
 
   const onSubmit = async (data: ContactFormData) => {
     try {
-      console.log("Submitting contact form to database:", data);
+      secureLog.info("Submitting contact form to database:", data);
       
       const { error } = await supabase
         .from("contact_submissions")
@@ -65,7 +66,7 @@ const ContactSection = () => {
       toast.success("Message sent successfully! We'll get back to you soon.");
       form.reset();
     } catch (error) {
-      console.error("Error submitting form:", error);
+      secureLog.error("Error submitting form:", error);
       toast.error("Failed to send message. Please try again or call us directly.");
     }
   };

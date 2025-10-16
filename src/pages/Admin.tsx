@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { LogOut, Users, Shield, User, Copy, RefreshCw } from "lucide-react";
 import Navigation from "@/components/Navigation";
+import { secureLog } from "@/lib/logger";
 import { useShopifySync } from "@/hooks/useShopifySync";
 import { useQueryClient } from "@tanstack/react-query";
 import { MemberManagement } from "@/components/admin/MemberManagement";
@@ -45,12 +46,12 @@ const Admin = () => {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
-        console.log('No session found, redirecting to auth');
+        secureLog.info('No session found, redirecting to auth');
         navigate("/auth");
         return;
       }
 
-      console.log('Session found for user:', session.user.id);
+      secureLog.info('Session found for user:', session.user.id);
 
       // Fetch profile
       const { data: profileData, error: profileError } = await supabase
@@ -60,12 +61,12 @@ const Admin = () => {
         .maybeSingle();
 
       if (profileError) {
-        console.error('Profile fetch error:', profileError);
+        secureLog.error('Profile fetch error:', profileError);
         throw profileError;
       }
       
       if (!profileData) {
-        console.error('No profile found for user');
+        secureLog.error('No profile found for user');
         toast({
           title: "Profile Not Found",
           description: "Your profile hasn't been created yet. Please contact an administrator.",
@@ -75,7 +76,7 @@ const Admin = () => {
         return;
       }
       
-      console.log('Profile loaded:', profileData);
+      secureLog.info('Profile loaded:', profileData);
       setProfile(profileData);
 
       // Fetch roles
@@ -85,15 +86,15 @@ const Admin = () => {
         .eq("user_id", session.user.id);
 
       if (rolesError) {
-        console.error('Roles fetch error:', rolesError);
+        secureLog.error('Roles fetch error:', rolesError);
         throw rolesError;
       }
       
-      console.log('Roles loaded:', rolesData);
+      secureLog.info('Roles loaded:', rolesData);
       setRoles(rolesData?.map(r => r.role as UserRole) || []);
 
     } catch (error: any) {
-      console.error('Auth check error:', error);
+      secureLog.error('Auth check error:', error);
       toast({
         title: "Error",
         description: error.message || "Failed to load your profile",
