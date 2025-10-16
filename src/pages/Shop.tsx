@@ -234,7 +234,7 @@ const Shop = () => {
                                 ))}
                               </div>
                               <CollapsibleTrigger asChild>
-                                <Button variant="ghost" size="sm" className="mt-2 h-auto p-0 text-primary hover:text-primary/80">
+                                <Button variant="ghost" size="sm" className="mt-2 h-auto p-0 text-primary hover:text-primary/80 dark:text-[#f97316] dark:hover:text-[#f97316]/80">
                                   More info <ChevronDown className="ml-1 h-3 w-3" />
                                 </Button>
                               </CollapsibleTrigger>
@@ -277,7 +277,7 @@ const Shop = () => {
 
                     {product.price && (
                       <div className="flex items-baseline gap-2 mb-4">
-                        <span className="text-2xl font-bold text-primary">
+                        <span className="text-2xl font-bold text-primary dark:text-[#f97316]">
                           ${formatPrice(product.price)}
                         </span>
                         {product.compare_at_price && parseFloat(product.compare_at_price) > parseFloat(product.price) && (
