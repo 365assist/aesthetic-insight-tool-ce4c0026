@@ -208,7 +208,6 @@ serve(async (req) => {
       return {
         id: node.id.split('/').pop(), // Extract ID from Shopify GID
         title: node.title,
-        description: node.description,
         handle: node.handle,
         image_url: image?.url || null,
         price: variant?.price?.amount || '0',
@@ -217,15 +216,37 @@ serve(async (req) => {
         features: JSON.stringify(features),
         product_type: node.productType,
         vendor: node.vendor,
+        // Note: We intentionally don't include description here to preserve existing bullet-point descriptions
       };
     });
 
-    console.log('Upserting products to database:', products.length);
+    console.log('Syncing price and inventory for products:', products.length);
 
-    // Upsert products to database
+    // For each product, update only price and inventory while preserving description
+    for (const product of products) {
+      const { error } = await supabase
+        .from('products')
+        .update({
+          price: product.price,
+          compare_at_price: product.compare_at_price,
+          inventory_quantity: product.inventory_quantity,
+          features: product.features,
+          product_type: product.product_type,
+          vendor: product.vendor,
+          image_url: product.image_url,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', product.id);
+
+      if (error) {
+        console.error(`Error updating product ${product.id}:`, error);
+        // Continue with other products even if one fails
+      }
+    }
+
     const { data, error } = await supabase
       .from('products')
-      .upsert(products, { onConflict: 'id' });
+      .select('*');
 
     if (error) {
       console.error('Database error:', error);
