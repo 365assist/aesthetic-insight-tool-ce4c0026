@@ -200,11 +200,6 @@ const Shop = () => {
                           <ShoppingCart className="h-16 w-16 text-muted-foreground" />
                         </div>
                       )}
-                      {product.inventory_quantity !== null && product.inventory_quantity < 10 && (
-                        <Badge className="absolute top-3 right-3 bg-destructive text-destructive-foreground">
-                          Low Stock
-                        </Badge>
-                      )}
                     </div>
                   </CardHeader>
                   
