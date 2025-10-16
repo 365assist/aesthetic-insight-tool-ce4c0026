@@ -58,6 +58,10 @@ const Shop = () => {
     const aIsDeposit = isDepositProduct(a.title);
     const bIsDeposit = isDepositProduct(b.title);
     
+    // VADER always goes first
+    if (a.title === 'VADER') return -1;
+    if (b.title === 'VADER') return 1;
+    
     // Deposit products always go last
     if (!aIsDeposit && bIsDeposit) return -1;
     if (aIsDeposit && !bIsDeposit) return 1;
