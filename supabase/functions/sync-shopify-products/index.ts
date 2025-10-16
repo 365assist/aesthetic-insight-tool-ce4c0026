@@ -34,7 +34,7 @@ const shopifyProductSchema = z.object({
           amount: z.string().regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format'),
           currencyCode: z.string().length(3)
         }).nullable(),
-        quantityAvailable: z.number().int().min(0).nullable()
+        quantityAvailable: z.number().int().min(0)
       })
     }))
   })
@@ -57,7 +57,7 @@ interface ShopifyProduct {
           amount: string;
           currencyCode: string;
         } | null;
-        quantityAvailable: number | null;
+        quantityAvailable: number;
       }
     }>
   };
@@ -208,7 +208,7 @@ serve(async (req) => {
         image_url: image?.url || null,
         price: variant?.price?.amount || '0',
         compare_at_price: variant?.compareAtPrice?.amount || null,
-        inventory_quantity: variant?.quantityAvailable ?? 0,
+        inventory_quantity: variant?.quantityAvailable || 0,
         features: JSON.stringify(features),
         product_type: node.productType,
         vendor: node.vendor,
