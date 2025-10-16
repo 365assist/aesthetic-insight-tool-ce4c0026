@@ -72,12 +72,7 @@ serve(async (req) => {
   }
 
   try {
-    // Create Supabase client with service role
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
-    // Get JWT from Authorization header
+    // Authenticate the request
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
@@ -86,10 +81,15 @@ serve(async (req) => {
       });
     }
 
-    const token = authHeader.replace('Bearer ', '');
-    
-    // Verify JWT and get user
-    const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+    // Create authenticated Supabase client
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+    const authClient = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } }
+    });
+
+    // Verify user is authenticated
+    const { data: { user }, error: userError } = await authClient.auth.getUser();
     if (userError || !user) {
       console.error('Authentication error:', userError);
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
@@ -99,7 +99,7 @@ serve(async (req) => {
     }
 
     // Check if user has admin role
-    const { data: roles, error: roleError } = await supabase
+    const { data: roles, error: roleError } = await authClient
       .from('user_roles')
       .select('role')
       .eq('user_id', user.id)
@@ -183,6 +183,11 @@ serve(async (req) => {
 
     const shopifyData = await shopifyResponse.json();
     console.log('Received data from Shopify:', shopifyData);
+
+    // Initialize Supabase client with service role for database operations
+    const supabaseServiceUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseServiceUrl, supabaseKey);
 
     // Validate and transform products
     const products = shopifyData.data.products.edges.map((edge: any) => {
