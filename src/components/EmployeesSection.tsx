@@ -39,7 +39,7 @@ const EmployeesSection = () => {
     },
     {
       name: "Jose Vasquez",
-      role: "Lead Engineer / Research and Development",
+      role: "Design Engineer",
       department: "Engineering",
       image: joseVasquezImage,
       email: "jose.vasquez@aestheticprotools.com",
