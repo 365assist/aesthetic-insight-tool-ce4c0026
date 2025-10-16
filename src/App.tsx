@@ -9,6 +9,7 @@ import Members from "./pages/Members";
 import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import MarketingHub from "./pages/MarketingHub";
+import DeveloperTools from "./pages/DeveloperTools";
 import UDIProgram from "./pages/UDIProgram";
 import SupportPortal from "./pages/SupportPortal";
 import Shop from "./pages/Shop";
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/marketing-hub" element={<MarketingHub />} />
+            <Route path="/developer-tools" element={<DeveloperTools />} />
             <Route path="/udi-program" element={<UDIProgram />} />
             <Route path="/support-portal" element={<SupportPortal />} />
             <Route path="/shop" element={<Shop />} />
