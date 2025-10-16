@@ -11,15 +11,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Search, ShoppingCart, RefreshCw, ChevronDown } from "lucide-react";
 import { useShopifySync } from "@/hooks/useShopifySync";
+import { useShopifyBuy } from "@/hooks/useShopifyBuy";
+import { ShopifyCart } from "@/components/ShopifyCart";
 import { toast } from "sonner";
 import { formatPrice } from "@/lib/utils";
-import { getProductUrl, getCartUrl } from "@/lib/shopify-config";
+import { getProductUrl } from "@/lib/shopify-config";
 
 const Shop = () => {
   const MAX_SEARCH_LENGTH = 100;
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("title");
   const { mutate: syncProducts, isPending: isSyncing } = useShopifySync();
+  const { addToCart, isInitialized } = useShopifyBuy();
+  const [addingToCart, setAddingToCart] = useState<string | null>(null);
 
   const { data: products, isLoading } = useQuery({
     queryKey: ['products'],
@@ -36,6 +40,24 @@ const Shop = () => {
 
   const handleSync = () => {
     syncProducts();
+  };
+  
+  const handleAddToCart = async (productId: string) => {
+    if (!isInitialized) {
+      toast.error('Cart is initializing, please try again');
+      return;
+    }
+    
+    setAddingToCart(productId);
+    try {
+      await addToCart(productId);
+      toast.success('Added to cart!');
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+      toast.error('Failed to add to cart');
+    } finally {
+      setAddingToCart(null);
+    }
   };
 
   const filteredProducts = products?.filter(product =>
@@ -133,6 +155,8 @@ const Shop = () => {
                   <SelectItem value="price-high">Price (High to Low)</SelectItem>
                 </SelectContent>
               </Select>
+
+              <ShopifyCart />
 
               <Button
                 variant="outline"
@@ -307,7 +331,8 @@ const Shop = () => {
                     <Button 
                       variant="outline" 
                       size="icon"
-                      onClick={() => window.open(getProductUrl(product.handle), '_blank')}
+                      onClick={() => handleAddToCart(product.id)}
+                      disabled={addingToCart === product.id || !isInitialized}
                       title="Add to cart"
                     >
                       <ShoppingCart className="h-4 w-4" />

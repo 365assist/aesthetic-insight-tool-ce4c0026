@@ -1,12 +1,37 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useShopifyBuy } from "@/hooks/useShopifyBuy";
+import { ShoppingCart } from "lucide-react";
+import { toast } from "sonner";
 import vaderLaser from "@/assets/vader-laser.jpg";
 import artisanSculptor from "@/assets/artisan-sculptor.jpg";
 
 const ProductsSection = () => {
+  const { addToCart, isInitialized } = useShopifyBuy();
+  const [addingToCart, setAddingToCart] = useState<string | null>(null);
+  
+  const handleAddToCart = async (productId: string) => {
+    if (!isInitialized) {
+      toast.error('Cart is initializing, please try again');
+      return;
+    }
+    
+    setAddingToCart(productId);
+    try {
+      await addToCart(productId);
+      toast.success('Added to cart!');
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+      toast.error('Failed to add to cart');
+    } finally {
+      setAddingToCart(null);
+    }
+  };
+  
   // Fetch products from database
   const { data: products, isLoading } = useQuery({
     queryKey: ['products'],
@@ -170,12 +195,23 @@ const ProductsSection = () => {
                   ))}
                 </div>
                 
-                <Button 
-                  className="w-full shadow-elegant hover:shadow-luxury transition-all"
-                  onClick={() => window.open(`https://aestheticprotools.store/products/${product.slug}`, '_blank')}
-                >
-                  Learn More
-                </Button>
+                <div className="flex gap-2">
+                  <Button 
+                    className="flex-1 shadow-elegant hover:shadow-luxury transition-all"
+                    onClick={() => window.open(`https://aestheticprotools.store/products/${product.slug}`, '_blank')}
+                  >
+                    Learn More
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handleAddToCart(product.slug)}
+                    disabled={addingToCart === product.slug || !isInitialized}
+                    title="Add to cart"
+                  >
+                    <ShoppingCart className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </Card>
             ))
