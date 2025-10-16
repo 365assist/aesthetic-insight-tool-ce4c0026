@@ -184,28 +184,65 @@ const Shop = () => {
                       </Badge>
                     )}
 
-                    {product.description && product.description.length > 200 ? (
-                      <Collapsible>
-                        <div className="mb-4">
-                          <p className="text-sm text-muted-foreground line-clamp-3">
-                            {product.description}
-                          </p>
-                          <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="sm" className="mt-2 h-auto p-0 text-primary hover:text-primary/80">
-                              More info <ChevronDown className="ml-1 h-3 w-3" />
-                            </Button>
-                          </CollapsibleTrigger>
-                        </div>
-                        <CollapsibleContent>
-                          <p className="text-sm text-muted-foreground mb-4">
-                            {product.description}
-                          </p>
-                        </CollapsibleContent>
-                      </Collapsible>
-                    ) : (
-                      <CardDescription className="line-clamp-3 mb-4 min-h-[4.5rem]">
-                        {product.description || "Premium professional aesthetic equipment designed for optimal results"}
-                      </CardDescription>
+                    {product.description && (
+                      <>
+                        {product.description.length > 200 ? (
+                          <Collapsible>
+                            <div className="mb-4">
+                              <div className="text-sm text-muted-foreground line-clamp-3">
+                                {product.description.split('\n').filter(line => line.trim()).map((line, idx) => (
+                                  <div key={idx} className="flex items-start gap-2 mb-1">
+                                    {line.trim().startsWith('•') ? (
+                                      <>
+                                        <span className="text-primary mt-0.5">•</span>
+                                        <span className="flex-1">{line.replace('•', '').trim()}</span>
+                                      </>
+                                    ) : (
+                                      <span>{line}</span>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                              <CollapsibleTrigger asChild>
+                                <Button variant="ghost" size="sm" className="mt-2 h-auto p-0 text-primary hover:text-primary/80">
+                                  More info <ChevronDown className="ml-1 h-3 w-3" />
+                                </Button>
+                              </CollapsibleTrigger>
+                            </div>
+                            <CollapsibleContent>
+                              <div className="text-sm text-muted-foreground mb-4 space-y-1">
+                                {product.description.split('\n').filter(line => line.trim()).map((line, idx) => (
+                                  <div key={idx} className="flex items-start gap-2">
+                                    {line.trim().startsWith('•') ? (
+                                      <>
+                                        <span className="text-primary mt-0.5">•</span>
+                                        <span className="flex-1">{line.replace('•', '').trim()}</span>
+                                      </>
+                                    ) : (
+                                      <span>{line}</span>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </CollapsibleContent>
+                          </Collapsible>
+                        ) : (
+                          <div className="text-sm text-muted-foreground mb-4 min-h-[4.5rem] space-y-1">
+                            {product.description.split('\n').filter(line => line.trim()).map((line, idx) => (
+                              <div key={idx} className="flex items-start gap-2">
+                                {line.trim().startsWith('•') ? (
+                                  <>
+                                    <span className="text-primary mt-0.5">•</span>
+                                    <span className="flex-1">{line.replace('•', '').trim()}</span>
+                                  </>
+                                ) : (
+                                  <span>{line}</span>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </>
                     )}
 
                     {product.price && (
