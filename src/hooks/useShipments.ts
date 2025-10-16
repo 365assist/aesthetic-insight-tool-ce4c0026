@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
 
 export interface Shipment {
   id: string;
@@ -19,6 +20,21 @@ export interface Shipment {
   created_at: string;
   updated_at: string;
 }
+
+// Validation schema for shipment creation
+const createShipmentSchema = z.object({
+  tracking_number: z.string().min(1, "Tracking number is required").max(100),
+  part_name: z.string().min(1, "Part name is required").max(255),
+  part_description: z.string().max(1000).nullable().optional(),
+  customer_name: z.string().max(255).nullable().optional(),
+  customer_email: z.string().email("Invalid email format").nullable().optional(),
+  carrier: z.string().max(100).nullable().optional(),
+  status: z.enum(['pending', 'in_transit', 'delivered', 'delayed', 'cancelled']),
+  order_date: z.string().optional(),
+  estimated_delivery_date: z.string().nullable().optional(),
+  current_location: z.string().max(255).nullable().optional(),
+  notes: z.string().max(2000).nullable().optional(),
+});
 
 export type CreateShipmentInput = {
   tracking_number: string;
@@ -90,7 +106,10 @@ export const useShipments = () => {
 
   const createShipmentMutation = useMutation({
     mutationFn: async (shipment: CreateShipmentInput) => {
-      const { error } = await supabase.from("shipments").insert([shipment as any]);
+      // Validate input before sending to database
+      const validated = createShipmentSchema.parse(shipment);
+      
+      const { error } = await supabase.from("shipments").insert([validated as any]);
       if (error) throw error;
     },
     onSuccess: () => {

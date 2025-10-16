@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { secureLog } from "@/lib/logger";
 import { Code, Palette, FileEdit, Database, Settings, Eye } from "lucide-react";
 
 export default function DeveloperTools() {
@@ -50,7 +51,7 @@ export default function DeveloperTools() {
 
       const isAdmin = roles?.some(r => r.role === "admin");
 
-      if (isAdmin || profile?.email === "shaun.meyers@365aiconsulting.com") {
+      if (isAdmin) {
         setIsAuthorized(true);
       } else {
         toast({
@@ -61,7 +62,7 @@ export default function DeveloperTools() {
         navigate("/admin");
       }
     } catch (error) {
-      console.error("Authorization error:", error);
+      secureLog.error("Authorization error:", error);
       navigate("/admin");
     } finally {
       setLoading(false);
