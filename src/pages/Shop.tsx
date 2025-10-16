@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search, ShoppingCart, RefreshCw } from "lucide-react";
 import { useShopifySync } from "@/hooks/useShopifySync";
 import { toast } from "sonner";
+import { formatPrice } from "@/lib/utils";
 
 const Shop = () => {
   const MAX_SEARCH_LENGTH = 100;
@@ -188,11 +189,11 @@ const Shop = () => {
                     {product.price && (
                       <div className="flex items-baseline gap-2 mb-4">
                         <span className="text-2xl font-bold text-primary">
-                          ${parseFloat(product.price).toFixed(2)}
+                          ${formatPrice(product.price)}
                         </span>
                         {product.compare_at_price && parseFloat(product.compare_at_price) > parseFloat(product.price) && (
                           <span className="text-sm text-muted-foreground line-through">
-                            ${parseFloat(product.compare_at_price).toFixed(2)}
+                            ${formatPrice(product.compare_at_price)}
                           </span>
                         )}
                       </div>
