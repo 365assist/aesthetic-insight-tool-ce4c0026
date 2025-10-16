@@ -8,10 +8,12 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, ShoppingCart, RefreshCw } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Search, ShoppingCart, RefreshCw, ChevronDown } from "lucide-react";
 import { useShopifySync } from "@/hooks/useShopifySync";
 import { toast } from "sonner";
 import { formatPrice } from "@/lib/utils";
+import { getProductUrl, getCartUrl } from "@/lib/shopify-config";
 
 const Shop = () => {
   const MAX_SEARCH_LENGTH = 100;
@@ -182,9 +184,29 @@ const Shop = () => {
                       </Badge>
                     )}
 
-                    <CardDescription className="line-clamp-3 mb-4 min-h-[4.5rem]">
-                      {product.description || "Professional aesthetic equipment"}
-                    </CardDescription>
+                    {product.description && product.description.length > 200 ? (
+                      <Collapsible>
+                        <div className="mb-4">
+                          <p className="text-sm text-muted-foreground line-clamp-3">
+                            {product.description}
+                          </p>
+                          <CollapsibleTrigger asChild>
+                            <Button variant="ghost" size="sm" className="mt-2 h-auto p-0 text-primary hover:text-primary/80">
+                              More info <ChevronDown className="ml-1 h-3 w-3" />
+                            </Button>
+                          </CollapsibleTrigger>
+                        </div>
+                        <CollapsibleContent>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            {product.description}
+                          </p>
+                        </CollapsibleContent>
+                      </Collapsible>
+                    ) : (
+                      <CardDescription className="line-clamp-3 mb-4 min-h-[4.5rem]">
+                        {product.description || "Premium professional aesthetic equipment designed for optimal results"}
+                      </CardDescription>
+                    )}
 
                     {product.price && (
                       <div className="flex items-baseline gap-2 mb-4">
@@ -207,10 +229,19 @@ const Shop = () => {
                   </CardContent>
 
                   <CardFooter className="p-6 pt-0 flex gap-2">
-                    <Button className="flex-1" variant="default">
+                    <Button 
+                      className="flex-1" 
+                      variant="default"
+                      onClick={() => window.open(getProductUrl(product.handle), '_blank')}
+                    >
                       View Details
                     </Button>
-                    <Button variant="outline" size="icon">
+                    <Button 
+                      variant="outline" 
+                      size="icon"
+                      onClick={() => window.open(getProductUrl(product.handle), '_blank')}
+                      title="Add to cart"
+                    >
                       <ShoppingCart className="h-4 w-4" />
                     </Button>
                   </CardFooter>
