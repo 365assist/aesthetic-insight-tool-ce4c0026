@@ -75,46 +75,70 @@ serve(async (req) => {
     // Authenticate the request
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      console.error('No authorization header provided');
+      return new Response(JSON.stringify({ error: 'Unauthorized - No auth header' }), {
         status: 401,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    // Create authenticated Supabase client
+    // Create Supabase client for authentication
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
-    const authClient = createClient(supabaseUrl, supabaseAnonKey, {
-      global: { headers: { Authorization: authHeader } }
+    
+    // Create client with auth header
+    const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
+      global: {
+        headers: {
+          Authorization: authHeader
+        }
+      }
     });
 
-    // Verify user is authenticated
-    const { data: { user }, error: userError } = await authClient.auth.getUser();
+    // Get user from JWT
+    const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+    
     if (userError || !user) {
-      console.error('Authentication error:', userError);
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      console.error('Failed to get user from token:', userError?.message);
+      return new Response(JSON.stringify({ 
+        error: 'Unauthorized - Invalid token',
+        details: userError?.message 
+      }), {
         status: 401,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
+    console.log(`User authenticated: ${user.id} (${user.email})`);
+
     // Check if user has admin role
-    const { data: roles, error: roleError } = await authClient
+    const { data: roles, error: roleError } = await supabaseClient
       .from('user_roles')
       .select('role')
       .eq('user_id', user.id)
       .eq('role', 'admin')
-      .single();
+      .maybeSingle();
 
-    if (roleError || !roles) {
-      console.error('Authorization error: User does not have admin role');
+    if (roleError) {
+      console.error('Error checking user role:', roleError);
+      return new Response(JSON.stringify({ 
+        error: 'Failed to verify admin role',
+        details: roleError.message 
+      }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    if (!roles) {
+      console.error(`User ${user.email} does not have admin role`);
       return new Response(JSON.stringify({ error: 'Forbidden: Admin access required' }), {
         status: 403,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    console.log(`Shopify sync triggered by admin user: ${user.id}`);
+    console.log(`Shopify sync triggered by admin user: ${user.id} (${user.email})`);
     const shopifyDomain = Deno.env.get('SHOPIFY_STORE_DOMAIN');
     const storefrontToken = Deno.env.get('SHOPIFY_STOREFRONT_ACCESS_TOKEN');
     
