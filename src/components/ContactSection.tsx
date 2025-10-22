@@ -1,9 +1,70 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { supabase } from "@/integrations/supabase/client";
+
+const contactFormSchema = z.object({
+  firstName: z.string()
+    .trim()
+    .min(1, "First name is required")
+    .max(50, "First name must be less than 50 characters"),
+  lastName: z.string()
+    .trim()
+    .min(1, "Last name is required")
+    .max(50, "Last name must be less than 50 characters"),
+  email: z.string()
+    .trim()
+    .email("Invalid email address")
+    .max(255, "Email must be less than 255 characters"),
+  practiceName: z.string()
+    .trim()
+    .min(1, "Practice name is required")
+    .max(100, "Practice name must be less than 100 characters"),
+  message: z.string()
+    .trim()
+    .min(10, "Message must be at least 10 characters")
+    .max(1000, "Message must be less than 1000 characters"),
+});
+
+type ContactFormData = z.infer<typeof contactFormSchema>;
 
 const ContactSection = () => {
-  const handleEmailClick = () => {
-    window.location.href = 'mailto:customerservice@aestheticprotools.com';
+  const form = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      practiceName: "",
+      message: "",
+    },
+  });
+
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      const { error } = await supabase
+        .from("contact_submissions")
+        .insert({
+          first_name: data.firstName,
+          last_name: data.lastName,
+          email: data.email,
+          practice_name: data.practiceName,
+          message: data.message,
+        });
+
+      if (error) throw error;
+
+      toast.success("Message sent successfully! We'll get back to you soon.");
+      form.reset();
+    } catch (error) {
+      toast.error("Failed to send message. Please try again or call us directly.");
+    }
   };
   return (
     <article id="contact" className="py-20 bg-gradient-to-br from-primary via-accent to-primary text-primary-foreground relative overflow-hidden" aria-labelledby="contact-heading">
@@ -27,17 +88,107 @@ const ContactSection = () => {
         <div className="grid lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
           <div>
             <Card className="p-8 bg-background/10 backdrop-blur-md border-background/20 text-primary-foreground">
-              <h3 className="text-2xl font-bold mb-6 font-heading">Contact Us</h3>
-              <p className="text-primary-foreground/90 mb-8">
-                Ready to transform your practice? Get in touch with our team to learn more about our premium equipment and schedule a demonstration.
-              </p>
-              <Button 
-                variant="hero" 
-                className="w-full py-6 text-lg font-semibold"
-                onClick={handleEmailClick}
-              >
-                Email Us
-              </Button>
+              <h3 className="text-2xl font-bold mb-6 font-heading">Send us a Message</h3>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="firstName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input 
+                              placeholder="First Name" 
+                              className="bg-background/10 border-background/30 text-primary-foreground placeholder:text-primary-foreground/70"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage className="text-destructive-foreground" />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="lastName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input 
+                              placeholder="Last Name" 
+                              className="bg-background/10 border-background/30 text-primary-foreground placeholder:text-primary-foreground/70"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage className="text-destructive-foreground" />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input 
+                            type="email"
+                            placeholder="Email Address" 
+                            className="bg-background/10 border-background/30 text-primary-foreground placeholder:text-primary-foreground/70"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-destructive-foreground" />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="practiceName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input 
+                            placeholder="Practice Name" 
+                            className="bg-background/10 border-background/30 text-primary-foreground placeholder:text-primary-foreground/70"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-destructive-foreground" />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Tell us about your needs..." 
+                            rows={4}
+                            className="bg-background/10 border-background/30 text-primary-foreground placeholder:text-primary-foreground/70"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-destructive-foreground" />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <Button 
+                    type="submit" 
+                    variant="hero" 
+                    className="w-full py-6 text-lg font-semibold"
+                    disabled={form.formState.isSubmitting}
+                  >
+                    {form.formState.isSubmitting ? "Sending..." : "Send Message"}
+                  </Button>
+                </form>
+              </Form>
             </Card>
           </div>
           
