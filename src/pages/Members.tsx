@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Crown, Star, Zap, MessageSquare } from "lucide-react";
+import { CheckCircle, MessageSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import TechnicalTrainingLibrary from "@/components/training/TechnicalTrainingLibrary";
@@ -65,122 +65,6 @@ const Members = () => {
         </div>
       </section>
 
-      {/* Membership Tiers */}
-      <section className="py-20 px-6">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-16 dark:text-white">Membership Tiers</h2>
-          
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Silver Tier */}
-            <Card className="border-2 hover:shadow-lg transition-all duration-300">
-              <CardHeader className="text-center pb-8">
-                <div className="w-16 h-16 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Star className="w-8 h-8 text-white" />
-                </div>
-                <CardTitle className="text-2xl">Silver</CardTitle>
-                <CardDescription>Essential Benefits</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>Basic training materials</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>Email support</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>Quarterly newsletters</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>Equipment discounts (5%)</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Gold Tier */}
-            <Card className="border-2 border-primary hover:shadow-xl transition-all duration-300 relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-primary">Most Popular</Badge>
-              </div>
-              <CardHeader className="text-center pb-8">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Crown className="w-8 h-8 text-white" />
-                </div>
-                <CardTitle className="text-2xl">Gold</CardTitle>
-                <CardDescription>Enhanced Experience</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>Advanced training materials</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>Priority phone support</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>Monthly webinars</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>Equipment discounts (15%)</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>Free annual inspection</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Platinum Tier */}
-            <Card className="border-2 hover:shadow-lg transition-all duration-300">
-              <CardHeader className="text-center pb-8">
-                <div className="w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Zap className="w-8 h-8 text-white" />
-                </div>
-                <CardTitle className="text-2xl">Platinum</CardTitle>
-                <CardDescription>Premium Experience</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>All training materials</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>24/7 dedicated support</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>Weekly consultations</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>Equipment discounts (25%)</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>Free maintenance</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary dark:text-[#f97316]" />
-                    <span>Exclusive product previews</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
 
       {/* Member Resources */}
       <section className="py-20 px-6 bg-muted/30">
