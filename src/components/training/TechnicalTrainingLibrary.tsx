@@ -29,7 +29,7 @@ const TechnicalTrainingLibrary = () => {
       moduleNumber: 4,
       title: "Initial Setup and Calibration",
       description: "Complete walkthrough of initial system setup and calibration procedures.",
-      videoId: "VIDEO_ID_4"
+      videoId: "YXx4vE4t3HU"
     },
     {
       moduleNumber: 5,
