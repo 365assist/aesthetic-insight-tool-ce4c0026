@@ -53,7 +53,9 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1">Email Support</h4>
-                    <p className="text-primary-foreground/80">customerservice@aestheticprotools.com</p>
+                    <a href="mailto:customerservice@aestheticprotools.com" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                      customerservice@aestheticprotools.com
+                    </a>
                   </div>
                 </div>
               </div>
