@@ -72,7 +72,13 @@ serve(async (req) => {
   }
 
   try {
-    // Authenticate the request
+    // Create Supabase client
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    
+    const supabaseClient = createClient(supabaseUrl, supabaseServiceKey);
+
+    // Get JWT from Authorization header
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
       console.error('No authorization header provided');
@@ -82,21 +88,11 @@ serve(async (req) => {
       });
     }
 
-    // Create Supabase client for authentication
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+    // Extract token from "Bearer <token>" format
+    const token = authHeader.replace('Bearer ', '');
     
-    // Create client with auth header
-    const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
-      global: {
-        headers: {
-          Authorization: authHeader
-        }
-      }
-    });
-
-    // Get user from JWT
-    const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+    // Verify JWT and get user using service role client
+    const { data: { user }, error: userError } = await supabaseClient.auth.getUser(token);
     
     if (userError || !user) {
       console.error('Failed to get user from token:', userError?.message);
@@ -208,11 +204,6 @@ serve(async (req) => {
     const shopifyData = await shopifyResponse.json();
     console.log('Received data from Shopify:', shopifyData);
 
-    // Initialize Supabase client with service role for database operations
-    const supabaseServiceUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseServiceUrl, supabaseKey);
-
     // Validate and transform products
     const products = shopifyData.data.products.edges.map((edge: any) => {
       // Validate each product against schema
@@ -248,7 +239,7 @@ serve(async (req) => {
 
     // For each product, update only price and inventory while preserving description
     for (const product of products) {
-      const { error } = await supabase
+      const { error } = await supabaseClient
         .from('products')
         .update({
           price: product.price,
@@ -268,7 +259,7 @@ serve(async (req) => {
       }
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('products')
       .select('*');
 
