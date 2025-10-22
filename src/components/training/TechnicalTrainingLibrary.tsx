@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import VideoModule from "./VideoModule";
 import { useState } from "react";
@@ -50,9 +49,6 @@ const TechnicalTrainingLibrary = () => {
   return (
     <section className="py-20 px-6 bg-background">
       <div className="container mx-auto text-center">
-        <Badge variant="secondary" className="mb-6 bg-primary/10 text-primary dark:text-white">
-          Exclusive Content
-        </Badge>
         <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary dark:text-white">
           Technical Training Library
         </h2>
