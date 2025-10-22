@@ -377,7 +377,7 @@ const Shop = () => {
                     <div className="flex gap-2 w-full">
                       <Button 
                         variant="default"
-                        className="flex-1"
+                        className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
                         onClick={() => window.open(getProductUrl(product.handle), '_blank')}
                       >
                         View Details
@@ -394,7 +394,7 @@ const Shop = () => {
                     </div>
                     <Button 
                       variant="default"
-                      className="w-full"
+                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                       onClick={() => handleBuyNow(product.id)}
                       disabled={buyingNow === product.id || addingToCart === product.id || !isInitialized}
                     >
