@@ -1,115 +1,33 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { Skeleton } from "@/components/ui/skeleton";
 import { getProductUrl, SHOPIFY_STORE_DOMAIN } from "@/lib/shopify-config";
 import vaderLaser from "@/assets/vader-laser.jpg";
 import artisanSculptor from "@/assets/artisan-sculptor.jpg";
 
 const ProductsSection = () => {
-  // Fetch products from database
-  const { data: products, isLoading } = useQuery({
-    queryKey: ['products'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('products')
-        .select('*');
-      
-      if (error) throw error;
-      
-      // Map database products to component format
-      const mappedProducts = data.map(product => {
-        let features: string[] = [];
-        try {
-          features = Array.isArray(product.features) 
-            ? product.features 
-            : JSON.parse(String(product.features || '[]'));
-        } catch {
-          features = [];
-        }
-        
-        return {
-          title: product.title,
-          description: product.description || '',
-          image: product.image_url || vaderLaser,
-          features,
-          slug: product.handle,
-          price: product.price || '0',
-          inventory: product.inventory_quantity || 0
-        };
-      });
-      
-      // Custom sort order with specific positioning
-      return mappedProducts.sort((a, b) => {
-        // Helper to identify product types (case-insensitive)
-        const isGelProduct = (title: string) => 
-          title.toLowerCase().includes('gel') || 
-          title.toLowerCase().includes('cleanser') || 
-          title.toLowerCase().includes('compound');
-        
-        const isDepositProduct = (title: string) =>
-          title.toLowerCase().includes('deposit');
-        
-        const aIsGel = isGelProduct(a.title);
-        const bIsGel = isGelProduct(b.title);
-        const aIsDeposit = isDepositProduct(a.title);
-        const bIsDeposit = isDepositProduct(b.title);
-        
-        // Deposit products always go last
-        if (!aIsDeposit && bIsDeposit) return -1;
-        if (aIsDeposit && !bIsDeposit) return 1;
-        
-        // Gels and compounds go after regular products but before deposits
-        if (!aIsGel && bIsGel && !aIsDeposit && !bIsDeposit) return -1;
-        if (aIsGel && !bIsGel && !aIsDeposit && !bIsDeposit) return 1;
-        
-        // For regular products (not gel, not deposit): VADER first, Tri-Pulse second
-        if (!aIsGel && !bIsGel && !aIsDeposit && !bIsDeposit) {
-          if (a.title === 'VADER') return -1;
-          if (b.title === 'VADER') return 1;
-          
-          if (a.title.includes('Tri-Pulse')) return -1;
-          if (b.title.includes('Tri-Pulse')) return 1;
-          
-          return a.title.localeCompare(b.title);
-        }
-        
-        // Within same category, sort alphabetically
-        return a.title.localeCompare(b.title);
-      });
+  const products = [
+    {
+      title: "VADER Laser Hair Reduction",
+      description: "• Treats all skin types & hair colors\n• Induces collagen synthesis\n• Addresses vascular & pigment concerns",
+      image: vaderLaser,
+      features: ["All Skin Types", "Collagen Synthesis", "Multi-Purpose"],
+      slug: "vader",
     },
-    // Fallback to static data if no products in database
-    placeholderData: [
-      {
-        title: "VADER Laser Hair Reduction",
-        description: "• Treats all skin types & hair colors\n• Induces collagen synthesis\n• Addresses vascular & pigment concerns",
-        image: vaderLaser,
-        features: ["All Skin Types", "Collagen Synthesis", "Multi-Purpose"],
-        slug: "vader",
-        price: "0",
-        inventory: 0
-      },
-      {
-        title: "Artisan Sculptor Devices",
-        description: "• Advanced body sculpting\n• Professional-grade results\n• Versatile treatment options",
-        image: artisanSculptor,
-        features: ["Body Sculpting", "Professional Grade", "Versatile Treatments"],
-        slug: "artisan-sculptor",
-        price: "0",
-        inventory: 0
-      },
-      {
-        title: "Tri-Pulse Tattoo Removal",
-        description: "• Eliminates all ink colors\n• No scarring guarantee\n• Precise, safe treatment",
-        image: vaderLaser,
-        features: ["All Ink Colors", "No Scarring", "High Precision"],
-        slug: "tri-pulse-tattoo-removal",
-        price: "0",
-        inventory: 0
-      }
-    ]
-  });
+    {
+      title: "Artisan Sculptor Devices",
+      description: "• Advanced body sculpting\n• Professional-grade results\n• Versatile treatment options",
+      image: artisanSculptor,
+      features: ["Body Sculpting", "Professional Grade", "Versatile Treatments"],
+      slug: "artisan-sculptor",
+    },
+    {
+      title: "Tri-Pulse Tattoo Removal",
+      description: "• Eliminates all ink colors\n• No scarring guarantee\n• Precise, safe treatment",
+      image: vaderLaser,
+      features: ["All Ink Colors", "No Scarring", "High Precision"],
+      slug: "tri-pulse-tattoo-removal",
+    }
+  ];
 
   return (
     <article id="products" className="py-20 bg-gradient-to-br from-muted/50 to-background" aria-labelledby="products-heading">
@@ -124,25 +42,7 @@ const ProductsSection = () => {
         </div>
         
         <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {isLoading ? (
-            // Loading skeletons
-            Array.from({ length: 3 }).map((_, index) => (
-              <Card key={index} className="overflow-hidden">
-                <Skeleton className="aspect-video w-full" />
-                <div className="p-8 space-y-4">
-                  <Skeleton className="h-8 w-3/4" />
-                  <Skeleton className="h-20 w-full" />
-                  <div className="flex gap-2">
-                    <Skeleton className="h-6 w-20" />
-                    <Skeleton className="h-6 w-24" />
-                    <Skeleton className="h-6 w-16" />
-                  </div>
-                  <Skeleton className="h-10 w-full" />
-                </div>
-              </Card>
-            ))
-          ) : (
-            products?.map((product, index) => (
+          {products.map((product, index) => (
             <Card 
               key={index} 
               className="overflow-hidden bg-card shadow-luxury hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-primary/20 group animate-fade-in"
@@ -179,8 +79,7 @@ const ProductsSection = () => {
                 </Button>
               </div>
             </Card>
-            ))
-          )}
+          ))}
         </div>
         
         <div className="text-center mt-12">
