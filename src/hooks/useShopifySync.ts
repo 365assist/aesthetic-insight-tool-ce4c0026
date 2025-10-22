@@ -5,7 +5,19 @@ import { toast } from "sonner";
 export const useShopifySync = () => {
   return useMutation({
     mutationFn: async () => {
-      const { data, error } = await supabase.functions.invoke('sync-shopify-products');
+      // Get the current session to ensure we have a valid token
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      
+      if (sessionError || !session) {
+        throw new Error('No active session. Please log in.');
+      }
+
+      // Invoke the edge function with explicit auth context
+      const { data, error } = await supabase.functions.invoke('sync-shopify-products', {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`
+        }
+      });
       
       if (error) throw error;
       return data;
