@@ -52,6 +52,9 @@ const Navigation = () => {
             <a href="/members" className="text-foreground hover:text-primary transition-colors font-medium">
               Members
             </a>
+            <a href="/technical-training" className="text-foreground hover:text-primary transition-colors font-medium">
+              Training
+            </a>
             <Button variant="default" size="sm" onClick={() => scrollToSection('contact')}>
               Contact Us
             </Button>
@@ -79,6 +82,9 @@ const Navigation = () => {
             </button>
             <a href="/members" className="block text-foreground hover:text-primary transition-colors font-medium py-2">
               Members
+            </a>
+            <a href="/technical-training" className="block text-foreground hover:text-primary transition-colors font-medium py-2">
+              Training
             </a>
             <Button variant="default" size="sm" className="w-full" onClick={() => scrollToSection('contact')}>
               Contact Us

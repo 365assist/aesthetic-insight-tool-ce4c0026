@@ -9,6 +9,7 @@ import Members from "./pages/Members";
 import MarketingHub from "./pages/MarketingHub";
 import DeveloperTools from "./pages/DeveloperTools";
 import UDIProgram from "./pages/UDIProgram";
+import TechnicalTraining from "./pages/TechnicalTraining";
 
 import NotFound from "./pages/NotFound";
 
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/marketing-hub" element={<MarketingHub />} />
             <Route path="/developer-tools" element={<DeveloperTools />} />
             <Route path="/udi-program" element={<UDIProgram />} />
+            <Route path="/technical-training" element={<TechnicalTraining />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
