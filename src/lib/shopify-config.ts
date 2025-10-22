@@ -1,5 +1,5 @@
-// Shopify store configuration
-export const SHOPIFY_STORE_DOMAIN = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || 'aestheticprotools.store';
+// Shopify store configuration - hardcoded to ensure consistency
+export const SHOPIFY_STORE_DOMAIN = 'aestheticprotools.store';
 
 export const getProductUrl = (handle: string) => {
   return `https://${SHOPIFY_STORE_DOMAIN}/products/${handle}`;
