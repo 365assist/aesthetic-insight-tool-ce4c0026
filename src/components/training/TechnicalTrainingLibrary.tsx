@@ -36,6 +36,12 @@ const TechnicalTrainingLibrary = () => {
       title: "Additional Training Module",
       description: "Additional technical training content for your VADER Laser system.",
       videoId: "KN3xMEdU7hU"
+    },
+    {
+      moduleNumber: 6,
+      title: "Advanced Training Module",
+      description: "Advanced technical training content for your VADER Laser system.",
+      videoId: "Br7dHBCVBbA"
     }
   ];
 
