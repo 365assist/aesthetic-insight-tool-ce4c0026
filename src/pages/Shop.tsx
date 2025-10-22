@@ -76,14 +76,6 @@ const Shop = () => {
     syncProducts();
   };
   
-  // Convert GraphQL variant ID to Shopify Buy SDK format
-  const convertVariantId = (variantId: string): string => {
-    // Extract numeric ID from gid://shopify/ProductVariant/123456
-    // The SDK needs just the numeric ID
-    const match = variantId.match(/\/(\d+)$/);
-    return match ? match[1] : variantId;
-  };
-
   const handleAddToCart = async (variantId: string | null) => {
     if (!isInitialized) {
       toast.error('Cart is initializing, please try again');
@@ -97,8 +89,9 @@ const Shop = () => {
     
     setAddingToCart(variantId);
     try {
-      const encodedVariantId = convertVariantId(variantId);
-      await addToCart(encodedVariantId);
+      // Extract numeric ID from gid://shopify/ProductVariant/123456
+      const numericId = variantId.match(/\/(\d+)$/)?.[1] || variantId;
+      await addToCart(numericId);
       toast.success('Added to cart!');
     } catch (error) {
       console.error('Failed to add to cart:', error);
@@ -121,8 +114,9 @@ const Shop = () => {
     
     setBuyingNow(variantId);
     try {
-      const encodedVariantId = convertVariantId(variantId);
-      await buyNow(encodedVariantId);
+      // Extract numeric ID from gid://shopify/ProductVariant/123456
+      const numericId = variantId.match(/\/(\d+)$/)?.[1] || variantId;
+      await buyNow(numericId);
       // User will be redirected to checkout
     } catch (error) {
       console.error('Failed to start checkout:', error);

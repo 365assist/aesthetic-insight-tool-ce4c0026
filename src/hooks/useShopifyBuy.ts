@@ -27,6 +27,9 @@ export const useShopifyBuy = () => {
   const addToCart = async (variantId: string, quantity: number = 1) => {
     if (!client) throw new Error('Shopify Buy not initialized');
     
+    // The SDK expects base64 encoded GraphQL IDs
+    const encodedVariantId = btoa(`gid://shopify/ProductVariant/${variantId}`);
+    
     // Get or create checkout
     let checkoutId = localStorage.getItem('shopify_checkout_id');
     let checkout;
@@ -46,7 +49,7 @@ export const useShopifyBuy = () => {
     }
     
     // Add item to checkout
-    const lineItemsToAdd = [{ variantId, quantity }];
+    const lineItemsToAdd = [{ variantId: encodedVariantId, quantity }];
     checkout = await client.checkout.addLineItems(checkout.id, lineItemsToAdd);
     
     return checkout;
@@ -91,9 +94,12 @@ export const useShopifyBuy = () => {
   const buyNow = async (variantId: string, quantity: number = 1) => {
     if (!client) throw new Error('Shopify Buy not initialized');
     
+    // The SDK expects base64 encoded GraphQL IDs
+    const encodedVariantId = btoa(`gid://shopify/ProductVariant/${variantId}`);
+    
     // Create a new checkout with the product
     const checkout = await client.checkout.create();
-    const lineItemsToAdd = [{ variantId, quantity }];
+    const lineItemsToAdd = [{ variantId: encodedVariantId, quantity }];
     const updatedCheckout = await client.checkout.addLineItems(checkout.id, lineItemsToAdd);
     
     // Redirect to checkout URL
