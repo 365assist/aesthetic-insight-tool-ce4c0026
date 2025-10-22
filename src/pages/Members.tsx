@@ -3,13 +3,12 @@ import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, MessageSquare } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { CheckCircle } from "lucide-react";
+
 import { supabase } from "@/integrations/supabase/client";
 import TechnicalTrainingLibrary from "@/components/training/TechnicalTrainingLibrary";
 
 const Members = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,7 +16,7 @@ const Members = () => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
-        navigate("/auth");
+        window.location.href = "/auth";
       } else {
         setLoading(false);
       }
@@ -28,12 +27,12 @@ const Members = () => {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!session) {
-        navigate("/auth");
+        window.location.href = "/auth";
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, []);
 
   if (loading) {
     return (
@@ -70,23 +69,10 @@ const Members = () => {
       <section className="py-20 px-6 bg-muted/30">
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8 dark:text-white">Member Resources</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <Card className="p-6 hover:shadow-lg transition-shadow">
               <h3 className="font-semibold mb-2">Training Center</h3>
               <p className="text-sm text-muted-foreground">Access comprehensive equipment training modules</p>
-            </Card>
-            <Card 
-              className="p-6 hover:shadow-lg transition-all cursor-pointer border-2 hover:border-primary"
-              onClick={() => navigate('/support-portal')}
-            >
-              <div className="flex items-center justify-center mb-3">
-                <MessageSquare className="w-8 h-8 text-primary dark:text-[#f97316]" />
-              </div>
-              <h3 className="font-semibold mb-2">AI Support Portal</h3>
-              <p className="text-sm text-muted-foreground">Get instant technical support with our AI troubleshooter</p>
-              <Button variant="link" className="mt-2 p-0 h-auto font-semibold dark:text-[#f97316]">
-                Launch Chat →
-              </Button>
             </Card>
             <Card className="p-6 hover:shadow-lg transition-shadow">
               <h3 className="font-semibold mb-2">Product Updates</h3>
