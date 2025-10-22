@@ -3,27 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { QrCode, HardHat, Package, CheckCircle, RefreshCw } from "lucide-react";
+import { QrCode, HardHat, Package, CheckCircle } from "lucide-react";
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useShopifySync } from "@/hooks/useShopifySync";
-import { useQueryClient } from "@tanstack/react-query";
 
 const UDIProgram = () => {
   const [serialNumber, setSerialNumber] = useState("");
   const [udiCode, setUdiCode] = useState("UDI-DI-123456-PI-A1B2C3");
   const [regulatoryStatus, setRegulatoryStatus] = useState("Pending Submission");
-  const { mutate: syncShopify, isPending } = useShopifySync();
-  const queryClient = useQueryClient();
-
-  const handleSync = () => {
-    syncShopify(undefined, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['products'] });
-      }
-    });
-  };
 
   // Fetch products from database for inventory
   const { data: products, isLoading } = useQuery({
@@ -60,18 +48,7 @@ const UDIProgram = () => {
     <div className="min-h-screen bg-muted/40">
       <Navigation />
       <div className="container mx-auto px-4 py-8 pt-20">
-        <div className="flex justify-between items-center mb-2">
-          <h1 className="text-4xl font-bold">UDI Program & Inventory</h1>
-          <Button 
-            onClick={handleSync}
-            disabled={isPending}
-            variant="outline"
-            size="sm"
-          >
-            <RefreshCw className={`mr-2 h-4 w-4 ${isPending ? 'animate-spin' : ''}`} />
-            {isPending ? 'Syncing...' : 'Sync Shopify'}
-          </Button>
-        </div>
+        <h1 className="text-4xl font-bold mb-2">UDI Program & Inventory</h1>
         <p className="text-muted-foreground mb-8">Manage inventory, generate Unique Device Identifiers (UDI), and monitor regulatory compliance for all equipment.</p>
 
         <div className="grid lg:grid-cols-3 gap-6">
@@ -148,7 +125,7 @@ const UDIProgram = () => {
               </Table>
               <p className="text-xs text-muted-foreground mt-4 flex items-center gap-2">
                 <HardHat className="h-3 w-3" />
-                Data is synced from Shopify. Click "Sync Shopify" to refresh inventory.
+                Product inventory data from database.
               </p>
             </CardContent>
           </Card>

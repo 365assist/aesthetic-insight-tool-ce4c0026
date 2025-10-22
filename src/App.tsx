@@ -12,7 +12,6 @@ import MarketingHub from "./pages/MarketingHub";
 import DeveloperTools from "./pages/DeveloperTools";
 import UDIProgram from "./pages/UDIProgram";
 import SupportPortal from "./pages/SupportPortal";
-import Shop from "./pages/Shop";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,7 +32,6 @@ const App = () => (
             <Route path="/developer-tools" element={<DeveloperTools />} />
             <Route path="/udi-program" element={<UDIProgram />} />
             <Route path="/support-portal" element={<SupportPortal />} />
-            <Route path="/shop" element={<Shop />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
