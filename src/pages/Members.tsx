@@ -55,9 +55,12 @@ const Members = () => {
           <Badge variant="secondary" className="mb-6 bg-primary/10 text-primary dark:text-white">
             Exclusive Access
           </Badge>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent dark:bg-none dark:text-white">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent dark:bg-none dark:text-white">
             Members Portal
           </h1>
+          <p className="text-2xl font-semibold text-primary dark:text-accent mb-6">
+            Coming Soon
+          </p>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed dark:text-white">
             Access exclusive resources, training materials, and priority support designed for our valued partners.
           </p>
