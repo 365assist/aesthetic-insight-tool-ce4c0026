@@ -366,9 +366,9 @@ const Shop = () => {
                     <Button 
                       variant="outline" 
                       size="icon"
-                      onClick={() => handleAddToCart(product.id)}
-                      disabled={addingToCart === product.id || !isInitialized}
-                      title="Add to cart"
+                      onClick={() => handleAddToCart(product.variant_id || product.id)}
+                      disabled={addingToCart === product.id || !isInitialized || !product.variant_id}
+                      title={product.variant_id ? "Add to cart" : "Variant ID not available"}
                     >
                       <ShoppingCart className="h-4 w-4" />
                     </Button>
