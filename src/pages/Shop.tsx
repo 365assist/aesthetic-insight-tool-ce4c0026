@@ -376,8 +376,8 @@ const Shop = () => {
                   <CardFooter className="p-6 pt-0 flex flex-col gap-2">
                     <div className="flex gap-2 w-full">
                       <Button 
-                        className="flex-1" 
                         variant="default"
+                        className="flex-1"
                         onClick={() => window.open(getProductUrl(product.handle), '_blank')}
                       >
                         View Details
@@ -393,8 +393,8 @@ const Shop = () => {
                       </Button>
                     </div>
                     <Button 
-                      className="w-full"
                       variant="default"
+                      className="w-full"
                       onClick={() => handleBuyNow(product.id)}
                       disabled={buyingNow === product.id || addingToCart === product.id || !isInitialized}
                     >
