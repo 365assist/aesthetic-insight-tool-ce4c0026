@@ -22,8 +22,9 @@ const Shop = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("title");
   const { mutate: syncProducts, isPending: isSyncing } = useShopifySync();
-  const { addToCart, isInitialized } = useShopifyBuy();
+  const { addToCart, buyNow, isInitialized } = useShopifyBuy();
   const [addingToCart, setAddingToCart] = useState<string | null>(null);
+  const [buyingNow, setBuyingNow] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -90,6 +91,23 @@ const Shop = () => {
       toast.error('Failed to add to cart');
     } finally {
       setAddingToCart(null);
+    }
+  };
+
+  const handleBuyNow = async (productId: string) => {
+    if (!isInitialized) {
+      toast.error('Checkout is initializing, please try again');
+      return;
+    }
+    
+    setBuyingNow(productId);
+    try {
+      await buyNow(productId);
+      // User will be redirected to checkout
+    } catch (error) {
+      console.error('Failed to start checkout:', error);
+      toast.error('Failed to start checkout');
+      setBuyingNow(null);
     }
   };
 
@@ -355,22 +373,31 @@ const Shop = () => {
                     )}
                   </CardContent>
 
-                  <CardFooter className="p-6 pt-0 flex gap-2">
+                  <CardFooter className="p-6 pt-0 flex flex-col gap-2">
+                    <div className="flex gap-2 w-full">
+                      <Button 
+                        className="flex-1" 
+                        variant="default"
+                        onClick={() => window.open(getProductUrl(product.handle), '_blank')}
+                      >
+                        View Details
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="icon"
+                        onClick={() => handleAddToCart(product.id)}
+                        disabled={addingToCart === product.id || buyingNow === product.id || !isInitialized}
+                        title="Add to cart"
+                      >
+                        <ShoppingCart className="h-4 w-4" />
+                      </Button>
+                    </div>
                     <Button 
-                      className="flex-1" 
-                      variant="default"
-                      onClick={() => window.open(getProductUrl(product.handle), '_blank')}
+                      className="w-full bg-[#7c2d4a] hover:bg-[#6b2640] dark:bg-[#7c2d4a] dark:hover:bg-[#6b2640]"
+                      onClick={() => handleBuyNow(product.id)}
+                      disabled={buyingNow === product.id || addingToCart === product.id || !isInitialized}
                     >
-                      View Details
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="icon"
-                      onClick={() => handleAddToCart(product.id)}
-                      disabled={addingToCart === product.id || !isInitialized}
-                      title="Add to cart"
-                    >
-                      <ShoppingCart className="h-4 w-4" />
+                      {buyingNow === product.id ? 'Processing...' : 'Buy it now'}
                     </Button>
                   </CardFooter>
                 </Card>

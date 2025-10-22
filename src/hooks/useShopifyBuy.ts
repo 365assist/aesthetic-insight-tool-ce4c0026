@@ -88,10 +88,27 @@ export const useShopifyBuy = () => {
     return checkout;
   };
   
+  const buyNow = async (variantId: string, quantity: number = 1) => {
+    if (!client) throw new Error('Shopify Buy not initialized');
+    
+    // Create a new checkout with the product
+    const checkout = await client.checkout.create();
+    const lineItemsToAdd = [{ variantId, quantity }];
+    const updatedCheckout = await client.checkout.addLineItems(checkout.id, lineItemsToAdd);
+    
+    // Redirect to checkout URL
+    if (updatedCheckout.webUrl) {
+      window.location.href = updatedCheckout.webUrl;
+    }
+    
+    return updatedCheckout;
+  };
+  
   return {
     client,
     isInitialized,
     addToCart,
+    buyNow,
     getCheckout,
     removeLineItem,
     updateLineItem,
