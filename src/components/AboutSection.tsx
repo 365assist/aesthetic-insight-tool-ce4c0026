@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const AboutSection = () => {
   return (
-    <section id="about" className="py-20 bg-background" aria-labelledby="about-heading">
+    <article id="about" className="py-20 bg-background" aria-labelledby="about-heading">
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
@@ -53,7 +53,7 @@ const AboutSection = () => {
           </div>
         </div>
       </div>
-    </section>
+    </article>
   );
 };
 

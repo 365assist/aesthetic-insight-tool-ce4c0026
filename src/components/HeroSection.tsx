@@ -30,7 +30,7 @@ const HeroSection = () => {
         </div>
         
         <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight font-heading text-white [text-shadow:_0_4px_20px_rgb(0_0_0_/_80%)]">
-          Cutting-Edge
+          Professional Medical
           <br />
           <span className="text-white">
             Aesthetic Equipment

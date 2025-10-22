@@ -112,7 +112,7 @@ const ProductsSection = () => {
   });
 
   return (
-    <section id="products" className="py-20 bg-gradient-to-br from-muted/50 to-background" aria-labelledby="products-heading">
+    <article id="products" className="py-20 bg-gradient-to-br from-muted/50 to-background" aria-labelledby="products-heading">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 id="products-heading" className="text-4xl md:text-5xl font-bold mb-6 text-primary dark:text-white font-heading">
@@ -194,7 +194,7 @@ const ProductsSection = () => {
           </Button>
         </div>
       </div>
-    </section>
+    </article>
   );
 };
 

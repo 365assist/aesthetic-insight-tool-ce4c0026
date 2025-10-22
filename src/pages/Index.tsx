@@ -6,9 +6,9 @@ import ContactSection from "@/components/ContactSection";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" itemScope itemType="https://schema.org/WebPage">
       <Navigation />
-      <main>
+      <main role="main">
         <HeroSection />
         <AboutSection />
         <ProductsSection />
