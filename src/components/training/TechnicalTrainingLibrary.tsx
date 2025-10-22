@@ -30,6 +30,12 @@ const TechnicalTrainingLibrary = () => {
       title: "Initial Setup and Calibration",
       description: "Complete walkthrough of initial system setup and calibration procedures.",
       videoId: "YXx4vE4t3HU"
+    },
+    {
+      moduleNumber: 5,
+      title: "Additional Training Module",
+      description: "Additional technical training content for your VADER Laser system.",
+      videoId: "KN3xMEdU7hU"
     }
   ];
 
