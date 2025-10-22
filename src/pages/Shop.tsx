@@ -393,7 +393,8 @@ const Shop = () => {
                       </Button>
                     </div>
                     <Button 
-                      className="w-full bg-[#7c2d4a] hover:bg-[#6b2640] dark:bg-[#7c2d4a] dark:hover:bg-[#6b2640]"
+                      className="w-full"
+                      variant="default"
                       onClick={() => handleBuyNow(product.id)}
                       disabled={buyingNow === product.id || addingToCart === product.id || !isInitialized}
                     >
