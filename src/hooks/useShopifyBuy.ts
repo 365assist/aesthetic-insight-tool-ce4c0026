@@ -8,7 +8,8 @@ export const useShopifyBuy = () => {
   
   useEffect(() => {
     if (!client) {
-      const domain = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || 'aestheticprotools.store';
+      // Hardcoded to ensure consistency across all environments
+      const domain = 'aestheticprotools.store';
       const storefrontAccessToken = import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
       
       if (storefrontAccessToken) {
