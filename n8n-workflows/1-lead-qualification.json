@@ -16,6 +16,16 @@
     },
     {
       "parameters": {
+        "functionCode": "// Validate API Key from header\nconst apiKey = $input.item.json.$request.headers['x-api-key'];\nconst expectedKey = $env.WEBHOOK_API_KEY;\n\nif (!apiKey || apiKey !== expectedKey) {\n  throw new Error('Unauthorized - Invalid API key');\n}\n\n// Validate required fields and format\nconst data = $input.item.json.body;\nconst errors = [];\n\n// Name validation\nif (!data.name || typeof data.name !== 'string' || data.name.trim().length === 0) {\n  errors.push('Name is required');\n} else if (data.name.length > 100) {\n  errors.push('Name must be less than 100 characters');\n} else if (!/^[a-zA-Z\\s'-]+$/.test(data.name)) {\n  errors.push('Name contains invalid characters');\n}\n\n// Email validation\nif (!data.email || typeof data.email !== 'string') {\n  errors.push('Email is required');\n} else if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(data.email) || data.email.length > 255) {\n  errors.push('Invalid email address');\n}\n\n// Phone validation (optional but must be valid if provided)\nif (data.phone && (typeof data.phone !== 'string' || data.phone.length > 20)) {\n  errors.push('Invalid phone number format');\n}\n\n// Message validation\nif (!data.message || typeof data.message !== 'string' || data.message.trim().length === 0) {\n  errors.push('Message is required');\n} else if (data.message.length > 5000) {\n  errors.push('Message must be less than 5000 characters');\n}\n\n// Interest validation (optional)\nif (data.interest && typeof data.interest !== 'string') {\n  errors.push('Invalid interest field');\n} else if (data.interest && data.interest.length > 100) {\n  errors.push('Interest must be less than 100 characters');\n}\n\nif (errors.length > 0) {\n  throw new Error('Validation failed: ' + errors.join(', '));\n}\n\n// Sanitize inputs by trimming and limiting length\nreturn {\n  name: data.name.trim().substring(0, 100),\n  email: data.email.trim().toLowerCase().substring(0, 255),\n  phone: data.phone ? data.phone.trim().substring(0, 20) : '',\n  message: data.message.trim().substring(0, 5000),\n  interest: data.interest ? data.interest.trim().substring(0, 100) : ''\n};"
+      },
+      "id": "validate-and-auth",
+      "name": "Validate & Authenticate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
         "url": "https://ai.gateway.lovable.dev/v1/chat/completions",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "lovableAiApi",
@@ -51,7 +61,7 @@
       "name": "AI - Analyze Lead",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
-      "position": [450, 300]
+      "position": [650, 300]
     },
     {
       "parameters": {
@@ -69,7 +79,7 @@
       "name": "IF - Lead Quality Check",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
-      "position": [650, 300]
+      "position": [850, 300]
     },
     {
       "parameters": {
@@ -85,7 +95,7 @@
             },
             {
               "name": "messages",
-              "value": "={{[\n  {\n    \"role\": \"system\",\n    \"content\": \"You are a sales expert for Aesthetic ProTools. Write a personalized email follow-up based on the lead analysis. Be professional, empathetic, and focus on value. Include specific talking points.\"\n  },\n  {\n    \"role\": \"user\",\n    \"content\": `Generate email for:\\nName: ${$node['Webhook - Contact Form'].json.name}\\nAnalysis: ${JSON.stringify($node['AI - Analyze Lead'].json.choices[0].message.content)}`\n  }\n]}}"
+              "value": "={{[\n  {\n    \"role\": \"system\",\n    \"content\": \"You are a sales expert for Aesthetic ProTools. Write a personalized email follow-up based on the lead analysis. Be professional, empathetic, and focus on value. Include specific talking points.\"\n  },\n  {\n    \"role\": \"user\",\n    \"content\": `Generate email for:\\nName: ${$node['Validate & Authenticate'].json.name}\\nAnalysis: ${JSON.stringify($node['AI - Analyze Lead'].json.choices[0].message.content)}`\n  }\n]}}"
             }
           ]
         }
@@ -94,12 +104,12 @@
       "name": "AI - Generate Email",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
-      "position": [850, 200]
+      "position": [1050, 200]
     },
     {
       "parameters": {
         "fromEmail": "sales@aestheticprotools.com",
-        "toEmail": "={{$node['Webhook - Contact Form'].json.email}}",
+        "toEmail": "={{$node['Validate & Authenticate'].json.email}}",
         "subject": "Re: Your Interest in Aesthetic ProTools",
         "emailType": "html",
         "message": "={{$json.choices[0].message.content}}"
@@ -108,7 +118,7 @@
       "name": "Send Email",
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2,
-      "position": [1050, 200]
+      "position": [1250, 200]
     },
     {
       "parameters": {
@@ -118,19 +128,19 @@
           "mappings": [
             {
               "column": "name",
-              "value": "={{$node['Webhook - Contact Form'].json.name}}"
+              "value": "={{$node['Validate & Authenticate'].json.name}}"
             },
             {
               "column": "email",
-              "value": "={{$node['Webhook - Contact Form'].json.email}}"
+              "value": "={{$node['Validate & Authenticate'].json.email}}"
             },
             {
               "column": "phone",
-              "value": "={{$node['Webhook - Contact Form'].json.phone}}"
+              "value": "={{$node['Validate & Authenticate'].json.phone}}"
             },
             {
               "column": "message",
-              "value": "={{$node['Webhook - Contact Form'].json.message}}"
+              "value": "={{$node['Validate & Authenticate'].json.message}}"
             },
             {
               "column": "lead_score",
@@ -147,7 +157,7 @@
       "name": "Supabase - Log Contact",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
-      "position": [1050, 400]
+      "position": [1250, 400]
     },
     {
       "parameters": {
@@ -158,11 +168,14 @@
       "name": "Respond to Webhook",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
-      "position": [1250, 300]
+      "position": [1450, 300]
     }
   ],
   "connections": {
     "Webhook - Contact Form": {
+      "main": [[{"node": "Validate & Authenticate", "type": "main", "index": 0}]]
+    },
+    "Validate & Authenticate": {
       "main": [[{"node": "AI - Analyze Lead", "type": "main", "index": 0}]]
     },
     "AI - Analyze Lead": {
@@ -188,6 +201,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-06T00:00:00.000Z",
-  "versionId": "1"
+  "updatedAt": "2025-10-22T00:00:00.000Z",
+  "versionId": "2"
 }

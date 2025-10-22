@@ -15,6 +15,16 @@
     },
     {
       "parameters": {
+        "functionCode": "// Validate API Key from header\nconst apiKey = $input.item.json.$request.headers['x-api-key'];\nconst expectedKey = $env.WEBHOOK_API_KEY;\n\nif (!apiKey || apiKey !== expectedKey) {\n  throw new Error('Unauthorized - Invalid API key');\n}\n\n// Validate required fields\nconst data = $input.item.json.body;\nconst errors = [];\n\n// Device model validation\nif (!data.device_model || typeof data.device_model !== 'string' || data.device_model.trim().length === 0) {\n  errors.push('Device model is required');\n} else if (data.device_model.length > 100) {\n  errors.push('Device model must be less than 100 characters');\n}\n\n// Serial number validation\nif (!data.serial_number || typeof data.serial_number !== 'string' || data.serial_number.trim().length === 0) {\n  errors.push('Serial number is required');\n} else if (data.serial_number.length > 50) {\n  errors.push('Serial number must be less than 50 characters');\n}\n\n// Error code validation (optional)\nif (data.error_code && (typeof data.error_code !== 'string' || data.error_code.length > 50)) {\n  errors.push('Invalid error code format');\n}\n\n// Description validation\nif (!data.description || typeof data.description !== 'string' || data.description.trim().length === 0) {\n  errors.push('Description is required');\n} else if (data.description.length > 5000) {\n  errors.push('Description must be less than 5000 characters');\n}\n\n// Event date validation\nif (!data.event_date || typeof data.event_date !== 'string') {\n  errors.push('Event date is required');\n} else if (!/^\\d{4}-\\d{2}-\\d{2}/.test(data.event_date)) {\n  errors.push('Invalid event date format (use ISO 8601)');\n}\n\nif (errors.length > 0) {\n  throw new Error('Validation failed: ' + errors.join(', '));\n}\n\n// Sanitize inputs\nreturn {\n  device_model: data.device_model.trim().substring(0, 100),\n  serial_number: data.serial_number.trim().substring(0, 50),\n  error_code: data.error_code ? data.error_code.trim().substring(0, 50) : '',\n  description: data.description.trim().substring(0, 5000),\n  event_date: data.event_date.trim()\n};"
+      },
+      "id": "validate-and-auth",
+      "name": "Validate & Authenticate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
         "url": "https://ai.gateway.lovable.dev/v1/chat/completions",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "lovableAiApi",
@@ -36,7 +46,7 @@
       "name": "AI - Assess Reportability",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
-      "position": [450, 300]
+      "position": [650, 300]
     },
     {
       "parameters": {
@@ -53,7 +63,7 @@
       "name": "IF - Requires UDI Report",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
-      "position": [650, 300]
+      "position": [850, 300]
     },
     {
       "parameters": {
@@ -78,7 +88,7 @@
       "name": "AI - Pre-fill Report Template",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
-      "position": [850, 200]
+      "position": [1050, 200]
     },
     {
       "parameters": {
@@ -88,15 +98,15 @@
           "mappings": [
             {
               "column": "device_model",
-              "value": "={{$node['Webhook - Equipment Event'].json.device_model}}"
+              "value": "={{$node['Validate & Authenticate'].json.device_model}}"
             },
             {
               "column": "serial_number",
-              "value": "={{$node['Webhook - Equipment Event'].json.serial_number}}"
+              "value": "={{$node['Validate & Authenticate'].json.serial_number}}"
             },
             {
               "column": "event_date",
-              "value": "={{$node['Webhook - Equipment Event'].json.event_date}}"
+              "value": "={{$node['Validate & Authenticate'].json.event_date}}"
             },
             {
               "column": "report_data",
@@ -113,7 +123,7 @@
       "name": "Supabase - Store Report",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
-      "position": [1050, 200]
+      "position": [1250, 200]
     },
     {
       "parameters": {
@@ -121,13 +131,13 @@
         "toEmail": "regulatory@aestheticprotools.com",
         "subject": "UDI Report Generated - Action Required",
         "emailType": "html",
-        "message": "={{`\n<h2>UDI Reportable Event Detected</h2>\n<p><strong>Device:</strong> ${$node['Webhook - Equipment Event'].json.device_model}</p>\n<p><strong>Serial:</strong> ${$node['Webhook - Equipment Event'].json.serial_number}</p>\n<p><strong>Severity:</strong> ${$node['AI - Assess Reportability'].json.choices[0].message.content.severity}</p>\n<p><strong>Summary:</strong> ${$node['AI - Assess Reportability'].json.choices[0].message.content.event_summary}</p>\n<p>Pre-filled report ready for review in the compliance portal.</p>\n<a href=\"https://aestheticprotools.com/admin/udi-reports\">Review Report</a>\n`}}"
+        "message": "={{`\n<h2>UDI Reportable Event Detected</h2>\n<p><strong>Device:</strong> ${$node['Validate & Authenticate'].json.device_model}</p>\n<p><strong>Serial:</strong> ${$node['Validate & Authenticate'].json.serial_number}</p>\n<p><strong>Severity:</strong> ${$node['AI - Assess Reportability'].json.choices[0].message.content.severity}</p>\n<p><strong>Summary:</strong> ${$node['AI - Assess Reportability'].json.choices[0].message.content.event_summary}</p>\n<p>Pre-filled report ready for review in the compliance portal.</p>\n<a href=\"https://aestheticprotools.com/admin/udi-reports\">Review Report</a>\n`}}"
       },
       "id": "notify-compliance",
       "name": "Email - Notify Compliance Officer",
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2,
-      "position": [1250, 200]
+      "position": [1450, 200]
     },
     {
       "parameters": {
@@ -137,7 +147,7 @@
           "mappings": [
             {
               "column": "device_model",
-              "value": "={{$node['Webhook - Equipment Event'].json.device_model}}"
+              "value": "={{$node['Validate & Authenticate'].json.device_model}}"
             },
             {
               "column": "event_type",
@@ -145,7 +155,7 @@
             },
             {
               "column": "description",
-              "value": "={{$node['Webhook - Equipment Event'].json.description}}"
+              "value": "={{$node['Validate & Authenticate'].json.description}}"
             }
           ]
         }
@@ -154,7 +164,7 @@
       "name": "Supabase - Log Event",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
-      "position": [850, 400]
+      "position": [1050, 400]
     },
     {
       "parameters": {
@@ -165,11 +175,14 @@
       "name": "Respond to Webhook",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
-      "position": [1450, 300]
+      "position": [1650, 300]
     }
   ],
   "connections": {
     "Webhook - Equipment Event": {
+      "main": [[{"node": "Validate & Authenticate", "type": "main", "index": 0}]]
+    },
+    "Validate & Authenticate": {
       "main": [[{"node": "AI - Assess Reportability", "type": "main", "index": 0}]]
     },
     "AI - Assess Reportability": {
@@ -198,6 +211,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-06T00:00:00.000Z",
-  "versionId": "1"
+  "updatedAt": "2025-10-22T00:00:00.000Z",
+  "versionId": "2"
 }

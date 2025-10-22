@@ -2,6 +2,16 @@
 
 This directory contains ready-to-import n8n workflow JSON files for automating business processes with AI.
 
+## 🔒 Security Notice
+
+**All workflows have been updated with comprehensive security measures including:**
+- ✅ API key authentication on all webhook endpoints
+- ✅ Input validation and sanitization
+- ✅ Protection against injection attacks
+- ✅ Rate limiting recommendations
+
+**⚠️ IMPORTANT:** These workflows now require an `x-api-key` header for authentication. See the dedicated **[Security Documentation](./SECURITY.md)** for complete setup instructions.
+
 ## Workflows Included
 
 1. **Lead Qualification & Follow-Up** (`1-lead-qualification.json`)

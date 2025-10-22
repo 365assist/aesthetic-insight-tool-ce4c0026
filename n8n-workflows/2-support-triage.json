@@ -15,6 +15,16 @@
     },
     {
       "parameters": {
+        "functionCode": "// Validate API Key from header\nconst apiKey = $input.item.json.$request.headers['x-api-key'];\nconst expectedKey = $env.WEBHOOK_API_KEY;\n\nif (!apiKey || apiKey !== expectedKey) {\n  throw new Error('Unauthorized - Invalid API key');\n}\n\n// Validate required fields\nconst data = $input.item.json.body;\nconst errors = [];\n\n// Email validation\nif (!data.email || typeof data.email !== 'string') {\n  errors.push('Email is required');\n} else if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(data.email) || data.email.length > 255) {\n  errors.push('Invalid email address');\n}\n\n// Subject validation\nif (!data.subject || typeof data.subject !== 'string' || data.subject.trim().length === 0) {\n  errors.push('Subject is required');\n} else if (data.subject.length > 200) {\n  errors.push('Subject must be less than 200 characters');\n}\n\n// Message validation\nif (!data.message || typeof data.message !== 'string' || data.message.trim().length === 0) {\n  errors.push('Message is required');\n} else if (data.message.length > 10000) {\n  errors.push('Message must be less than 10000 characters');\n}\n\nif (errors.length > 0) {\n  throw new Error('Validation failed: ' + errors.join(', '));\n}\n\n// Sanitize inputs\nreturn {\n  email: data.email.trim().toLowerCase().substring(0, 255),\n  subject: data.subject.trim().substring(0, 200),\n  message: data.message.trim().substring(0, 10000)\n};"
+      },
+      "id": "validate-and-auth",
+      "name": "Validate & Authenticate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
         "url": "https://ai.gateway.lovable.dev/v1/chat/completions",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "lovableAiApi",
@@ -36,7 +46,7 @@
       "name": "AI - Classify & Respond",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
-      "position": [450, 300]
+      "position": [650, 300]
     },
     {
       "parameters": {
@@ -54,13 +64,13 @@
       "name": "IF - Confidence Check",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
-      "position": [650, 300]
+      "position": [850, 300]
     },
     {
       "parameters": {
         "fromEmail": "support@aestheticprotools.com",
-        "toEmail": "={{$node['Webhook - Support Request'].json.email}}",
-        "subject": "Re: {{$node['Webhook - Support Request'].json.subject}}",
+        "toEmail": "={{$node['Validate & Authenticate'].json.email}}",
+        "subject": "Re: {{$node['Validate & Authenticate'].json.subject}}",
         "emailType": "html",
         "message": "={{$node['AI - Classify & Respond'].json.choices[0].message.content.response}}"
       },
@@ -68,21 +78,21 @@
       "name": "Send Auto-Response",
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2,
-      "position": [850, 200]
+      "position": [1050, 200]
     },
     {
       "parameters": {
         "fromEmail": "support@aestheticprotools.com",
         "toEmail": "specialist@aestheticprotools.com",
-        "subject": "Manual Review Required: {{$node['Webhook - Support Request'].json.subject}}",
+        "subject": "Manual Review Required: {{$node['Validate & Authenticate'].json.subject}}",
         "emailType": "html",
-        "message": "Low confidence response - requires specialist review.<br><br>Original Request: {{$node['Webhook - Support Request'].json.message}}<br><br>AI Draft: {{$node['AI - Classify & Respond'].json.choices[0].message.content.response}}"
+        "message": "Low confidence response - requires specialist review.<br><br>Original Request: {{$node['Validate & Authenticate'].json.message}}<br><br>AI Draft: {{$node['AI - Classify & Respond'].json.choices[0].message.content.response}}"
       },
       "id": "escalate-specialist",
       "name": "Escalate to Specialist",
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2,
-      "position": [850, 400]
+      "position": [1050, 400]
     },
     {
       "parameters": {
@@ -92,15 +102,15 @@
           "mappings": [
             {
               "column": "email",
-              "value": "={{$node['Webhook - Support Request'].json.email}}"
+              "value": "={{$node['Validate & Authenticate'].json.email}}"
             },
             {
               "column": "subject",
-              "value": "={{$node['Webhook - Support Request'].json.subject}}"
+              "value": "={{$node['Validate & Authenticate'].json.subject}}"
             },
             {
               "column": "message",
-              "value": "={{$node['Webhook - Support Request'].json.message}}"
+              "value": "={{$node['Validate & Authenticate'].json.message}}"
             },
             {
               "column": "category",
@@ -121,7 +131,7 @@
       "name": "Supabase - Log Ticket",
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
-      "position": [1050, 300]
+      "position": [1250, 300]
     },
     {
       "parameters": {
@@ -132,11 +142,14 @@
       "name": "Respond to Webhook",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
-      "position": [1250, 300]
+      "position": [1450, 300]
     }
   ],
   "connections": {
     "Webhook - Support Request": {
+      "main": [[{"node": "Validate & Authenticate", "type": "main", "index": 0}]]
+    },
+    "Validate & Authenticate": {
       "main": [[{"node": "AI - Classify & Respond", "type": "main", "index": 0}]]
     },
     "AI - Classify & Respond": {
@@ -162,6 +175,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-06T00:00:00.000Z",
-  "versionId": "1"
+  "updatedAt": "2025-10-22T00:00:00.000Z",
+  "versionId": "2"
 }
