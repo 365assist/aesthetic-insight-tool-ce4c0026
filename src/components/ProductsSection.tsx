@@ -9,6 +9,7 @@ import { ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import vaderLaser from "@/assets/vader-laser.jpg";
 import artisanSculptor from "@/assets/artisan-sculptor.jpg";
+import { getProductUrl, SHOPIFY_STORE_DOMAIN } from "@/lib/shopify-config";
 
 const ProductsSection = () => {
   const { addToCart, isInitialized } = useShopifyBuy();
@@ -198,7 +199,7 @@ const ProductsSection = () => {
                 <div className="flex gap-2">
                   <Button 
                     className="flex-1 shadow-elegant hover:shadow-luxury transition-all"
-                    onClick={() => window.open(`https://aestheticprotools.store/products/${product.slug}`, '_blank')}
+                    onClick={() => window.open(getProductUrl(product.slug), '_blank')}
                   >
                     Learn More
                   </Button>
@@ -223,7 +224,7 @@ const ProductsSection = () => {
             variant="outline" 
             size="lg" 
             className="px-8 py-6 text-lg border-2 border-primary text-primary dark:text-white hover:bg-primary hover:text-primary-foreground transition-all hover:scale-105"
-            onClick={() => window.open('https://aestheticprotools.store/collections/shop-all-products', '_blank')}
+            onClick={() => window.open(`https://${SHOPIFY_STORE_DOMAIN}/collections/shop-all-products`, '_blank')}
           >
             View All Products
           </Button>
