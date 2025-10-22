@@ -66,8 +66,14 @@ const ContactSection = () => {
               <p className="text-primary-foreground/80 mb-4 text-sm">
                 See our equipment in action with a personalized demonstration at your practice.
               </p>
-              <Button variant="hero-outline" className="w-full">
-                Book Demo
+              <Button 
+                variant="hero-outline" 
+                className="w-full"
+                asChild
+              >
+                <a href="mailto:tkillion@aestheticprotools.com?subject=Demo Request">
+                  Book Demo
+                </a>
               </Button>
             </Card>
           </div>
