@@ -78,9 +78,10 @@ const Shop = () => {
   
   // Convert GraphQL variant ID to Shopify Buy SDK format
   const convertVariantId = (variantId: string): string => {
-    // The SDK needs the full GraphQL ID format: gid://shopify/ProductVariant/123456
-    // Our database stores it in this format already, so just return it
-    return variantId;
+    // Extract numeric ID from gid://shopify/ProductVariant/123456
+    // The SDK needs just the numeric ID
+    const match = variantId.match(/\/(\d+)$/);
+    return match ? match[1] : variantId;
   };
 
   const handleAddToCart = async (variantId: string | null) => {
