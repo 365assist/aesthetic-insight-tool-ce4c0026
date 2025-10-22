@@ -26,6 +26,7 @@ const shopifyProductSchema = z.object({
   variants: z.object({
     edges: z.array(z.object({
       node: z.object({
+        id: z.string().regex(/^gid:\/\/shopify\/ProductVariant\/\d+$/, 'Invalid Shopify variant ID format'),
         price: z.object({
           amount: z.string().regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format'),
           currencyCode: z.string().length(3)
@@ -49,6 +50,7 @@ interface ShopifyProduct {
   variants: {
     edges: Array<{
       node: {
+        id: string;
         price: {
           amount: string;
           currencyCode: string;
@@ -167,6 +169,7 @@ serve(async (req) => {
               variants(first: 1) {
                 edges {
                   node {
+                    id
                     price {
                       amount
                       currencyCode
@@ -228,6 +231,7 @@ serve(async (req) => {
         price: variant?.price?.amount || '0',
         compare_at_price: variant?.compareAtPrice?.amount || null,
         inventory_quantity: variant?.quantityAvailable || 0,
+        variant_id: variant?.id || null,
         features: JSON.stringify(features),
         product_type: node.productType,
         vendor: node.vendor,
@@ -245,6 +249,7 @@ serve(async (req) => {
           price: product.price,
           compare_at_price: product.compare_at_price,
           inventory_quantity: product.inventory_quantity,
+          variant_id: product.variant_id,
           features: product.features,
           product_type: product.product_type,
           vendor: product.vendor,

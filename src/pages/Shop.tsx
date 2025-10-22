@@ -76,15 +76,20 @@ const Shop = () => {
     syncProducts();
   };
   
-  const handleAddToCart = async (productId: string) => {
+  const handleAddToCart = async (variantId: string | null) => {
     if (!isInitialized) {
       toast.error('Cart is initializing, please try again');
       return;
     }
     
-    setAddingToCart(productId);
+    if (!variantId) {
+      toast.error('Product variant not available');
+      return;
+    }
+    
+    setAddingToCart(variantId);
     try {
-      await addToCart(productId);
+      await addToCart(variantId);
       toast.success('Added to cart!');
     } catch (error) {
       console.error('Failed to add to cart:', error);
@@ -94,15 +99,20 @@ const Shop = () => {
     }
   };
 
-  const handleBuyNow = async (productId: string) => {
+  const handleBuyNow = async (variantId: string | null) => {
     if (!isInitialized) {
       toast.error('Checkout is initializing, please try again');
       return;
     }
     
-    setBuyingNow(productId);
+    if (!variantId) {
+      toast.error('Product variant not available');
+      return;
+    }
+    
+    setBuyingNow(variantId);
     try {
-      await buyNow(productId);
+      await buyNow(variantId);
       // User will be redirected to checkout
     } catch (error) {
       console.error('Failed to start checkout:', error);
@@ -377,7 +387,7 @@ const Shop = () => {
                     <div className="flex gap-2 w-full">
                       <Button 
                         variant="default"
-                        className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+                        className="flex-1"
                         onClick={() => window.open(getProductUrl(product.handle), '_blank')}
                       >
                         View Details
@@ -385,8 +395,8 @@ const Shop = () => {
                       <Button 
                         variant="outline" 
                         size="icon"
-                        onClick={() => handleAddToCart(product.id)}
-                        disabled={addingToCart === product.id || buyingNow === product.id || !isInitialized}
+                        onClick={() => handleAddToCart(product.variant_id)}
+                        disabled={addingToCart === product.variant_id || buyingNow === product.variant_id || !isInitialized || !product.variant_id}
                         title="Add to cart"
                       >
                         <ShoppingCart className="h-4 w-4" />
@@ -394,11 +404,11 @@ const Shop = () => {
                     </div>
                     <Button 
                       variant="default"
-                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                      onClick={() => handleBuyNow(product.id)}
-                      disabled={buyingNow === product.id || addingToCart === product.id || !isInitialized}
+                      className="w-full"
+                      onClick={() => handleBuyNow(product.variant_id)}
+                      disabled={buyingNow === product.variant_id || addingToCart === product.variant_id || !isInitialized || !product.variant_id}
                     >
-                      {buyingNow === product.id ? 'Processing...' : 'Buy it now'}
+                      {buyingNow === product.variant_id ? 'Processing...' : 'Buy it now'}
                     </Button>
                   </CardFooter>
                 </Card>

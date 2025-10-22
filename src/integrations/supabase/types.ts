@@ -147,6 +147,7 @@ export type Database = {
           product_type: string | null
           title: string
           updated_at: string | null
+          variant_id: string | null
           vendor: string | null
         }
         Insert: {
@@ -162,6 +163,7 @@ export type Database = {
           product_type?: string | null
           title: string
           updated_at?: string | null
+          variant_id?: string | null
           vendor?: string | null
         }
         Update: {
@@ -177,6 +179,7 @@ export type Database = {
           product_type?: string | null
           title?: string
           updated_at?: string | null
+          variant_id?: string | null
           vendor?: string | null
         }
         Relationships: []
