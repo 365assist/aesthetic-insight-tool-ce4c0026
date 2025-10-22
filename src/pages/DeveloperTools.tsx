@@ -9,7 +9,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { secureLog } from "@/lib/logger";
 import { Code, Palette, FileEdit, Database, Settings, Eye } from "lucide-react";
 
 export default function DeveloperTools() {
@@ -62,7 +61,7 @@ export default function DeveloperTools() {
         navigate("/admin");
       }
     } catch (error) {
-      secureLog.error("Authorization error:", error);
+      console.error("Authorization error:", error);
       navigate("/admin");
     } finally {
       setLoading(false);
