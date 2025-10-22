@@ -26,7 +26,6 @@ const shopifyProductSchema = z.object({
   variants: z.object({
     edges: z.array(z.object({
       node: z.object({
-        id: z.string(),
         price: z.object({
           amount: z.string().regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format'),
           currencyCode: z.string().length(3)
@@ -50,7 +49,6 @@ interface ShopifyProduct {
   variants: {
     edges: Array<{
       node: {
-        id: string;
         price: {
           amount: string;
           currencyCode: string;
@@ -169,7 +167,6 @@ serve(async (req) => {
               variants(first: 1) {
                 edges {
                   node {
-                    id
                     price {
                       amount
                       currencyCode
@@ -234,7 +231,6 @@ serve(async (req) => {
         features: JSON.stringify(features),
         product_type: node.productType,
         vendor: node.vendor,
-        variant_id: node.variants.edges[0]?.node?.id || null, // Store Shopify variant ID for cart
         // Note: We intentionally don't include description here to preserve existing bullet-point descriptions
       };
     });
@@ -253,7 +249,6 @@ serve(async (req) => {
           product_type: product.product_type,
           vendor: product.vendor,
           image_url: product.image_url,
-          variant_id: product.variant_id,
           updated_at: new Date().toISOString(),
         })
         .eq('id', product.id);

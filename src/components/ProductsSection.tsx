@@ -61,8 +61,7 @@ const ProductsSection = () => {
           features,
           slug: product.handle,
           price: product.price || '0',
-          inventory: product.inventory_quantity || 0,
-          variantId: product.variant_id
+          inventory: product.inventory_quantity || 0
         };
       });
       
@@ -114,8 +113,7 @@ const ProductsSection = () => {
         features: ["All Skin Types", "Collagen Synthesis", "Multi-Purpose"],
         slug: "vader",
         price: "0",
-        inventory: 0,
-        variantId: undefined
+        inventory: 0
       },
       {
         title: "Artisan Sculptor Devices",
@@ -124,8 +122,7 @@ const ProductsSection = () => {
         features: ["Body Sculpting", "Professional Grade", "Versatile Treatments"],
         slug: "artisan-sculptor",
         price: "0",
-        inventory: 0,
-        variantId: undefined
+        inventory: 0
       },
       {
         title: "Tri-Pulse Tattoo Removal",
@@ -134,8 +131,7 @@ const ProductsSection = () => {
         features: ["All Ink Colors", "No Scarring", "High Precision"],
         slug: "tri-pulse-tattoo-removal",
         price: "0",
-        inventory: 0,
-        variantId: undefined
+        inventory: 0
       }
     ]
   });
@@ -210,8 +206,8 @@ const ProductsSection = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => handleAddToCart(product.variantId || product.slug)}
-                    disabled={addingToCart === product.slug || !isInitialized || !product.variantId}
+                    onClick={() => handleAddToCart(product.slug)}
+                    disabled={addingToCart === product.slug || !isInitialized}
                     title="Add to cart"
                   >
                     <ShoppingCart className="h-4 w-4" />
