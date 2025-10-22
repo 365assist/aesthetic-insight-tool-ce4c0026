@@ -99,8 +99,7 @@ serve(async (req) => {
     if (userError || !user) {
       console.error('Failed to get user from token:', userError?.message);
       return new Response(JSON.stringify({ 
-        error: 'Unauthorized - Invalid token',
-        details: userError?.message 
+        error: 'Unauthorized'
       }), {
         status: 401,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -120,10 +119,9 @@ serve(async (req) => {
     if (roleError) {
       console.error('Error checking user role:', roleError);
       return new Response(JSON.stringify({ 
-        error: 'Failed to verify admin role',
-        details: roleError.message 
+        error: 'Access denied'
       }), {
-        status: 500,
+        status: 403,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
