@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
@@ -24,6 +24,28 @@ const Shop = () => {
   const { mutate: syncProducts, isPending: isSyncing } = useShopifySync();
   const { addToCart, isInitialized } = useShopifyBuy();
   const [addingToCart, setAddingToCart] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        setIsAdmin(false);
+        return;
+      }
+
+      const { data: roles } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", session.user.id)
+        .eq("role", "admin")
+        .maybeSingle();
+
+      setIsAdmin(!!roles);
+    };
+
+    checkAdminStatus();
+  }, []);
 
   const { data: products, isLoading } = useQuery({
     queryKey: ['products'],
@@ -38,7 +60,18 @@ const Shop = () => {
     }
   });
 
-  const handleSync = () => {
+  const handleSync = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      toast.error('Please log in as an admin to sync products');
+      return;
+    }
+
+    if (!isAdmin) {
+      toast.error('Only administrators can sync products');
+      return;
+    }
+
     syncProducts();
   };
   
@@ -158,15 +191,17 @@ const Shop = () => {
 
               <ShopifyCart />
 
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleSync}
-                disabled={isSyncing}
-              >
-                <RefreshCw className={`h-4 w-4 mr-2 ${isSyncing ? 'animate-spin' : ''}`} />
-                Sync
-              </Button>
+              {isAdmin && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleSync}
+                  disabled={isSyncing}
+                >
+                  <RefreshCw className={`h-4 w-4 mr-2 ${isSyncing ? 'animate-spin' : ''}`} />
+                  Sync
+                </Button>
+              )}
             </div>
           </div>
 
