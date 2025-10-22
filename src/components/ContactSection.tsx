@@ -68,7 +68,7 @@ const ContactSection = () => {
               </p>
               <Button 
                 variant="hero-outline" 
-                className="w-full"
+                className="w-full dark:text-[#f97316] dark:border-[#f97316] dark:hover:bg-[#f97316]/10"
                 asChild
               >
                 <a href="mailto:tkillion@aestheticprotools.com?subject=Demo Request">
