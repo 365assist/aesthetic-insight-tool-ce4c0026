@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/Navigation";
 import TechnicalTrainingLibrary from "@/components/training/TechnicalTrainingLibrary";
+import TechDocumentsSection from "@/components/training/TechDocumentsSection";
 
 const TechnicalTraining = () => {
   return (
@@ -15,6 +16,7 @@ const TechnicalTraining = () => {
         <Navigation />
         <main className="pt-24 pb-16">
           <TechnicalTrainingLibrary />
+          <TechDocumentsSection />
         </main>
       </div>
     </>
