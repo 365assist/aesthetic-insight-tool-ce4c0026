@@ -2,11 +2,8 @@ import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-image.jpg";
 
 const HeroSection = () => {
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const navigateToTab = (tabId: string) => {
+    window.location.hash = tabId;
   };
 
   return (
@@ -45,7 +42,7 @@ const HeroSection = () => {
           <Button 
             variant="hero"
             size="lg" 
-            onClick={() => scrollToSection('products')}
+            onClick={() => navigateToTab('products')}
             className="px-8 py-6 text-lg font-semibold"
           >
             Our Products
@@ -53,7 +50,7 @@ const HeroSection = () => {
           <Button 
             variant="hero-outline"
             size="lg"
-            onClick={() => scrollToSection('contact')}
+            onClick={() => navigateToTab('contact')}
             className="px-8 py-6 text-lg font-semibold text-white border-white/40 hover:bg-white/20 [text-shadow:_0_2px_8px_rgb(0_0_0_/_60%)]"
           >
             Get In Touch
