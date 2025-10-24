@@ -7,6 +7,7 @@ import ariesAir from "@/assets/aries-air.png";
 import artisanPoco from "@/assets/artisan-poco.png";
 import artisan10d from "@/assets/artisan-10d.png";
 import triPulseLaser from "@/assets/tri-pulse-laser.png";
+import bubbl from "@/assets/bubbl.png";
 
 const TechDocumentsSection = () => {
   const documents = [
@@ -50,7 +51,7 @@ const TechDocumentsSection = () => {
       description: "Technical specifications and features for the BUBBL system.",
       fileUrl: "/documents/BUBBL_Poster.pdf",
       type: "PDF",
-      image: artisanSculptor
+      image: bubbl
     }
   ];
 
