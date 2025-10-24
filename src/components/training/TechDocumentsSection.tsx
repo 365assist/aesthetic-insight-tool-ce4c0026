@@ -91,7 +91,7 @@ const TechDocumentsSection = () => {
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">{doc.description}</p>
                 <Button variant="outline" size="sm" className="w-full" asChild>
-                  <a href={doc.fileUrl} download>
+                  <a href={doc.fileUrl} download target="_blank" rel="noopener noreferrer">
                     <Download className="w-4 h-4 mr-2" />
                     Download
                   </a>
