@@ -11,7 +11,7 @@ import triPulseLaser from "@/assets/tri-pulse-laser.png";
 const TechDocumentsSection = () => {
   const documents = [
     {
-      title: "Vader Specification",
+      title: "Vader Specifications",
       description: "Detailed specifications and features for the VADER Poco laser system.",
       fileUrl: "/documents/VADER_Poco_Poster.pdf",
       type: "PDF",
