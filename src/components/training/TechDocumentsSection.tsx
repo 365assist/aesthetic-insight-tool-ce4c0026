@@ -4,6 +4,7 @@ import { FileText, Download } from "lucide-react";
 import vaderLaser from "@/assets/vader-laser.jpg";
 import artisanSculptor from "@/assets/artisan-sculptor.jpg";
 import ariesAir from "@/assets/aries-air.png";
+import artisanPoco from "@/assets/artisan-poco.png";
 
 const TechDocumentsSection = () => {
   const documents = [
@@ -19,14 +20,14 @@ const TechDocumentsSection = () => {
       description: "Comprehensive specifications and technical details for the Artisan Poco system.",
       fileUrl: "/documents/Artisan_Poco_detail.pdf",
       type: "PDF",
-      image: artisanSculptor
+      image: artisanPoco
     },
     {
       title: "Artisan Model 10D User Manual",
       description: "Complete user manual for the Artisan Model 10D covering operation and maintenance.",
       fileUrl: "/documents/Artisan_Model_10D_User_Manual.docx",
       type: "DOCX",
-      image: artisanSculptor
+      image: artisanPoco
     },
     {
       title: "Tri-Pulse Q-Switched Laser User Manual",
