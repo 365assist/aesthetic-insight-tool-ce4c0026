@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -45,8 +46,15 @@ const UDIProgram = () => {
   })) || [];
 
   return (
-    <div className="min-h-screen bg-muted/40">
-      <Navigation />
+    <>
+      <Helmet>
+        <title>UDI Program & Inventory Management | Aesthetic ProTools</title>
+        <meta name="description" content="Generate FDA-compliant Unique Device Identifiers (UDI) and manage medical equipment inventory. Track regulatory compliance and device identification." />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://aestheticprotools.com/udi-program" />
+      </Helmet>
+      <div className="min-h-screen bg-muted/40">
+        <Navigation />
       <div className="container mx-auto px-4 py-8 pt-20">
         <h1 className="text-4xl font-bold mb-2">UDI Program & Inventory</h1>
         <p className="text-muted-foreground mb-8">Manage inventory, generate Unique Device Identifiers (UDI), and monitor regulatory compliance for all equipment.</p>
@@ -132,7 +140,8 @@ const UDIProgram = () => {
 
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

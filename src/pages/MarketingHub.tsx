@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,8 +7,14 @@ import { Mail, MessageSquare, Megaphone, Globe } from "lucide-react";
 
 const MarketingHub = () => {
   return (
-    <div className="min-h-screen bg-muted/40">
-      <Navigation />
+    <>
+      <Helmet>
+        <title>Marketing & Content Hub | Aesthetic ProTools</title>
+        <meta name="description" content="Manage client communications, content creation, and marketing campaigns. Create blog posts, email content, and social media updates." />
+        <meta name="robots" content="noindex, follow" />
+      </Helmet>
+      <div className="min-h-screen bg-muted/40">
+        <Navigation />
       <div className="container mx-auto px-4 py-8 pt-20">
         <h1 className="text-4xl font-bold mb-2">Marketing & Content Hub</h1>
         <p className="text-muted-foreground mb-8">Manage client communications, content creation, and platform integrations.</p>
@@ -57,7 +64,8 @@ const MarketingHub = () => {
 
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 
