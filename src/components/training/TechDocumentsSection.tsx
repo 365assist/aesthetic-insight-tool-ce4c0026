@@ -5,6 +5,7 @@ import vaderLaser from "@/assets/vader-laser.jpg";
 import artisanSculptor from "@/assets/artisan-sculptor.jpg";
 import ariesAir from "@/assets/aries-air.png";
 import artisanPoco from "@/assets/artisan-poco.png";
+import artisan10d from "@/assets/artisan-10d.png";
 
 const TechDocumentsSection = () => {
   const documents = [
@@ -27,7 +28,7 @@ const TechDocumentsSection = () => {
       description: "Complete user manual for the Artisan Model 10D covering operation and maintenance.",
       fileUrl: "/documents/Artisan_Model_10D_User_Manual.docx",
       type: "DOCX",
-      image: artisanPoco
+      image: artisan10d
     },
     {
       title: "Tri-Pulse Q-Switched Laser User Manual",
