@@ -6,6 +6,7 @@ import artisanSculptor from "@/assets/artisan-sculptor.jpg";
 import ariesAir from "@/assets/aries-air.png";
 import artisanPoco from "@/assets/artisan-poco.png";
 import artisan10d from "@/assets/artisan-10d.png";
+import triPulseLaser from "@/assets/tri-pulse-laser.png";
 
 const TechDocumentsSection = () => {
   const documents = [
@@ -35,7 +36,7 @@ const TechDocumentsSection = () => {
       description: "User manual for the Tri-Pulse Q-Switched laser system.",
       fileUrl: "/documents/Tri_Pulse_Q_Switched_Laser_User_Manual.pdf",
       type: "PDF",
-      image: vaderLaser
+      image: triPulseLaser
     },
     {
       title: "Aries Air Cooling Machine User Manual",
