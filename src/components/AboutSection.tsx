@@ -13,8 +13,10 @@ const AboutSection = () => {
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
               Elevate your practice with our premium aesthetic devices, expertly crafted by professional aestheticians for discerning professionals like you. Our products are engineered for exceptional reliability, durability, and effectiveness, ensuring you deliver outstanding results every time.
             </p>
-            <Button className="shadow-elegant hover:shadow-luxury transition-all">
-              Learn More
+            <Button asChild className="shadow-elegant hover:shadow-luxury transition-all">
+              <a href="https://aesthetic-pro-tools.myshopify.com/" target="_blank" rel="noopener noreferrer">
+                Learn More
+              </a>
             </Button>
           </div>
           
