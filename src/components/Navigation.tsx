@@ -41,7 +41,7 @@ const Navigation = () => {
               Our Products
             </button>
             <a href="/technical-training" className="text-foreground hover:text-primary transition-colors font-medium">
-              Training
+              Owners
             </a>
             <Button variant="default" size="sm" onClick={() => navigateToTab('contact')}>
               Contact Us
@@ -69,7 +69,7 @@ const Navigation = () => {
               Our Products
             </button>
             <a href="/technical-training" className="block text-foreground hover:text-primary transition-colors font-medium py-2">
-              Training
+              Owners
             </a>
             <Button variant="default" size="sm" className="w-full" onClick={() => navigateToTab('contact')}>
               Contact Us
