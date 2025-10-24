@@ -4,8 +4,29 @@ import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import ProductsSection from "@/components/ProductsSection";
 import ContactSection from "@/components/ContactSection";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useEffect, useState } from "react";
 
 const Index = () => {
+  const [activeTab, setActiveTab] = useState("about");
+
+  // Listen for hash changes to switch tabs
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash && ['about', 'products', 'contact'].includes(hash)) {
+        setActiveTab(hash);
+      }
+    };
+
+    // Set initial tab from hash
+    handleHashChange();
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -18,9 +39,34 @@ const Index = () => {
         <Navigation />
         <main role="main">
           <HeroSection />
-          <AboutSection />
-          <ProductsSection />
-          <ContactSection />
+          
+          <div className="container mx-auto px-6 py-12">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+              <TabsList className="w-full justify-center mb-8 h-14 bg-card border-2 border-primary/20 shadow-elegant">
+                <TabsTrigger value="about" className="text-base font-semibold px-8 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  About Us
+                </TabsTrigger>
+                <TabsTrigger value="products" className="text-base font-semibold px-8 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  Our Products
+                </TabsTrigger>
+                <TabsTrigger value="contact" className="text-base font-semibold px-8 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                  Contact Us
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="about" className="mt-0">
+                <AboutSection />
+              </TabsContent>
+              
+              <TabsContent value="products" className="mt-0">
+                <ProductsSection />
+              </TabsContent>
+              
+              <TabsContent value="contact" className="mt-0">
+                <ContactSection />
+              </TabsContent>
+            </Tabs>
+          </div>
         </main>
       </div>
     </>

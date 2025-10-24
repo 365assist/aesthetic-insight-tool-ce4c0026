@@ -9,22 +9,13 @@ const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  const scrollToSection = (sectionId: string) => {
+  const navigateToTab = (tabId: string) => {
     // If not on home page, navigate there first
     if (window.location.pathname !== '/') {
-      navigate('/');
-      // Wait for navigation to complete, then scroll
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
+      navigate(`/#${tabId}`);
     } else {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      // On home page, just update the hash
+      window.location.hash = tabId;
     }
     setMobileMenuOpen(false);
   };
@@ -43,16 +34,16 @@ const Navigation = () => {
           
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            <button onClick={() => scrollToSection('about')} className="text-foreground hover:text-primary transition-colors font-medium">
+            <button onClick={() => navigateToTab('about')} className="text-foreground hover:text-primary transition-colors font-medium">
               About Us
             </button>
-            <button onClick={() => scrollToSection('products')} className="text-foreground hover:text-primary transition-colors font-medium">
+            <button onClick={() => navigateToTab('products')} className="text-foreground hover:text-primary transition-colors font-medium">
               Our Products
             </button>
             <a href="/technical-training" className="text-foreground hover:text-primary transition-colors font-medium">
               Training
             </a>
-            <Button variant="default" size="sm" onClick={() => scrollToSection('contact')}>
+            <Button variant="default" size="sm" onClick={() => navigateToTab('contact')}>
               Contact Us
             </Button>
             <ThemeToggle />
@@ -71,16 +62,16 @@ const Navigation = () => {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 space-y-4 animate-fade-in">
-            <button onClick={() => scrollToSection('about')} className="block w-full text-left text-foreground hover:text-primary transition-colors font-medium py-2">
+            <button onClick={() => navigateToTab('about')} className="block w-full text-left text-foreground hover:text-primary transition-colors font-medium py-2">
               About Us
             </button>
-            <button onClick={() => scrollToSection('products')} className="block w-full text-left text-foreground hover:text-primary transition-colors font-medium py-2">
+            <button onClick={() => navigateToTab('products')} className="block w-full text-left text-foreground hover:text-primary transition-colors font-medium py-2">
               Our Products
             </button>
             <a href="/technical-training" className="block text-foreground hover:text-primary transition-colors font-medium py-2">
               Training
             </a>
-            <Button variant="default" size="sm" className="w-full" onClick={() => scrollToSection('contact')}>
+            <Button variant="default" size="sm" className="w-full" onClick={() => navigateToTab('contact')}>
               Contact Us
             </Button>
             <div className="flex justify-center py-2">
