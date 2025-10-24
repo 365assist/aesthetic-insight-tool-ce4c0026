@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { FileText, Download } from "lucide-react";
 import vaderLaser from "@/assets/vader-laser.jpg";
 import artisanSculptor from "@/assets/artisan-sculptor.jpg";
+import ariesAir from "@/assets/aries-air.png";
 
 const TechDocumentsSection = () => {
   const documents = [
@@ -39,7 +40,7 @@ const TechDocumentsSection = () => {
       description: "Operating instructions and maintenance guide for the Aries Air cooling system.",
       fileUrl: "/documents/Aries_Air_Cooling_Machine_User_Manual.pdf",
       type: "PDF",
-      image: vaderLaser
+      image: ariesAir
     },
     {
       title: "BUBBL Specifications",
