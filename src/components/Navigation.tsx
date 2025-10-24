@@ -10,11 +10,17 @@ const Navigation = () => {
   const navigate = useNavigate();
 
   const navigateToTab = (tabId: string) => {
-    // If not on home page, navigate there first
+    // Handle products separately - it's a dedicated page
+    if (tabId === 'products') {
+      navigate('/products');
+      setMobileMenuOpen(false);
+      return;
+    }
+    
+    // For other tabs, navigate to home with hash
     if (window.location.pathname !== '/') {
       navigate(`/#${tabId}`);
     } else {
-      // On home page, just update the hash
       window.location.hash = tabId;
     }
     setMobileMenuOpen(false);

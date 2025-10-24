@@ -1,9 +1,16 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-image.jpg";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  
   const navigateToTab = (tabId: string) => {
-    window.location.hash = tabId;
+    if (tabId === 'products') {
+      navigate('/products');
+    } else {
+      window.location.hash = tabId;
+    }
   };
 
   return (

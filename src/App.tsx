@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Index from "./pages/Index";
+import Products from "./pages/Products";
 import MarketingHub from "./pages/MarketingHub";
 import DeveloperTools from "./pages/DeveloperTools";
 import UDIProgram from "./pages/UDIProgram";
@@ -25,6 +26,7 @@ const App = () => (
           <BrowserRouter>
             <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/products" element={<Products />} />
             <Route path="/marketing-hub" element={<MarketingHub />} />
             <Route path="/developer-tools" element={<DeveloperTools />} />
             <Route path="/udi-program" element={<UDIProgram />} />
