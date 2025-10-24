@@ -10,6 +10,13 @@ import triPulseLaser from "@/assets/tri-pulse-laser.png";
 import bubbl from "@/assets/bubbl.png";
 
 const TechDocumentsSection = () => {
+  const handleDownload = (fileUrl: string, fileName: string) => {
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.download = fileName;
+    link.click();
+  };
+
   const documents = [
     {
       title: "Vader Specifications",
@@ -90,11 +97,14 @@ const TechDocumentsSection = () => {
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">{doc.description}</p>
-                <Button variant="outline" size="sm" className="w-full" asChild>
-                  <a href={doc.fileUrl} download target="_blank" rel="noopener noreferrer">
-                    <Download className="w-4 h-4 mr-2" />
-                    Download
-                  </a>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full"
+                  onClick={() => handleDownload(doc.fileUrl, doc.title)}
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download
                 </Button>
               </div>
             </Card>
