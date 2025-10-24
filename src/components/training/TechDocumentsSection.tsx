@@ -5,27 +5,39 @@ import { FileText, Download } from "lucide-react";
 const TechDocumentsSection = () => {
   const documents = [
     {
-      title: "VADER Laser User Manual",
-      description: "Complete user manual covering operation, maintenance, and troubleshooting.",
-      fileSize: "2.4 MB",
+      title: "VADER Poco Specifications",
+      description: "Detailed specifications and features for the VADER Poco laser system.",
+      fileUrl: "/documents/VADER_Poco_Poster.pdf",
       type: "PDF"
     },
     {
-      title: "Quick Start Guide",
-      description: "Quick reference guide for initial setup and basic operations.",
-      fileSize: "850 KB",
+      title: "Artisan Poco Details",
+      description: "Comprehensive specifications and technical details for the Artisan Poco system.",
+      fileUrl: "/documents/Artisan_Poco_detail.pdf",
       type: "PDF"
     },
     {
-      title: "Safety Guidelines",
-      description: "Essential safety information and best practices for laser operation.",
-      fileSize: "1.2 MB",
+      title: "Artisan Model 10D User Manual",
+      description: "Complete user manual for the Artisan Model 10D covering operation and maintenance.",
+      fileUrl: "/documents/Artisan_Model_10D_User_Manual.docx",
+      type: "DOCX"
+    },
+    {
+      title: "Tri-Pulse Q-Switched Laser User Manual",
+      description: "User manual for the Tri-Pulse Q-Switched laser system.",
+      fileUrl: "/documents/Tri_Pulse_Q_Switched_Laser_User_Manual.pdf",
       type: "PDF"
     },
     {
-      title: "Maintenance Schedule",
-      description: "Recommended maintenance procedures and schedules.",
-      fileSize: "650 KB",
+      title: "Aries Air Cooling Machine User Manual",
+      description: "Operating instructions and maintenance guide for the Aries Air cooling system.",
+      fileUrl: "/documents/Aries_Air_Cooling_Machine_User_Manual.pdf",
+      type: "PDF"
+    },
+    {
+      title: "BUBBL Specifications",
+      description: "Technical specifications and features for the BUBBL system.",
+      fileUrl: "/documents/BUBBL_Poster.pdf",
       type: "PDF"
     }
   ];
@@ -54,11 +66,13 @@ const TechDocumentsSection = () => {
                   <p className="text-sm text-muted-foreground mb-3">{doc.description}</p>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">
-                      {doc.type} • {doc.fileSize}
+                      {doc.type}
                     </span>
-                    <Button variant="outline" size="sm">
-                      <Download className="w-4 h-4 mr-2" />
-                      Download
+                    <Button variant="outline" size="sm" asChild>
+                      <a href={doc.fileUrl} download>
+                        <Download className="w-4 h-4 mr-2" />
+                        Download
+                      </a>
                     </Button>
                   </div>
                 </div>
