@@ -1,0 +1,4 @@
+Contact: mailto:customerservice@aestheticprotools.com
+Preferred-Languages: en
+Canonical: https://aestheticprotools.com/.well-known/security.txt
+Policy: https://aestheticprotools.com/security-policy

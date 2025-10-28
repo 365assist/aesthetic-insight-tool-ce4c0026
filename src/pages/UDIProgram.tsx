@@ -8,8 +8,17 @@ import { QrCode, HardHat, Package, CheckCircle } from "lucide-react";
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
+import { useToast } from "@/hooks/use-toast";
+
+const serialNumberSchema = z.string()
+  .trim()
+  .min(1, "Serial number is required")
+  .max(50, "Serial number must be less than 50 characters")
+  .regex(/^[a-zA-Z0-9\-_]+$/, "Serial number must contain only letters, numbers, hyphens, and underscores");
 
 const UDIProgram = () => {
+  const { toast } = useToast();
   const [serialNumber, setSerialNumber] = useState("");
   const [udiCode, setUdiCode] = useState("UDI-DI-123456-PI-A1B2C3");
   const [regulatoryStatus, setRegulatoryStatus] = useState("Pending Submission");
@@ -30,10 +39,29 @@ const UDIProgram = () => {
 
   const handleGenerateUDI = (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder for UDI generation logic (actual USFDA formula)
-    const mockUdi = `UDI-DI-${Math.floor(100000 + Math.random() * 900000)}-PI-X1Y2Z3`;
-    setUdiCode(mockUdi);
-    setRegulatoryStatus("Ready to Submit to USFDA");
+    
+    try {
+      // Validate input
+      const validatedSerial = serialNumberSchema.parse(serialNumber);
+      
+      // Generate UDI with validated input
+      const mockUdi = `UDI-DI-${Math.floor(100000 + Math.random() * 900000)}-PI-${validatedSerial.slice(0, 6).toUpperCase()}`;
+      setUdiCode(mockUdi);
+      setRegulatoryStatus("Ready to Submit to USFDA");
+      
+      toast({
+        title: "UDI Generated Successfully",
+        description: "Device identifier is ready for regulatory submission",
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast({
+          title: "Validation Error",
+          description: error.errors[0].message,
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   // Generate inventory data from products
@@ -52,6 +80,14 @@ const UDIProgram = () => {
         <meta name="description" content="Generate FDA-compliant Unique Device Identifiers (UDI) and manage medical equipment inventory. Track regulatory compliance and device identification." />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://aestheticprotools.com/udi-program" />
+        
+        <meta property="og:title" content="UDI Program & Inventory Management" />
+        <meta property="og:description" content="FDA-compliant device identification and inventory tracking" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://aestheticprotools.com/udi-program" />
+        
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="UDI Program & Inventory Management" />
       </Helmet>
       <div className="min-h-screen bg-muted/40">
         <Navigation />
@@ -73,6 +109,9 @@ const UDIProgram = () => {
                   placeholder="Enter Machine Serial/Lot Number" 
                   value={serialNumber}
                   onChange={(e) => setSerialNumber(e.target.value)}
+                  maxLength={50}
+                  pattern="[a-zA-Z0-9\-_]+"
+                  title="Only letters, numbers, hyphens, and underscores allowed"
                   required
                 />
                 <Button type="submit" className="w-full" disabled={!serialNumber}>
