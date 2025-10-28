@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Instagram, Facebook } from "lucide-react";
 
 const ContactSection = () => {
   return (
@@ -61,28 +62,35 @@ const ContactSection = () => {
                 
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-background/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="text-xl">📱</span>
+                    <Instagram className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-1">Follow Us</h4>
-                    <div className="flex flex-col gap-2">
-                      <a 
-                        href="https://www.instagram.com/aestheticprotools/" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
-                      >
-                        Instagram
-                      </a>
-                      <a 
-                        href="https://www.facebook.com/p/Aesthetic-ProTools-61569033241033/" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
-                      >
-                        Facebook
-                      </a>
-                    </div>
+                    <h4 className="font-semibold mb-1">Instagram</h4>
+                    <a 
+                      href="https://www.instagram.com/aestheticprotools/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                    >
+                      @aestheticprotools
+                    </a>
+                  </div>
+                </div>
+                
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-background/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Facebook className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-1">Facebook</h4>
+                    <a 
+                      href="https://www.facebook.com/p/Aesthetic-ProTools-61569033241033/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                    >
+                      Aesthetic ProTools
+                    </a>
                   </div>
                 </div>
               </div>
