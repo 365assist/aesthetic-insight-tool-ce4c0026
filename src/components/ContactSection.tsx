@@ -65,7 +65,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1">Follow Us</h4>
-                    <div className="flex gap-4">
+                    <div className="flex flex-col gap-2">
                       <a 
                         href="https://www.instagram.com/aestheticprotools/" 
                         target="_blank" 
