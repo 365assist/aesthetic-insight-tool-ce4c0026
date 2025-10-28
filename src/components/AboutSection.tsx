@@ -7,29 +7,61 @@ const AboutSection = () => {
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 id="about-heading" className="text-4xl md:text-6xl font-bold mb-12 text-primary dark:text-white leading-tight font-heading">
+            <h2 id="about-heading" className="text-4xl md:text-6xl font-bold mb-8 text-primary dark:text-white leading-tight font-heading">
               OUR MISSION
             </h2>
+            <p className="text-xl text-muted-foreground leading-relaxed mb-12">
+              By professionals, for professionals – our products empower you to elevate your practice and achieve unparalleled success in the aesthetic field.
+            </p>
             
-            <div className="space-y-8">
+            <div className="space-y-10">
               <div>
-                <h3 className="text-2xl font-bold mb-4 text-primary dark:text-white">Why?</h3>
+                <h3 className="text-2xl font-bold mb-4 text-primary dark:text-white">Field Tested Excellence</h3>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  At Aesthetic ProTools, we believe you can be the best if you have the best tools. We have been involved in the Aesthetic and Laser Industry since 1984. We have seen the way beauty professionals' skills have evolved, yet often, their equipment has not. It is our goal to support beauty professionals so they can have top-tier equipment that they can rely on to produce the results they want.
+                  Our aesthetic products are crafted by professional aestheticians for professional aestheticians. With firsthand experience and expertise, our team understands the unique needs and challenges of the industry. At Aesthetic ProTools, we believe you can be the best if you have the best tools. We have been involved in the Aesthetic and Laser Industry since 1984, constantly evolving alongside the professionals we serve.
                 </p>
               </div>
 
               <div>
-                <h3 className="text-2xl font-bold mb-4 text-primary dark:text-white">How?</h3>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  We practice Aesthetics daily. We have noticed that nearly all high technology Aesthetic devices were built for Doctors. As Aesthetic research develops and we find new ways to rejuvenate the skin, our equipment needs to match the recent findings. At Aesthetic ProTools, we are constantly rebuilding and changing things within our techniques and devices to stay current with recent Aesthetic breakthroughs.
-                </p>
+                <h3 className="text-2xl font-bold mb-4 text-primary dark:text-white">Quality and Innovation</h3>
+                <div className="space-y-3">
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    <span className="font-semibold text-primary dark:text-white">Excellence in Craftsmanship:</span> We are committed to offering the highest quality tools and products, ensuring durability, precision, and exceptional performance.
+                  </p>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    <span className="font-semibold text-primary dark:text-white">Cutting-Edge Technology:</span> We stay ahead of industry trends by incorporating the latest advancements and innovations in aesthetics and beauty tools. We practice Aesthetics daily and constantly rebuild our techniques and devices to stay current with recent aesthetic breakthroughs.
+                  </p>
+                </div>
               </div>
 
               <div>
-                <h3 className="text-2xl font-bold mb-4 text-primary dark:text-white">Who?</h3>
+                <h3 className="text-2xl font-bold mb-4 text-primary dark:text-white">Customer-Centric Approach</h3>
+                <div className="space-y-3">
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    <span className="font-semibold text-primary dark:text-white">Personalized Service:</span> We believe in tailoring our services and recommendations to meet the unique needs of each customer.
+                  </p>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    <span className="font-semibold text-primary dark:text-white">Education and Support:</span> We empower our customers with comprehensive resources, training, and support to maximize their success and satisfaction.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold mb-4 text-primary dark:text-white">Integrity and Transparency</h3>
+                <div className="space-y-3">
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    <span className="font-semibold text-primary dark:text-white">Honest Communication:</span> We value transparency in all our interactions, providing clear and accurate information about our products and services.
+                  </p>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    <span className="font-semibold text-primary dark:text-white">Ethical Practices:</span> We uphold the highest ethical standards in our business operations, ensuring fair practices and responsible sourcing.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold mb-4 text-primary dark:text-white">Our Founder</h3>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  Gary Begley is the founder of Aesthetic Pro Tools. He began his journey into the field of beauty by being a mechanical and photonic engineer. Mr. Begley purchased his first cosmetic laser in 1984. He noticed flaws in equipment designs and made a commitment to make them better. When he founded IMAj Institute and again when he became the Chairman of the Barbering and Cosmetology Board in Arizona, he felt the need to make sure his students had state-of-the-art equipment. That was the beginning of designing and developing all the devices you see now sold by Aesthetic Pro Tools to the Aestheticians he trusts.
+                  Gary Begley is the founder of Aesthetic Pro Tools. He began his journey into the field of beauty as a mechanical and photonic engineer. Mr. Begley purchased his first cosmetic laser in 1984 and noticed flaws in equipment designs, making a commitment to make them better. When he founded IMAj Institute and became the Chairman of the Barbering and Cosmetology Board in Arizona, he ensured his students had state-of-the-art equipment. That was the beginning of designing and developing all the devices you see now sold by Aesthetic Pro Tools to the Aestheticians he trusts.
                 </p>
                 <Button asChild className="shadow-elegant hover:shadow-luxury transition-all">
                   <a href="https://aesthetic-pro-tools.myshopify.com/" target="_blank" rel="noopener noreferrer">
