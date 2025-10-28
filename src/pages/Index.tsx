@@ -32,8 +32,19 @@ const Index = () => {
       <Helmet>
         <title>Aesthetic ProTools - Premium Medical Aesthetic Equipment | FDA-Approved Laser Systems</title>
         <meta name="description" content="Professional aesthetic equipment for medical spas: VADER laser hair removal, Tri-Pulse tattoo removal, body sculpting devices. FDA-approved, clinically tested, made by aestheticians for aestheticians." />
+        <meta name="keywords" content="aesthetic equipment, medical spa equipment, laser hair removal, tattoo removal, body sculpting, FDA approved lasers, VADER laser, Tri-Pulse laser, Artisan Sculptor" />
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <link rel="canonical" href="https://aestheticprotools.com/" />
+        
+        <meta property="og:title" content="Aesthetic ProTools - Premium Medical Aesthetic Equipment" />
+        <meta property="og:description" content="Professional aesthetic equipment for medical spas. FDA-approved laser systems and body sculpting devices by professionals, for professionals." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://aestheticprotools.com/" />
+        <meta property="og:site_name" content="Aesthetic ProTools" />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Aesthetic ProTools - Premium Medical Equipment" />
+        <meta name="twitter:description" content="Professional aesthetic equipment for medical spas. FDA-approved laser systems." />
       </Helmet>
       <div className="min-h-screen" itemScope itemType="https://schema.org/WebPage">
         <Navigation />

@@ -78,6 +78,7 @@ const UDIProgram = () => {
       <Helmet>
         <title>UDI Program & Inventory Management | Aesthetic ProTools</title>
         <meta name="description" content="Generate FDA-compliant Unique Device Identifiers (UDI) and manage medical equipment inventory. Track regulatory compliance and device identification." />
+        <meta name="keywords" content="UDI, unique device identifier, FDA compliance, medical device tracking, device inventory, regulatory compliance" />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://aestheticprotools.com/udi-program" />
         

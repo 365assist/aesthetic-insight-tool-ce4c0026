@@ -9,6 +9,7 @@ const TechnicalTraining = () => {
       <Helmet>
         <title>Technical Training & Video Library | Aesthetic ProTools</title>
         <meta name="description" content="Comprehensive technical training videos and resources for aesthetic equipment. Learn laser operation, maintenance, and advanced techniques from certified professionals." />
+        <meta name="keywords" content="aesthetic training, laser operation training, equipment maintenance, medical spa training, aesthetic certification, laser safety, equipment tutorials" />
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <link rel="canonical" href="https://aestheticprotools.com/technical-training" />
         
@@ -16,6 +17,7 @@ const TechnicalTraining = () => {
         <meta property="og:description" content="Comprehensive training for aesthetic equipment operation and maintenance" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://aestheticprotools.com/technical-training" />
+        <meta property="og:site_name" content="Aesthetic ProTools" />
         
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Technical Training & Video Library" />

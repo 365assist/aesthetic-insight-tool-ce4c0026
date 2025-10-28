@@ -11,6 +11,7 @@ const Products = () => {
           name="description" 
           content="Explore our comprehensive range of professional medical-grade aesthetic equipment including VADER Laser, Artisan Sculptor, and Tri-Pulse systems for your practice." 
         />
+        <meta name="keywords" content="aesthetic equipment, medical spa equipment, VADER laser, Tri-Pulse laser, Artisan Sculptor, body sculpting, laser hair removal, tattoo removal, professional aesthetic devices" />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://aestheticprotools.com/products" />
         
@@ -18,6 +19,7 @@ const Products = () => {
         <meta property="og:description" content="FDA-approved laser systems, body sculpting devices, and aesthetic equipment for medical spas" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://aestheticprotools.com/products" />
+        <meta property="og:site_name" content="Aesthetic ProTools" />
         
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Professional Aesthetic Equipment | Aesthetic ProTools" />

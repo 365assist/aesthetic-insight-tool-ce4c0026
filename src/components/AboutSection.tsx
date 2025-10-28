@@ -3,17 +3,17 @@ import { Button } from "@/components/ui/button";
 
 const AboutSection = () => {
   return (
-    <article id="about" className="py-20 bg-background" aria-labelledby="about-heading">
+    <article id="about" className="py-20 bg-background" itemScope itemType="https://schema.org/AboutPage">
       <div className="container mx-auto px-6">
         {/* Mission Header */}
-        <div className="text-center mb-16">
-          <h2 id="about-heading" className="text-4xl md:text-6xl font-bold mb-6 text-primary dark:text-white leading-tight font-heading">
-            OUR MISSION
+        <header className="text-center mb-16">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 text-primary dark:text-white leading-tight font-heading">
+            About Aesthetic ProTools
           </h2>
-          <p className="text-xl text-muted-foreground leading-relaxed max-w-4xl mx-auto">
-            By professionals, for professionals – our products empower you to elevate your practice and achieve unparalleled success in the aesthetic field.
+          <p className="text-xl text-muted-foreground leading-relaxed max-w-4xl mx-auto" itemProp="description">
+            By professionals, for professionals – our products empower you to elevate your practice and achieve unparalleled success in the aesthetic field. Field-tested since 1984.
           </p>
-        </div>
+        </header>
 
         {/* Core Values Grid */}
         <div className="grid md:grid-cols-2 gap-12 mb-16">
