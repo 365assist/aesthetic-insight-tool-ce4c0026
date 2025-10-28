@@ -17,11 +17,23 @@ const Navigation = () => {
       return;
     }
     
-    // For other tabs, navigate to home with hash
+    // For other tabs, navigate to home with hash and scroll
     if (window.location.pathname !== '/') {
       navigate(`/#${tabId}`);
+      // Wait for navigation to complete, then scroll
+      setTimeout(() => {
+        const element = document.getElementById(tabId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
     } else {
       window.location.hash = tabId;
+      // Scroll to the element
+      const element = document.getElementById(tabId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
     setMobileMenuOpen(false);
   };

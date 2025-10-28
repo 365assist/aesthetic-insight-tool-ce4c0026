@@ -40,7 +40,7 @@ const Index = () => {
         <main role="main">
           <HeroSection />
           
-          <div className="container mx-auto px-6 py-12">
+          <div id="about" className="container mx-auto px-6 py-12">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="w-full justify-center mb-8 h-14 bg-card border-2 border-primary/20 shadow-elegant">
                 <TabsTrigger value="about" className="text-base font-semibold px-8 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
